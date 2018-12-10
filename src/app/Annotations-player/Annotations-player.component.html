@@ -1,7 +1,7 @@
 <div class=" row ">
 <div class="video-container col-md-8" *ngIf= "sources !== undefined">
 <vg-player (onPlayerReady)="onPlayerReady($event)" class= "video">
-    <div *ngIf="cuePointData?.title" class="info-layer">
+    <!-- <div *ngIf="cuePointData?.title" class="info-layer">
         <h3><a [href]="cuePointData?.href" target="_blank">{{ cuePointData?.title }}</a></h3>
         <p>
             <img [src]="cuePointData?.src" align="left">
@@ -16,7 +16,19 @@
             <img [src]="cuePointData?.src" align="left">
             {{ cuePointData?.description }}
         </p>
-    </div>
+    </div> -->
+    <div class="navbar">
+        <div class="nav-item">Menu 1 Menu 1 Menu 1 Menu 1 Menu 1 Menu 1</div>
+        <div class="nav-item">Menu 2 Menu 1 Menu 1 Menu 1 Menu 1 Menu 1</div>
+        <div class="nav-item">Menu 3 Menu 1 Menu 1 Menu 1 Menu 1 Menu 1</div>
+        <div class="nav-item">Menu 4 Menu 1 Menu 1 Menu 1 Menu 1 Menu 1</div>
+        <div class="nav-item">Menu 5 Menu 1 Menu 1 Menu 1 Menu 1 Menu 1</div>
+        <div class="nav-item">Menu 6 Menu 1 Menu 1 Menu 1 Menu 1 Menu 1</div>
+        <div class="nav-item">Menu 3 Menu 1 Menu 1 Menu 1 Menu 1 Menu 1</div>
+        <div class="nav-item">Menu 4 Menu 1 Menu 1 Menu 1 Menu 1 Menu 1</div>
+        <div class="nav-item">Menu 5 Menu 1 Menu 1 Menu 1 Menu 1 Menu 1</div>
+        <div class="nav-item">Menu 6 Menu 1 Menu 1 Menu 1 Menu 1 Menu 1</div>
+      </div>
     <div class="cue-point-manager-layer" *ngIf="showCuePointManager">
         <div class="close fa fa-close" (click)="showCuePointManager = false"></div>
 

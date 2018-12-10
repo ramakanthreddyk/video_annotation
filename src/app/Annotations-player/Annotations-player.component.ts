@@ -34,7 +34,7 @@ export class AnnotationsPlayerComponent implements OnInit {
     action;
     startTime;
     endTime;
-    cuePointData: ICuePoint = null;
+    cuePointData = [];
     api: VgAPI;
     track: TextTrack;
     showCuePointManager = false;
@@ -46,6 +46,7 @@ export class AnnotationsPlayerComponent implements OnInit {
     dataSource;
     annotationdataSource;
     users;
+    currentTime: any;
     /* storedAnnotations;
     displayStoredAnnotations = [''] */
     newCue: IWikiCue = {
@@ -200,6 +201,7 @@ export class AnnotationsPlayerComponent implements OnInit {
         this.track = this.api.textTracks[0];
         console.log(this.track);
         this.api.subscriptions.timeUpdate.subscribe(data => {
+            this.currentTime = this.api.currentTime;
         });
 
         this.api.subscriptions.canPlay.subscribe(data => {
@@ -265,12 +267,21 @@ export class AnnotationsPlayerComponent implements OnInit {
         this.track.removeCue(cue);
     }
 
-    onEnterCuePoint($event) {
-        this.cuePointData = JSON.parse($event.text);
+    onEnterCuePoint(event) {
+        /* this.cuePointData = JSON.parse($event.text);
+        console.log(JSON.parse($event.text)); */
+        const text = JSON.parse(event.text);
+        text.startTime = event.startTime;
+        text.endTime = event.endTime;
+        this.cuePointData.push(text);
+        console.log(text);
     }
 
-    onExitCuePoint($event) {
-        this.cuePointData = null;
+    onExitCuePoint(event) {
+        // this.cuePointData = null;
+        const text = JSON.parse(event.text);
+        text.startTime = event.startTime;
+        text.endTime = event.endTime;
     }
 
 

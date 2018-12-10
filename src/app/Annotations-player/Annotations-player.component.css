@@ -35,6 +35,39 @@
     color: white;
 }
 
+
+
+.navbar {
+    font-size: 0;
+    position: absolute;
+  }
+  
+  .nav-item {
+    box-sizing: border-box;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 50px;
+    margin: 0;
+    padding: 0 15px;
+    text-align: center;
+    vertical-align: middle;
+    overflow: auto;
+  }
+  
+  .nav-item:not(:first-child) {
+    border-left: 1px solid #6ba7f1;
+  }
+  
+  .nav-item:first-child {
+    border-radius: 3px 0 0 3px;
+  }
+  
+  .nav-item:last-child {
+    border-radius: 0 3px 3px 0;
+  }
+
+
 .cue-point-manager-button {
     color: #FFF;
     display: flex;
