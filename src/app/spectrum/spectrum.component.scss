@@ -1,0 +1,229 @@
+@import 'theme';
+
+.wrapper {
+    padding: 28px;
+    max-width: 100vw;
+    background-color: whitesmoke;
+
+    &.md {
+        padding: 16px 0;
+    }
+
+    display: table;
+    height: calc(100% - #{$toolbar-height});
+    min-height: 600px;
+
+    > .content {
+        display: table-row;
+        height: 100%;
+    }
+}
+
+.status {
+    .values {
+        padding: 0;
+        list-style-type: none;
+        white-space: nowrap;
+        word-break: keep-all;
+        font-size: 1.2em;
+
+        .label {
+            &::after {
+                content: ':';
+            }
+        }
+
+        .value {
+            margin-left: 5px;
+        }
+    }
+}
+
+$graph-colors: (
+    'spectrum': #0DD97B,
+    'warning': #FAC832,
+    'alarm': #B93656
+);
+
+.legend {
+    padding: 0;
+    list-style-type: none;
+    white-space: nowrap;
+
+    li {
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        max-height: 100%;
+        place-content: center space-around;
+        align-items: center;
+        position: relative;
+        border-radius: 4px;
+        padding: 5px 8px;
+        user-select: none;
+
+        &.selectable {
+            cursor: pointer;
+
+            &:hover {
+                background-color: #eee;
+            }
+        }
+
+        .color {
+            height: 8px;
+            width: 24px;
+            border-radius: 8px;
+            float: left;
+            margin-right: 8px;
+
+            @each $key, $color in $graph-colors {
+                &.#{$key} {
+                    border: 2px solid $color;
+                    &.active {
+                        background-color: $color;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.error {
+    &-overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255,255,255,.25);
+    }
+
+    &-list {
+        list-style: none;
+        background-color: white;
+        border: 1px solid darkgrey;
+        padding: 10px;
+        color: red;
+    }
+}
+
+
+.chart {
+    position: relative;
+}
+
+.paused {
+    animation: blink 1s ease infinite;
+}
+
+.step-label {
+    min-width: 10em;
+    display: inline-block;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.1;
+    }
+}
+
+.sidemenu {
+    padding: 0;
+    overflow: auto;
+    @include autinity-scrollbar();
+}
+
+.vse-list {
+    padding: 0;
+    list-style-type: none;
+    font-family: 'BebasNeue';
+    white-space: nowrap;
+    .header {
+        color: lighten(#000000, 50);
+    }
+}
+
+.loading {
+    @include aut-shade($background: rgba(255, 255, 255, 1));
+}
+
+.alert_notification {
+    font-size: 12px;
+}
+ 
+.toggle-icon {
+    cursor: pointer;
+    font-size: 55px;
+    color: lighten(map-get($dap-state-colors, 'ok'),10);
+}
+
+.icon {
+    cursor: pointer;
+    font-size: 35px;
+}
+
+.active {
+    outline: none;
+    border: none;
+}
+
+.data {
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.unit {
+    font-size: 15px;
+    font-weight: 600;
+    color: #707070;
+    opacity: 0.42;
+    margin-left: -0.2em;
+}
+
+.number_boxes {
+    flex: auto;
+    mat-icon {
+        .toggle-icon {
+            padding-right: 2em;
+        }
+    }
+}
+
+.description {
+    color: #707070;
+    text-align: left;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.line {
+    border-right: 1px solid rgba(112, 112, 112, 0.2);
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+.sensor {
+    overflow: auto;
+}
+
+.sensor-data {
+    padding: 20px;
+}
+
+.sensor-card {
+    margin-left: 25px;
+}
+
+.vse-name {
+    font-size: 30px;
+    cursor: pointer;
+}

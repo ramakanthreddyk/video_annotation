@@ -1,0 +1,240 @@
+<div class="wrapper" ngClass.lt-md="md" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start stretch"
+    fxLayoutGap="50px">
+    <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px" fxFlex="30" class="sensor">
+        <ng-container *ngIf="vseList &&vseList?.length; else noVseList">
+            <ng-container *ngFor="let vse of vseList; let last = last; trackBy: trackByVse">
+                <li class="clickable expansion-toggle header" (click)="toggleExpansion(vse.id)">
+                    <div fxLayout="row" fxLayoutGap="10px"  class="vse-name">
+                        <mat-icon class="icon">{{ expanded(vse.id) ? 'add': 'remove' }}</mat-icon>
+                        <span>{{ vse.name }}</span>
+                    </div>
+                </li>
+                <ng-container *ngIf="!expanded(vse.id)">
+                    <mat-card *ngFor="let sensor of vse.sensors" class="sensor-card">
+                        <div fxLayout="row">
+                            <div class="number_boxes">
+                                <div class="center">
+                                    <li class="clickable header" (click)="toggleactiveLink(sensor.id)">
+                                        <div [routerLink]="['/monitoring', 'spectrum', vse.id, sensor.id]" routerLinkActive="active">
+                                            <mat-icon class="toggle-icon">{{ activeLink(sensor.id) ? 'check_circle':
+                                                'brightness_1' }}</mat-icon>
+                                        </div>
+                                    </li>
+                                </div>
+                            </div>
+                            <div class="number_boxes">
+                                <div class="center">
+                                    <div>
+                                        <span class="data"><b>{{ sensor?.name || 'Unbekannt' }}</b></span>
+                                    </div>
+                                    <span class="description">123 RPM</span>
+                                </div>
+                            </div>
+                            <div class="number_boxes">
+                                <div class="center">
+                                    <div>
+                                        <mat-icon class="data">show_chart</mat-icon>
+                                    </div>
+                                    <span class="description">1.5 mg</span>
+                                </div>
+                            </div>
+                            <div class="number_boxes">
+                                <div class="center">
+                                    <li class="clickable expansion-toggle header" (click)="toggleExpansionSensor(sensor.id)">
+                                        <div fxLayout="row" fxLayoutAlign="start center">
+                                            <mat-icon class="icon">{{ expandedSensor(sensor.id) ? 'keyboard_arrow_up':
+                                                'keyboard_arrow_down' }}</mat-icon>
+                                        </div>
+                                    </li>
+                                </div>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="10px" class="sensor-data">
+                            <ng-container *ngIf="expandedSensor(sensor.id)">
+                                <div class="number_boxes line">
+                                    <div class="center">
+                                        <div>
+                                            <span class="data">{{ (data?.measureSeconds | number:'0.0-2') || '??' }}
+                                            </span>
+                                            <span class="unit">s</span>
+                                        </div>
+                                        <span class="description">Messdauer</span>
+                                    </div>
+                                </div>
+                                <div class="number_boxes line">
+                                    <div class="center">
+                                        <div>
+                                            <span class="data">{{ (data?.measureFrequency | number:'0.0-2') || '??' }}</span>
+                                        </div>
+                                        <span class="description">Samplerate</span>
+                                    </div>
+                                </div>
+                                <div class="number_boxes">
+                                    <div class="center">
+                                        <div>
+                                            <span class="data">{{ (data?.frequencyStep | number:'0.0-2') || '??' }}
+                                            </span>
+                                            <span class="unit">Hz</span>
+                                        </div>
+                                        <span class="description">Auflösung</span>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="20px">
+                            <span class="description">Warnung</span>
+                            <span class="description">Alaram</span>
+                        </div>
+                    </mat-card>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+        <ng-template #noVseList>
+            <li>
+                <h3>Keine Sensoren konfiguriert.</h3>
+            </li>
+        </ng-template>
+    </div>
+
+
+
+    <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="16px" fxFlex="70">
+        <mat-card class="status">
+            <h1 class="aut-heading">
+                Übersicht
+            </h1>
+
+            <ul class="values mat-typography" fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-around center"
+                fxLayoutGap="40px" fxLayoutGap.lt-sm="8px">
+                <li>
+                    <span class="label">Maschine</span>
+                    <span class="value">{{ status?.machine?.name || 'Unbekannt' }}</span>
+                </li>
+                <li>
+                    <span class="label">Teilenummer</span>
+                    <span class="value">{{ status?.partNumber || 'kein Wert' }}</span>
+                </li>
+                <li>
+                    <span class="label">Materialnummer</span>
+                    <span class="value">{{ status?.materialNumber || 'kein Wert' }}</span>
+                </li>
+                <li>
+                    <span class="label">Arbeitsschritt</span>
+                    <span class="value step-label">{{ status?.job?.currentStep === null ? 'kein Wert' :
+                        (status?.job?.currentStepName || '') + ' (' + status?.job?.currentStep + ')' }}</span>
+                </li>
+            </ul>
+        </mat-card>
+
+        <mat-card *ngIf="data; else noData" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="16px" fxFlex>
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+                <h1 class="aut-heading">{{ selectedSensorLabel || 'Unbekannt' }}</h1>
+
+                <div fxLayout="row" fxLayoutAlign="center center" [appSpectrumOverlay]="spectrumMeta">
+                    <mat-icon>info</mat-icon>
+                </div>
+
+                <app-dilation-indicator [timestamp]="(timestamp | async)"></app-dilation-indicator>
+
+                <span fxFlex></span>
+
+                <button mat-icon-button (click)="toggleUpdate()" [class.paused]="!update" matTooltip="{{ update ? 'Anzeige pausieren' : 'Anzeige fortsetzen' }}">
+                    <mat-icon>pause</mat-icon>
+                </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="toggleAutoScale()">
+                        <mat-icon>vertical_align_center</mat-icon>
+                        <span>Autoskalierung {{ autoScale ? 'deaktivieren' : 'aktivieren' }}</span>
+                    </button>
+                    <button mat-menu-item (click)="toggleOrder()">
+                        <mat-icon>linear_scale</mat-icon>
+                        <ng-container ngSwitch="">
+
+                        </ng-container>
+                        <span>{{spectrumService.calculationMethod === 'frequency' ? 'Ordnung' : 'Frequenz'}} anzeigen</span>
+                    </button>
+                </mat-menu>
+            </div>
+
+            <!-- Chart.js Chart -->
+            <div fxLayout="row" fxLayoutAlign="start strech" fxFlex="100">
+                <canvas baseChart
+                    width="300" 
+                    height="150"
+                    [datasets]='lineChartData'
+                    [labels]='lineChartLabels'
+                    [options]='lineChartOptions'
+                    [colors]='lineChartColors'
+                    [legend]='lineChartLegend'
+                    [chartType]='lineChartType'></canvas>
+            </div>
+            
+                <!-- <div fxLayout="row" fxLayoutAlign="start stretch" fxFlex="100"> -->
+            <!-- <div class="chart" fxLayout="row" fxLayoutAlign="start stretch" fxFlex="100">
+                <div *ngIf="(chartErrors | async).length" class="error-overlay">
+                    <ul class="error-list">
+                        <li *ngFor="let error of (chartErrors | async)">{{error}}</li>
+                    </ul>
+                </div>
+                
+                <ngx-charts-line-chart
+                    [animations]="animations"
+                    [scheme]="colorScheme"
+                    [customColors]="customColors"
+                    [results]="data"
+                    [gradient]="gradient"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [legend]="showLegend"
+                    [tooltipDisabled]="tooltipDisabled"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel"
+                    [yAxisLabel]="yAxisLabel"
+                    [yScaleMax]="yScaleMax"
+                    [autoScale]="autoScale"
+                    [roundDomains]="roundDomains">
+                </ngx-charts-line-chart>
+            </div> -->
+                <!-- </div> -->
+
+            <!-- <ul class="mat-typography legend" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+                <li>
+                    <span class="color spectrum active"></span>
+                    <span class="name">Spektrum</span>
+                </li>
+                <li matRipple class="selectable" (click)="toggleWarnSpec()">
+                    <span class="color warning" [class.active]="showWarnSpec | async"></span>
+                    <span class="name">Referenz (Warnung)</span>
+                </li>
+                <li matRipple class="selectable" (click)="toggleAlarmSpec()">
+                    <span class="color alarm" [class.active]="showAlarmSpec | async"></span>
+                    <span class="name">Referenz (Alarm)</span>
+                </li>
+            </ul> -->
+        </mat-card>
+
+        
+                <ng-template #noData>
+                    <mat-card fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" fxFlex>
+                        <ng-container *ngIf="(selectedSensor | async)?.sensorId; else noSensor">
+                            <div class="mat-typography" fxLayout="column" fxLayoutAlign="start center">
+                                <h2>{{ selectedSensorLabel || 'Unbekannt' }}</h2>
+                                <h3>Der gewählte Sensor liefert im Moment keine Daten.</h3>
+                            </div>
+                        </ng-container>
+        
+                        <ng-template #noSensor>
+                            <div class="mat-typography" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+                                <mat-icon>settings_input_component</mat-icon>
+                                <h2>Kein Sensor ausgewählt</h2>
+                            </div>
+                        </ng-template>
+                    </mat-card>
+                </ng-template>
+            </div>
+        </div>
