@@ -1,0 +1,22 @@
+DELETE FROM timeline WHERE Asset = 'asset_1';
+DROP TABLE video;
+
+INSERT INTO timeline (Timeline_Name, Asset)
+VALUES ('Timeline_Name_1', 'Asset_1');
+
+
+CREATE TABLE asset (
+     Asset varchar(255) NOT NULL,
+     Video_Id int NOT NULL AUTO_INCREMENT,
+     Video_Ref varchar(255) NOT NULL,
+     PRIMARY KEY (Vido_Id) 
+)
+
+INSERT INTO asset (Asset, Video_Ref)
+VALUES ('Asset_1', 'http://assets14.ign.com/videos/zencoder/2015/8/14/640/d9de372f3d373d06d4e770e73af44cb1-500000-1439510486-w.mp4');
+
+
+INSERT INTO annotation_description (Video_Id, Annotation, Description)
+VALUES ('1', 'w', 'walk');
+
+INSERT INTO assets (Asset, Video_Ref) VALUES ('Asset_1', 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4')

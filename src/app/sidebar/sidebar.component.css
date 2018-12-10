@@ -1,0 +1,47 @@
+div.side-tab-menu{
+    padding-right: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+    margin-bottom:60px;
+  }
+  div.side-tab-menu div.list-group{
+    margin-bottom: 0;
+     cursor: pointer;
+  }
+  div.side-tab-menu div.list-group>a{
+    margin-bottom: 0;
+  }
+  div.side-tab-menu div.list-group>a .glyphicon,
+  div.side-tab-menu div.list-group>a{
+    color: white;
+  }
+  div.side-tab-menu div.list-group>a:first-child{
+    border-top-right-radius: 0;
+    -moz-border-top-right-radius: 0;
+  }
+  div.side-tab-menu div.list-group>a:last-child{
+    border-bottom-right-radius: 0;
+    -moz-border-bottom-right-radius: 0;
+  }
+  div.side-tab-menu div.list-group>a.active,
+  div.side-tab-menu div.list-group>a.active .glyphicon,
+  div.side-tab-menu div.list-group>a.active .fa{
+    background-color: #080808!important;;
+    background-image: #080808!important;;
+    color: orange;
+   
+  }
+  div.side-tab-menu div.list-group>a.active:after{
+    content: '';
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    margin-top: -13px;
+    border-left: 0;
+    border-bottom: 13px solid transparent;
+    border-top: 13px solid transparent;
+    border-left: 10px solid #080808!important;;
+  }
+  .list-group>.list-group-item{
+      background: #2d2832!important;
+  }

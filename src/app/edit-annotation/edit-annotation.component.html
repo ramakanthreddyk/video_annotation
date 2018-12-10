@@ -1,0 +1,11 @@
+<div class="example-form">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Title" [value]="annotationData.title" [(ngModel)]="annotationData.title">
+    </mat-form-field>
+  
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Description" [value]= "annotationData.description" [(ngModel)]="annotationData.description">
+      </mat-form-field>
+      <br>
+      <button (click)="editAnnotation(annotationData)">Submit</button>
+    </div>

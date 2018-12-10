@@ -1,0 +1,20 @@
+
+
+.home-headers-align .mat-expansion-panel-header-title,
+.home-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.home-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timeline-container {
+  min-height: 400px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}

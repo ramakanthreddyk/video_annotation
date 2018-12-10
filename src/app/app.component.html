@@ -1,0 +1,26 @@
+
+<nav class="navbar navbar-inverse nanavbar-fixed-top">
+    <div fxLayout="row" fxLayoutAlign="space-around center" fxFlex >
+        <a class="navbar-brand" href="#">Annotation Tool</a>
+        <span FxFlex="50"></span>
+        <ul class="nav navbar-nav navbar-right">
+            <li *ngIf="logged">
+              <a (click)="logout()">
+                <span class="glyphicon glyphicon-log-out"></span> Logout</a>
+            </li>
+            <li *ngIf="!logged">
+              <a (click)="login()">
+                <span class="glyphicon glyphicon-log-in"></span> Login</a>
+            </li>
+          </ul>
+    </div>
+  </nav>
+
+  <div class="row">
+    <div class="column left">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="column right">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
