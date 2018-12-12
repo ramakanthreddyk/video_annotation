@@ -8,7 +8,7 @@ import { AuthenticationService, UserService } from '../_services';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  displayedColumns = ['timeline_id', 'timeline_name', 'timeline_timestamp_from', 'timeline_timestamp_to'];
+  displayedColumns = ['timeline_id', 'timeline_name', 'timeline_timestamp_from', 'timeline_timestamp_to', 'icon'];
   dataSource;
   constructor(private auth: AuthenticationService,
               private users: UserService,
@@ -20,5 +20,11 @@ export class HomeComponent implements OnInit {
       this.dataSource = timeline['data'];
       console.log(this.dataSource);
     });
+  }
+
+
+  gotoVideo(data) {
+    this.auth.selectedVideoActive(data);
+    this.router.navigate(['Player']);
   }
 }
