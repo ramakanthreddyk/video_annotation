@@ -19,17 +19,19 @@
     </div> -->
     <div class="navbar" ngClass.lt-md="md" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start stretch"
     fxLayoutGap="35px">
-        <div *ngFor="let annotation of annotationdataSource">
+        <div *ngFor="let annotation of cuePointData">
             <div class="nav-item" class="info-layer">
                 <h3>{{annotation.title}}</h3>
                 <h4>{{annotation.description}}</h4>
-                <p> <mat-icon>thumb_up</mat-icon></p>
+                <p> <mat-icon (click)= "voteUp()">thumb_up</mat-icon></p>
               
             </div>
         </div>
     
     </div>
-    <div class="cue-point-manager-layer" *ngIf="showCuePointManager">
+
+
+    <!-- <div class="cue-point-manager-layer" *ngIf="showCuePointManager">
         <div class="close fa fa-close" (click)="showCuePointManager = false"></div>
 
         <div class="cue-list">
@@ -91,7 +93,7 @@
                 <button type="submit" [disabled]="!formRef.valid">Add Cue</button>
             </form>
         </div>
-    </div>
+    </div> -->
 
 <!--     <vg-overlay-play></vg-overlay-play> -->
 

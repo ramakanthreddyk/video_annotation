@@ -1,5 +1,5 @@
 import { EditAnnotationComponent } from './../edit-annotation/edit-annotation.component';
-import { User } from './../_models/user';
+import { User, Annotation, AnnotationList } from './../_models';
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { VgAPI, VgStates } from 'videogular2/core';
 import { NgForm } from '@angular/forms';
@@ -35,6 +35,7 @@ export class AnnotationsPlayerComponent implements OnInit {
     startTime;
     endTime;
     cuePointData = [];
+    backupCue = [];
     api: VgAPI;
     track: TextTrack;
     showCuePointManager = false;
@@ -44,19 +45,11 @@ export class AnnotationsPlayerComponent implements OnInit {
     displayedColumns = ['key_type_id', 'key_name', 'key_description', 'key_shortcut'];
     annotationdisplayColumns = ['user', 'title', 'description', 'vote', 'annotation_from', 'annotation_to', 'edit_icon', 'delete_icon'];
     dataSource;
-    annotationdataSource;
+    annotationdataSource: AnnotationList;
     users;
     currentTime: any;
     /* storedAnnotations;
     displayStoredAnnotations = [''] */
-    newCue: IWikiCue = {
-        startTime: 40,
-        endTime: 50,
-        title: 'Carl Sagan',
-        description: 'Carl Edward Sagan (/ˈseɪɡən/; November 9, 1934 – December 20, 1996) was an American astronomer, ',
-        src: 'https://upload.wikimedia.org/wikipedia/commons/b/be/Carl_Sagan_Planetary_Society.JPG',
-        href: 'https://en.wikipedia.org/wiki/Carl_Sagan'
-    };
 
     json: JSON = JSON;
     @ViewChild('media') myVideo: any;
@@ -67,6 +60,37 @@ export class AnnotationsPlayerComponent implements OnInit {
                 private dialog: MatDialog) {
     }
 
+
+
+
+    
+
+    ngOnInit() {
+        this.auth.selectedVideo.subscribe((asset: any) => {
+            if (asset.asset_object) {
+                this.asset = asset;
+                this.sources = [
+                    {
+                        src: asset.asset_object,
+                        type: 'video/mp4'
+                    }
+                ];
+  
+                /* get annotations to corresponding timeline with help of assset */
+                this.user.getPossibleAnnotations(asset.asset_id).then((annotationlist: any) => {
+                  this.dataSource = annotationlist.data;
+                });
+            } else {
+                console.log('no asset');
+            }
+  
+        });
+  
+        this.user.getAll().subscribe((allusers: any) => {
+          this.users = allusers.data;
+        });
+  
+      }
 
 
     @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
@@ -110,7 +134,6 @@ export class AnnotationsPlayerComponent implements OnInit {
                       annotation_id: new Date().valueOf()
                     };
                     this.user.storeAnnotation(annotation_to_store).then((res: any) => {
-                      console.log(res);
                       this.annotationdataSource = res.data;
                     });
                     this.track.addCue(
@@ -125,63 +148,48 @@ export class AnnotationsPlayerComponent implements OnInit {
 
 
 
+    onPlayerReady(api: VgAPI) {
+        this.api = api;
+        this.track = this.api.textTracks[0];
+        const userid = localStorage.getItem('loggedUser');
+        this.user.getPreStoredAnnotations(this.asset.asset_id, userid).then((preannotationlist: any) => {
+          if (preannotationlist.success) {
+              this.annotationdataSource = preannotationlist.data;
+                  if (preannotationlist.data.length > 0) {
+                    preannotationlist.data.forEach(eachObject => {
+                      const sampleObject = {
+                      startTime: eachObject.start_time,
+                      endTime: eachObject.end_time,
+                      jsonText: {
+                        title: eachObject.title,
+                        src: '',
+                        href: '',
+                        description: eachObject.description,
+                        user_name: eachObject.user_id,
+                        annotation_id: eachObject.annotation_id
+                     }
+                 };
+                  const cue = new VTTCue ( sampleObject.startTime, sampleObject.endTime, JSON.stringify(sampleObject.jsonText));
+                  this.backupCue.push(cue);
+                  this.track.addCue (cue);
+            });
+      }
+  }
+        }, (error) => {
+            console.log('error :', error);
+        });
+        this.api.subscriptions.timeUpdate.subscribe(data => {
+            this.currentTime = this.api.currentTime;
+        });
 
-
-
-
-
-
-
-    ngOnInit() {
-      this.auth.selectedVideo.subscribe((asset: any) => {
-          if (asset.asset_object) {
-              this.asset = asset;
-              this.sources = [
-                  {
-                      src: asset.asset_object,
-                      type: 'video/mp4'
-                  }
-              ];
-
-              /* get annotations to corresponding timeline with help of assset */
-              this.user.getPossibleAnnotations(asset.asset_id).then((annotationlist: any) => {
-                this.dataSource = annotationlist.data;
-              });
-              const userid = localStorage.getItem('loggedUser');
-              this.user.getPreStoredAnnotations(asset.asset_id, userid).then((preannotationlist: any) => {
-                if (preannotationlist.success) {
-                    this.annotationdataSource = preannotationlist.data; console.log(this.annotationdataSource);
-                        if (preannotationlist.data.length > 0) {
-                           /* this.storedAnnotations = preannotationlist.data; */
-                          preannotationlist.data.forEach(eachObject => {
-                            const sampleObject = {
-                            startTime: eachObject.start_time,
-                            endTime: eachObject.end_time,
-                            jsonText: {
-                              title: eachObject.title,
-                              src: '',
-                              href: '',
-                              description: eachObject.description,
-                              user_name: eachObject.user_id
-                           }
-                       };
-                      this.track.addCue (new VTTCue ( sampleObject.startTime, sampleObject.endTime, JSON.stringify(sampleObject.jsonText)));
-                  });
+        this.api.subscriptions.canPlay.subscribe(data => {
+            console.log(this.track.cues.length, this.backupCue.length);
+            if(this.track.cues.length < this.backupCue.length){
+                this.backupCue.forEach(cue => {
+                    this.track.addCue (cue);
+                });
             }
-        }
-              }, (error) => {
-                  console.log('error :', error);
-              });
-          } else {
-              console.log('no asset');
-          }
-
-      });
-
-      this.user.getAll().subscribe((allusers: any) => {
-        this.users = allusers.data;
-      });
-
+        });
     }
 
 
@@ -196,17 +204,6 @@ export class AnnotationsPlayerComponent implements OnInit {
 
 
 
-    onPlayerReady(api: VgAPI) {
-        this.api = api;
-        this.track = this.api.textTracks[0];
-        console.log(this.track);
-        this.api.subscriptions.timeUpdate.subscribe(data => {
-            this.currentTime = this.api.currentTime;
-        });
-
-        this.api.subscriptions.canPlay.subscribe(data => {
-        });
-    }
 
 
 
@@ -220,19 +217,6 @@ export class AnnotationsPlayerComponent implements OnInit {
           this.annotationdataSource = result;
         });
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -268,24 +252,20 @@ export class AnnotationsPlayerComponent implements OnInit {
     }
 
     onEnterCuePoint(event) {
-        /* this.cuePointData = JSON.parse($event.text);
-        console.log(JSON.parse($event.text)); */
         const text = JSON.parse(event.text);
-        text.startTime = event.startTime;
-        text.endTime = event.endTime;
         this.cuePointData.push(text);
-        console.log(text);
     }
 
     onExitCuePoint(event) {
-        // this.cuePointData = null;
         const text = JSON.parse(event.text);
-        text.startTime = event.startTime;
-        text.endTime = event.endTime;
+        const removeAnnotation = this.cuePointData.filter(annotation => annotation.annotation_id === text.annotation_id);
+        this.cuePointData.splice((this.cuePointData).indexOf(removeAnnotation, 1));
     }
 
 
-
+    voteUp() {
+        console.log('hello');
+    }
 
 
 
