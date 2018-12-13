@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService, UserService } from '../_services';
 
+
+import { Timeline, TimelineList } from '../_models';
+import { from } from 'rxjs';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -9,7 +13,7 @@ import { AuthenticationService, UserService } from '../_services';
 })
 export class HomeComponent implements OnInit {
   displayedColumns = ['timeline_id', 'timeline_name', 'timeline_timestamp_from', 'timeline_timestamp_to', 'icon'];
-  dataSource;
+  dataSource: TimelineList;
   constructor(private auth: AuthenticationService,
               private users: UserService,
               private router: Router) { }
@@ -23,8 +27,8 @@ export class HomeComponent implements OnInit {
   }
 
 
-  gotoVideo(data) {
-    this.auth.selectedVideoActive(data);
-    this.router.navigate(['Player']);
+  gotoAssets(data: Timeline) {
+    this.users.selectedTimelineActive(data);
+    this.router.navigate(['Assets']);
   }
 }
