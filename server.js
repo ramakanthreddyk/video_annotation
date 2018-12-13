@@ -49,8 +49,25 @@ router.get('/users', function(req, res) {
   });
 });
 
+
 router.get('/assets', function(req, res) {
-    con.query('SELECT * FROM asset', function(err, data) {
+  con.query('SELECT * FROM asset', function(err, data) {
+    if(err) {
+      console.log(err);
+      res.json({success: false, message: 'Server error', error: err});
+    } else {
+      if(data.length != 0) {
+        res.json({data: data});
+      } else {
+        res.json({success: false, message: 'data not found'});
+      }
+    }
+  });
+});
+
+router.post('/getAsset', function(req, res) {
+  const timeline_id = req.body.timelineId;
+    con.query('SELECT * FROM asset WHERE asset_id in (SELECT asset_id from asset_timeline_cross_table WHERE timeline_id = "'+timeline_id+'")', function(err, data) {
       if(err) {
         console.log(err);
         res.json({success: false, message: 'Server error', error: err});
