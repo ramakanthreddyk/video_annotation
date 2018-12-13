@@ -1,4 +1,4 @@
-<div class=" row ">
+<div class="row" *ngIf="dataSource; else noData">
 <div class="video-container col-md-8" *ngIf= "sources !== undefined">
 <vg-player (onPlayerReady)="onPlayerReady($event)" class= "video">
     <!-- <div *ngIf="cuePointData?.title" class="info-layer">
@@ -170,7 +170,7 @@
         </mat-select>
       </mat-form-field>
       <button mat-raised-button (click) = "getSelectedUserAnnotations(selectedUsers)">Submit</button>
-<div class="timeline-container mat-elevation-z8" *ngIf="annotationdataSource">
+<div class="timeline-container mat-elevation-z8" *ngIf="annotationdataSource; else noData">
     <table mat-table [dataSource]="annotationdataSource">
     
         <!-- Timeline Column -->
@@ -221,3 +221,11 @@
 
 
 
+    <ng-template #noData>
+        <mat-card>
+            <div class="mat-typography" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <mat-icon>settings_input_component</mat-icon>
+                <h2>No Asset selected </h2>
+            </div>
+        </mat-card>
+    </ng-template>

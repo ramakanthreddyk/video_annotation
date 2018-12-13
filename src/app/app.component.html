@@ -1,8 +1,8 @@
 
 <nav class="navbar navbar-inverse nanavbar-fixed-top">
-    <div fxLayout="row" fxLayoutAlign="space-around center" fxFlex >
+    <div fxLayout="row"  fxLayout.lt-md="column" fxLayoutAlign="space-around center" fxLayoutGap="35px" >
         <a class="navbar-brand" href="#">Annotation Tool</a>
-        <span FxFlex="50"></span>
+        <span FxFlex></span>
         <ul class="nav navbar-nav navbar-right">
             <li *ngIf="logged">
               <a (click)="logout()">

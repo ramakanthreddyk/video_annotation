@@ -23,11 +23,12 @@ export class AssetsComponent implements OnInit {
    /* get all assets */
   ngOnInit() {
       this.users.selectedTimeline.subscribe((timeline: Timeline) => {
-        console.log(timeline);
-        this.users.getAsset(timeline.timeline_id).then((asset: Asset) => {
-          console.log(asset);
-          this.dataSource = asset;
-        })
+        if(timeline) {
+          this.users.getAsset(timeline.timeline_id).then((asset: Asset) => {
+            console.log(asset);
+            this.dataSource = asset;
+          });
+        }
       });
   }
 

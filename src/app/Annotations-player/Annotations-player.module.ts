@@ -9,6 +9,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import {MatDialogModule} from '@angular/material/dialog';
         MatTableModule,
         MatSelectModule,
         MatIconModule,
-        MatDialogModule
+        MatDialogModule,
+        MatCardModule
     ],
     declarations: [ AnnotationsPlayerComponent ],
     exports: [AnnotationsPlayerComponent]
