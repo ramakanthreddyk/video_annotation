@@ -150,7 +150,7 @@ export class AnnotationsPlayerComponent implements OnInit {
               const userid = localStorage.getItem('loggedUser');
               this.user.getPreStoredAnnotations(asset.asset_id, userid).then((preannotationlist: any) => {
                 if (preannotationlist.success) {
-                    this.annotationdataSource = preannotationlist.data;
+                    this.annotationdataSource = preannotationlist.data; console.log(this.annotationdataSource);
                         if (preannotationlist.data.length > 0) {
                            /* this.storedAnnotations = preannotationlist.data; */
                           preannotationlist.data.forEach(eachObject => {
@@ -164,7 +164,7 @@ export class AnnotationsPlayerComponent implements OnInit {
                               description: eachObject.description,
                               user_name: eachObject.user_id
                            }
-                       }; console.log(preannotationlist.data);
+                       };
                       this.track.addCue (new VTTCue ( sampleObject.startTime, sampleObject.endTime, JSON.stringify(sampleObject.jsonText)));
                   });
             }

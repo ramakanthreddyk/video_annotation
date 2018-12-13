@@ -1,38 +1,17 @@
 .info-layer {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    right: 0;
+    position: relative;
     overflow: auto;
     font-family: sans-serif;
     color: white;
-    z-index: 250;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 30px;
+    margin-right: 20px;
 }
 
-.info-layer1 {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    left: 0;
-    width: 25%;
-    height: 50%;
-    font-family: sans-serif;
-    color: white;
-    z-index: 250;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 30px;
-}
-.info-layer img {
-    width: 40px;
-    height: auto;
-    padding-right: 20px;
-}
 
 .info-layer a,
 .info-layer a:visited {
-    color: white;
+    color: rgb(44, 21, 21);
 }
 
 
@@ -40,32 +19,23 @@
 .navbar {
     font-size: 0;
     position: absolute;
+    font-size: 0;
+    position: absolute;
+    flex-direction: row;
+    display: flex;
+    overflow: auto;
   }
   
   .nav-item {
     box-sizing: border-box;
     color: #fff;
     display: inline-block;
-    font-size: 14px;
-    line-height: 50px;
-    margin: 0;
-    padding: 0 15px;
+    padding: 15px;
     text-align: center;
     vertical-align: middle;
     overflow: auto;
   }
   
-  .nav-item:not(:first-child) {
-    border-left: 1px solid #6ba7f1;
-  }
-  
-  .nav-item:first-child {
-    border-radius: 3px 0 0 3px;
-  }
-  
-  .nav-item:last-child {
-    border-radius: 0 3px 3px 0;
-  }
 
 
 .cue-point-manager-button {

@@ -8,7 +8,7 @@ const config = { apiUrl : 'http://localhost:3000/api'};
 @Injectable()
 export class UserService {
   selectedTimeline: BehaviorSubject<Timeline> = new BehaviorSubject<Timeline>(null);
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
     selectedTimelineActive(value: Timeline) {
       this.selectedTimeline.next(value);
