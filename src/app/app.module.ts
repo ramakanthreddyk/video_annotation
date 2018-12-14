@@ -21,7 +21,7 @@ import {MatInputModule} from '@angular/material';
 import {MatTableModule} from '@angular/material/table';
 import {MatDialogModule} from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
-
+import { FlexLayoutModule } from '@angular/flex-layout';
 // used to create fake backend
 import { AuthGuard } from './_guards';
 import { AuthenticationService, UserService } from './_services';
@@ -56,7 +56,8 @@ import { EditAnnotationComponent } from './edit-annotation/edit-annotation.compo
         MatInputModule,
         MatTableModule,
         MatDialogModule,
-        FormsModule
+        FormsModule,
+        FlexLayoutModule
     ],
     providers: [
         AuthGuard,

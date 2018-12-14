@@ -1,26 +1,41 @@
 
-<nav class="navbar navbar-inverse nanavbar-fixed-top">
-    <div fxLayout="row"  fxLayout.lt-md="column" fxLayoutAlign="space-around center" fxLayoutGap="35px" >
-        <a class="navbar-brand" href="#">Annotation Tool</a>
-        <span FxFlex></span>
-        <ul class="nav navbar-nav navbar-right">
-            <li *ngIf="logged">
-              <a (click)="logout()">
-                <span class="glyphicon glyphicon-log-out"></span> Logout</a>
-            </li>
-            <li *ngIf="!logged">
-              <a (click)="login()">
-                <span class="glyphicon glyphicon-log-in"></span> Login</a>
-            </li>
-          </ul>
-    </div>
-  </nav>
+<!-- Navbar -->
+<div id="navbar">
+  <div id="navbar-flexbox">
+    <div id="logo"> <a class="navbar-brand" href="#">Annotation Tool</a></div>
+        <div *ngIf="logged">
+          <a (click)="logout()"> <mat-icon>input</mat-icon> <div>Logout</div></a>
+        </div>
+        <div *ngIf="!logged">
+          <a (click)="login()"><mat-icon>input</mat-icon> 
+            <div>Login</div></a>
+        </div>
+  </div>
+</div>
 
-  <div class="row">
-    <div class="column left">
+
+
+<!-- <nav class="navbar navbar-inverse nanavbar-fixed-top">
+  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start stretch">
+    <a class="navbar-brand" href="#" fxFlex= "90">Annotation Tool</a>
+    <ul class="nav navbar-nav navbar-right" fxFlex= "10">
+      <li *ngIf="logged">
+        <a (click)="logout()">
+          <span class="glyphicon glyphicon-log-out"></span> Logout</a>
+      </li>
+      <li *ngIf="!logged">
+        <a (click)="login()">
+          <span class="glyphicon glyphicon-log-in"></span> Login</a>
+      </li>
+    </ul>
+  </div>
+</nav> -->
+
+  <div class="wrapper" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start stretch" fxLayoutGap="35px">
+    <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="30px" fxFlex="10">
       <app-sidebar></app-sidebar>
     </div>
-    <div class="column right">
+    <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="16px" fxFlex="80">
       <router-outlet></router-outlet>
     </div>
   </div>
