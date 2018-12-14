@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {UserService} from '../_services';
+import { EditAnnotation } from '../_models';
 
 @Component({
   selector: 'app-edit-annotation',
@@ -14,18 +15,19 @@ export class EditAnnotationComponent {
     @Inject(MAT_DIALOG_DATA) public data: any, private service: UserService) {
     }
 
-    annotationData = {
+    annotationData: EditAnnotation = {
       uniqueId: this.data.annotation_id,
       title: this.data.title,
       description: this.data.description,
-      asset_id: this.data.asset_id
+      asset_id: this.data.asset_id,
+      user_id: this.data.user_id
     };
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  editAnnotation(annotationdata) {
+  editAnnotation(annotationdata: EditAnnotation) {
     console.log(annotationdata);
     this.service.editAnnotationData(annotationdata).then((res: any) => {
       this.dialogRef.close(res.data);

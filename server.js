@@ -155,7 +155,7 @@ router.post('/editAnnotationData', function(req, res) {
       console.log(err);
       res.json({success: false, message: 'Server error', error: err});
     } else {
-      con.query("SELECT * FROM annotation WHERE asset_id="+data.asset_id+"", function(err, data2) {
+      con.query("SELECT * FROM annotation WHERE asset_id="+data.asset_id+"  AND user_id="+data.user_id+"", function(err, data2) {
         res.json({success: true, message: 'Annotation saved successfully!!', data: data2});
       })
     }

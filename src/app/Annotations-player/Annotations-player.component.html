@@ -1,24 +1,7 @@
 <div class="row" *ngIf="dataSource; else noData">
 <div class="video-container col-md-8" *ngIf= "sources !== undefined">
 <vg-player (onPlayerReady)="onPlayerReady($event)" class= "video">
-    <!-- <div *ngIf="cuePointData?.title" class="info-layer">
-        <h3><a [href]="cuePointData?.href" target="_blank">{{ cuePointData?.title }}</a></h3>
-        <p>
-            <img [src]="cuePointData?.src" align="left">
-            {{ cuePointData?.description }}
-            {{ cuePointData?.user_name }}
-        </p>
-        <p> <mat-icon>thumb_up</mat-icon></p>
-    </div>
-    <div *ngIf="cuePointData?.title" class="info-layer1">
-        <h3><a [href]="cuePointData?.href" target="_blank">{{ cuePointData?.title }}</a></h3>
-        <p>
-            <img [src]="cuePointData?.src" align="left">
-            {{ cuePointData?.description }}
-        </p>
-    </div> -->
-    <div class="navbar" ngClass.lt-md="md" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start stretch"
-    fxLayoutGap="35px">
+    <div class="navbar" ngClass.lt-md="md" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start stretch" fxLayoutGap="35px">
         <div *ngFor="let annotation of cuePointData">
             <div class="nav-item" class="info-layer">
                 <h3>{{annotation.title}}</h3>
@@ -27,75 +10,14 @@
               
             </div>
         </div>
-    
+        <div *ngFor="let annotation of cuePointData">
+            <div class="nav-item" class="info-layer">
+                <h3>{{annotation.title}}</h3>
+                <h4>{{annotation.description}}</h4>
+                <p> <mat-icon (click)= "voteUp()">thumb_up</mat-icon></p>         
+            </div>
+        </div>
     </div>
-
-
-    <!-- <div class="cue-point-manager-layer" *ngIf="showCuePointManager">
-        <div class="close fa fa-close" (click)="showCuePointManager = false"></div>
-
-        <div class="cue-list">
-            <table class="cue-table">
-                <thead>
-                <tr class="cue-row">
-                    <th>Start Time </th>
-                    <th>End Time </th>
-                    <th>JSON </th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let cue of track?.cues" class="cue-row">
-                    <td>{{ cue.startTime }} </td>
-                    <td>{{ cue.endTime }} </td>
-                    <td>{{ json.parse(cue.text).title }}</td>
-                    <td class="actions">
-                        <button type="button" (click)="onClickEdit(cue)">EditCue</button>
-                        <button type="button" (click)="onClickRemove(cue)">Remove</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="add-cue">
-            <h2>Add a Cue Point dynamically</h2>
-            <p>(all fields are required)</p>
-
-            <form name="cueForm"
-                  #formRef="ngForm"
-                  (submit)="onSubmit(formRef, $event)">
-                <div class="form-field">
-                    <label for="startTime">Start Time</label>
-                    <input type="number" id="startTime" name="startTime" [(ngModel)]="newCue.startTime" required>
-                </div>
-                <div class="form-field">
-                    <label for="endTime">End Time</label>
-                    <input type="number" id="endTime" name="endTime" [(ngModel)]="newCue.endTime" required>
-                </div>
-                <div class="form-field">
-                    <label for="title">Title</label>
-                    <input type="text" id="title" name="title" [(ngModel)]="newCue.title" required>
-                </div>
-                <div class="form-field">
-                    <label for="description">Description</label>
-                    <input type="text" id="description" name="description" [(ngModel)]="newCue.description" required>
-                </div>
-                <div class="form-field">
-                    <label for="src">Image URL</label>
-                    <input type="text" id="src" name="src" [(ngModel)]="newCue.src" required>
-                </div>
-                <div class="form-field">
-                    <label for="href">Link</label>
-                    <input type="text" id="href" name="href" [(ngModel)]="newCue.href" required>
-                </div>
-
-                <button type="submit" [disabled]="!formRef.valid">Add Cue</button>
-            </form>
-        </div>
-    </div> -->
-
-<!--     <vg-overlay-play></vg-overlay-play> -->
 
     <vg-controls>
         <vg-play-pause></vg-play-pause>
@@ -229,3 +151,89 @@
             </div>
         </mat-card>
     </ng-template>
+
+
+
+    
+    <!-- <div class="cue-point-manager-layer" *ngIf="showCuePointManager">
+        <div class="close fa fa-close" (click)="showCuePointManager = false"></div>
+
+        <div class="cue-list">
+            <table class="cue-table">
+                <thead>
+                <tr class="cue-row">
+                    <th>Start Time </th>
+                    <th>End Time </th>
+                    <th>JSON </th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let cue of track?.cues" class="cue-row">
+                    <td>{{ cue.startTime }} </td>
+                    <td>{{ cue.endTime }} </td>
+                    <td>{{ json.parse(cue.text).title }}</td>
+                    <td class="actions">
+                        <button type="button" (click)="onClickEdit(cue)">EditCue</button>
+                        <button type="button" (click)="onClickRemove(cue)">Remove</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="add-cue">
+            <h2>Add a Cue Point dynamically</h2>
+            <p>(all fields are required)</p>
+
+            <form name="cueForm"
+                  #formRef="ngForm"
+                  (submit)="onSubmit(formRef, $event)">
+                <div class="form-field">
+                    <label for="startTime">Start Time</label>
+                    <input type="number" id="startTime" name="startTime" [(ngModel)]="newCue.startTime" required>
+                </div>
+                <div class="form-field">
+                    <label for="endTime">End Time</label>
+                    <input type="number" id="endTime" name="endTime" [(ngModel)]="newCue.endTime" required>
+                </div>
+                <div class="form-field">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" [(ngModel)]="newCue.title" required>
+                </div>
+                <div class="form-field">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" name="description" [(ngModel)]="newCue.description" required>
+                </div>
+                <div class="form-field">
+                    <label for="src">Image URL</label>
+                    <input type="text" id="src" name="src" [(ngModel)]="newCue.src" required>
+                </div>
+                <div class="form-field">
+                    <label for="href">Link</label>
+                    <input type="text" id="href" name="href" [(ngModel)]="newCue.href" required>
+                </div>
+
+                <button type="submit" [disabled]="!formRef.valid">Add Cue</button>
+            </form>
+        </div>
+    </div> -->
+
+<!--     <vg-overlay-play></vg-overlay-play> -->
+
+    <!-- <div *ngIf="cuePointData?.title" class="info-layer">
+        <h3><a [href]="cuePointData?.href" target="_blank">{{ cuePointData?.title }}</a></h3>
+        <p>
+            <img [src]="cuePointData?.src" align="left">
+            {{ cuePointData?.description }}
+            {{ cuePointData?.user_name }}
+        </p>
+        <p> <mat-icon>thumb_up</mat-icon></p>
+    </div>
+    <div *ngIf="cuePointData?.title" class="info-layer1">
+        <h3><a [href]="cuePointData?.href" target="_blank">{{ cuePointData?.title }}</a></h3>
+        <p>
+            <img [src]="cuePointData?.src" align="left">
+            {{ cuePointData?.description }}
+        </p>
+    </div> -->

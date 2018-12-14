@@ -12,3 +12,11 @@ export interface Annotation {
     annotation_id: string;
  }
  export type AnnotationList = Annotation[];
+
+ export interface EditAnnotation {
+    uniqueId: number;
+    title: string;
+    description: string;
+    asset_id:  number;
+    user_id:  number;
+ }

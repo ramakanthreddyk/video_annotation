@@ -9,12 +9,6 @@
 }
 
 
-.info-layer a,
-.info-layer a:visited {
-    color: rgb(44, 21, 21);
-}
-
-
 
 .navbar {
     font-size: 0;
@@ -39,7 +33,7 @@
   
 
 
-.cue-point-manager-button {
+/* .cue-point-manager-button {
     color: #FFF;
     display: flex;
     justify-content: center;
@@ -80,19 +74,19 @@
     white-space: nowrap;
     max-width: 200px;
     display: inline-block;
-}
+} */
 
 /* .cue-row .actions {
     text-align: center;
 } */
-
+/* 
 .form-field {
     padding: 0 30px 10px 0;
     display: flex;
     justify-content: space-between;
-}
+} */
 
-.add-cue {
+/* .add-cue {
     flex: 1;
 }
 
@@ -107,7 +101,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
+} */
 
 .video {
   height: 50%;

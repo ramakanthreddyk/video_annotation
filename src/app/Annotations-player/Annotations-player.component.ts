@@ -62,9 +62,6 @@ export class AnnotationsPlayerComponent implements OnInit {
 
 
 
-
-    
-
     ngOnInit() {
         this.auth.selectedVideo.subscribe((asset: any) => {
             if (asset.asset_object) {
@@ -75,7 +72,7 @@ export class AnnotationsPlayerComponent implements OnInit {
                         type: 'video/mp4'
                     }
                 ];
-  
+
                 /* get annotations to corresponding timeline with help of assset */
                 this.user.getPossibleAnnotations(asset.asset_id).then((annotationlist: any) => {
                   this.dataSource = annotationlist.data;
@@ -83,13 +80,11 @@ export class AnnotationsPlayerComponent implements OnInit {
             } else {
                 console.log('no asset');
             }
-  
-        });
-  
-        this.user.getAll().subscribe((allusers: any) => {
+       });
+     this.user.getAll().subscribe((allusers: any) => {
           this.users = allusers.data;
         });
-  
+
       }
 
 
@@ -165,7 +160,7 @@ export class AnnotationsPlayerComponent implements OnInit {
                         src: '',
                         href: '',
                         description: eachObject.description,
-                        user_name: eachObject.user_id,
+                        user_id: eachObject.user_id,
                         annotation_id: eachObject.annotation_id
                      }
                  };
@@ -183,8 +178,7 @@ export class AnnotationsPlayerComponent implements OnInit {
         });
 
         this.api.subscriptions.canPlay.subscribe(data => {
-            console.log(this.track.cues.length, this.backupCue.length);
-            if(this.track.cues.length < this.backupCue.length){
+            if (this.track.cues.length < this.backupCue.length) {
                 this.backupCue.forEach(cue => {
                     this.track.addCue (cue);
                 });
@@ -195,77 +189,33 @@ export class AnnotationsPlayerComponent implements OnInit {
 
 
 
+   /* to edit the annotation */
+   openDialog(element): void {
+    const dialogRef = this.dialog.open(EditAnnotationComponent, {
+      width: '250px',
+      data: element
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.annotationdataSource = result;
+    });
+  }
 
 
-    getSelectedUserAnnotations( users) {
-            console.log(users);
-    }
+  onEnterCuePoint(event) {
+    const text = JSON.parse(event.text);
+    this.cuePointData.push(text);
+}
+
+onExitCuePoint(event) {
+    const text = JSON.parse(event.text);
+    const removeAnnotation = this.cuePointData.filter(annotation => annotation.annotation_id === text.annotation_id);
+    this.cuePointData.splice((this.cuePointData).indexOf(removeAnnotation, 1));
+}
 
 
-
-
-
-
-
-
-    openDialog(element): void {
-        const dialogRef = this.dialog.open(EditAnnotationComponent, {
-          width: '250px',
-          data: element
-        });
-        dialogRef.afterClosed().subscribe(result => {
-          this.annotationdataSource = result;
-        });
-      }
-
-
-
-
-    onSubmit(form: NgForm, event: Event) {
-        event.preventDefault();
-
-        if (form.valid) {
-            const jsonData = {
-                title: form.value.title,
-                description: form.value.description,
-                src: form.value.src,
-                href: form.value.href
-            };
-
-            const jsonText = JSON.stringify(jsonData);
-            this.track.addCue(
-                new VTTCue(form.value.startTime, form.value.endTime, jsonText)
-            );
-        }
-    }
-
-
-
-
-
-
-
-
-
-    onClickRemove(cue: TextTrackCue) {
-        this.track.removeCue(cue);
-    }
-
-    onEnterCuePoint(event) {
-        const text = JSON.parse(event.text);
-        this.cuePointData.push(text);
-    }
-
-    onExitCuePoint(event) {
-        const text = JSON.parse(event.text);
-        const removeAnnotation = this.cuePointData.filter(annotation => annotation.annotation_id === text.annotation_id);
-        this.cuePointData.splice((this.cuePointData).indexOf(removeAnnotation, 1));
-    }
-
-
-    voteUp() {
-        console.log('hello');
-    }
+voteUp() {
+    console.log('hello');
+}
 
 
 
@@ -276,9 +226,46 @@ export class AnnotationsPlayerComponent implements OnInit {
 
 
 openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-    duration: 3000,
-    panelClass: ['red-snackbar'],
-    });
+this.snackBar.open(message, action, {
+duration: 3000,
+panelClass: ['red-snackbar'],
+});
+}
+
+    getSelectedUserAnnotations( users) {
+            console.log(users);
     }
+
+
+
+
+    // onSubmit(form: NgForm, event: Event) {
+    //     event.preventDefault();
+    //     if (form.valid) {
+    //         const jsonData = {
+    //             title: form.value.title,
+    //             description: form.value.description,
+    //             src: form.value.src,
+    //             href: form.value.href
+    //         };
+    //         const jsonText = JSON.stringify(jsonData);
+    //         this.track.addCue(
+    //             new VTTCue(form.value.startTime, form.value.endTime, jsonText)
+    //         );
+    //     }
+    // }
+
+
+
+
+
+
+
+
+
+    // onClickRemove(cue: TextTrackCue) {
+    //     this.track.removeCue(cue);
+    // }
+
+
 }
