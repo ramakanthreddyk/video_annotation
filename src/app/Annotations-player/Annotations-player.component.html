@@ -3,20 +3,20 @@
 <vg-player (onPlayerReady)="onPlayerReady($event)" class= "video">
     <div class="navbar" ngClass.lt-md="md" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start stretch" fxLayoutGap="35px">
         <div *ngFor="let annotation of cuePointData">
-            <div class="nav-item" class="info-layer">
-                <h3>{{annotation.title}}</h3>
+            <div class="nav-item" class="info-layer" *ngIf="annotation.user_id">
+                <h3> [User- {{annotation.user_id}}] {{annotation.title}}</h3>
                 <h4>{{annotation.description}}</h4>
                 <p> <mat-icon (click)= "voteUp()">thumb_up</mat-icon></p>
               
             </div>
         </div>
-        <div *ngFor="let annotation of cuePointData">
+        <!-- <div *ngFor="let annotation of cuePointData">
             <div class="nav-item" class="info-layer">
-                <h3>{{annotation.title}}</h3>
+                <h3> User {{annotation.user_id}} {{annotation.title}}</h3>
                 <h4>{{annotation.description}}</h4>
                 <p> <mat-icon (click)= "voteUp()">thumb_up</mat-icon></p>         
             </div>
-        </div>
+        </div> -->
     </div>
 
     <vg-controls>
@@ -87,8 +87,8 @@
 </div>
 <h4>Select Users</h4>
     <mat-form-field>
-        <mat-select placeholder="users" multiple [(ngModel)] = "selectedUsers">
-          <mat-option *ngFor="let user of users" [value]="user.first_name">{{user.first_name}}</mat-option>
+        <mat-select placeholder="users" multiple [(ngModel)] ="selectedUsers">
+          <mat-option *ngFor="let user of users" [value]="user.user_id">{{user.first_name}}</mat-option>
         </mat-select>
       </mat-form-field>
       <button mat-raised-button (click) = "getSelectedUserAnnotations(selectedUsers)">Submit</button>
@@ -237,3 +237,4 @@
             {{ cuePointData?.description }}
         </p>
     </div> -->
+    

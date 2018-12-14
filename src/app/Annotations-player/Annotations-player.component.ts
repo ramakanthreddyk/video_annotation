@@ -5,7 +5,7 @@ import { VgAPI, VgStates } from 'videogular2/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { AuthenticationService, UserService } from '../_services';
-import {MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 
 declare var VTTCue;
 export interface ICuePoint {
@@ -51,13 +51,13 @@ export class AnnotationsPlayerComponent implements OnInit {
     /* storedAnnotations;
     displayStoredAnnotations = [''] */
 
-    json: JSON = JSON;
+    // json: JSON = JSON;
     @ViewChild('media') myVideo: any;
 
     constructor(private snackBar: MatSnackBar,
-                private user: UserService,
-                private auth: AuthenticationService,
-                private dialog: MatDialog) {
+        private user: UserService,
+        private auth: AuthenticationService,
+        private dialog: MatDialog) {
     }
 
 
@@ -68,44 +68,44 @@ export class AnnotationsPlayerComponent implements OnInit {
                 this.asset = asset;
                 this.sources = [
                     {
-                        src: asset.asset_object,
+                        src: this.asset.asset_object,
                         type: 'video/mp4'
                     }
                 ];
 
                 /* get annotations to corresponding timeline with help of assset */
                 this.user.getPossibleAnnotations(asset.asset_id).then((annotationlist: any) => {
-                  this.dataSource = annotationlist.data;
+                    this.dataSource = annotationlist.data;
                 });
             } else {
                 console.log('no asset');
             }
-       });
-     this.user.getAll().subscribe((allusers: any) => {
-          this.users = allusers.data;
         });
-
-      }
+        this.user.getAll().subscribe((allusers: any) => {
+            this.users = allusers.data;
+        });
+console.log(this.track, this.api);
+    }
 
 
     @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
         if (this.api.state === 'playing' && event.shiftKey) {
-             const key = event.key.toLowerCase();
+            const key = event.key.toLowerCase();
             if (event.key !== 'Shift') {
                 if (this.action !== key) {
-                this.tempAnnotation = this.dataSource.filter(eachAnnotation => {
-                    return key === eachAnnotation.key_shortcut;
-                  });
-                  if (this.tempAnnotation.length !== 0) {
-                    if (key === this.tempAnnotation[0].key_shortcut) {
-                      this.selectedAnnotation = this.tempAnnotation[0];
-                      this.action = key;
-                      this.startTime = this.api.currentTime;
-                      this.openSnackBar('started annotation' + ` ${this.tempAnnotation[0].key_description}`, '');
+                    this.tempAnnotation = this.dataSource.filter(eachAnnotation => {
+                        return key === eachAnnotation.key_shortcut;
+                    });
+                    if (this.tempAnnotation.length !== 0) {
+                        if (key === this.tempAnnotation[0].key_shortcut) {
+                            this.selectedAnnotation = this.tempAnnotation[0];
+                            this.action = key;
+                            this.startTime = this.api.currentTime;
+                            this.openSnackBar('started annotation' + ` ${this.tempAnnotation[0].key_description}`, '');
+                        }
+                    } else {
+                        console.log('unknown');
                     }
-                  } else {
-                    console.log('unknown');
-                  }
                 } else {
                     this.endTime = this.api.currentTime;
                     this.openSnackBar('Ended annotation' + ` ${this.selectedAnnotation.key_description}`, '');
@@ -119,17 +119,17 @@ export class AnnotationsPlayerComponent implements OnInit {
                     const jsonText = JSON.stringify(jsonData);
                     const userid = localStorage.getItem('loggedUser');
                     const annotation_to_store = {
-                      start_time: this.startTime,
-                      end_time: this.endTime,
-                      title: jsonData['title'],
-                      description: jsonData['description'],
-                      type_id: this.selectedAnnotation.key_type_id,
-                      asset_id: this.asset.asset_id,
-                      user_id: userid,
-                      annotation_id: new Date().valueOf()
+                        start_time: this.startTime,
+                        end_time: this.endTime,
+                        title: jsonData['title'],
+                        description: jsonData['description'],
+                        type_id: this.selectedAnnotation.key_type_id,
+                        asset_id: this.asset.asset_id,
+                        user_id: userid,
+                        annotation_id: new Date().valueOf()
                     };
                     this.user.storeAnnotation(annotation_to_store).then((res: any) => {
-                      this.annotationdataSource = res.data;
+                        this.annotationdataSource = res.data;
                     });
                     this.track.addCue(
                         new VTTCue(this.startTime, this.endTime, jsonText)
@@ -148,28 +148,28 @@ export class AnnotationsPlayerComponent implements OnInit {
         this.track = this.api.textTracks[0];
         const userid = localStorage.getItem('loggedUser');
         this.user.getPreStoredAnnotations(this.asset.asset_id, userid).then((preannotationlist: any) => {
-          if (preannotationlist.success) {
-              this.annotationdataSource = preannotationlist.data;
-                  if (preannotationlist.data.length > 0) {
+            if (preannotationlist.success) {
+                this.annotationdataSource = preannotationlist.data;
+                if (preannotationlist.data.length > 0) {
                     preannotationlist.data.forEach(eachObject => {
-                      const sampleObject = {
-                      startTime: eachObject.start_time,
-                      endTime: eachObject.end_time,
-                      jsonText: {
-                        title: eachObject.title,
-                        src: '',
-                        href: '',
-                        description: eachObject.description,
-                        user_id: eachObject.user_id,
-                        annotation_id: eachObject.annotation_id
-                     }
-                 };
-                  const cue = new VTTCue ( sampleObject.startTime, sampleObject.endTime, JSON.stringify(sampleObject.jsonText));
-                  this.backupCue.push(cue);
-                  this.track.addCue (cue);
-            });
-      }
-  }
+                        const sampleObject = {
+                            startTime: eachObject.start_time,
+                            endTime: eachObject.end_time,
+                            jsonText: {
+                                title: eachObject.title,
+                                src: '',
+                                href: '',
+                                description: eachObject.description,
+                                user_id: eachObject.user_id,
+                                annotation_id: eachObject.annotation_id
+                            }
+                        };
+                        const cue = new VTTCue(sampleObject.startTime, sampleObject.endTime, JSON.stringify(sampleObject.jsonText));
+                        this.backupCue.push(cue);
+                        this.track.addCue(cue);
+                    });
+                }
+            }
         }, (error) => {
             console.log('error :', error);
         });
@@ -180,7 +180,7 @@ export class AnnotationsPlayerComponent implements OnInit {
         this.api.subscriptions.canPlay.subscribe(data => {
             if (this.track.cues.length < this.backupCue.length) {
                 this.backupCue.forEach(cue => {
-                    this.track.addCue (cue);
+                    this.track.addCue(cue);
                 });
             }
         });
@@ -189,51 +189,97 @@ export class AnnotationsPlayerComponent implements OnInit {
 
 
 
-   /* to edit the annotation */
-   openDialog(element): void {
-    const dialogRef = this.dialog.open(EditAnnotationComponent, {
-      width: '250px',
-      data: element
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      this.annotationdataSource = result;
-    });
-  }
+    /* to edit the annotation */
+    openDialog(element): void {
+        const dialogRef = this.dialog.open(EditAnnotationComponent, {
+            width: '250px',
+            data: element
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            this.annotationdataSource = result;
+        });
+    }
 
 
-  onEnterCuePoint(event) {
-    const text = JSON.parse(event.text);
-    this.cuePointData.push(text);
-}
+    onEnterCuePoint(event) {
+        const text = JSON.parse(event.text);
+        this.cuePointData.push(text);
+    }
 
-onExitCuePoint(event) {
-    const text = JSON.parse(event.text);
-    const removeAnnotation = this.cuePointData.filter(annotation => annotation.annotation_id === text.annotation_id);
-    this.cuePointData.splice((this.cuePointData).indexOf(removeAnnotation, 1));
-}
-
-
-voteUp() {
-    console.log('hello');
-}
+    onExitCuePoint(event) {
+        const text = JSON.parse(event.text);
+        const removeAnnotation = this.cuePointData.filter(annotation => annotation.annotation_id === text.annotation_id);
+        this.cuePointData.splice((this.cuePointData).indexOf(removeAnnotation, 1));
+    }
 
 
-
+    voteUp() {
+        console.log('hello');
+    }
 
 
 
 
 
 
-openSnackBar(message: string, action: string) {
-this.snackBar.open(message, action, {
-duration: 3000,
-panelClass: ['red-snackbar'],
-});
-}
 
-    getSelectedUserAnnotations( users) {
-            console.log(users);
+
+
+    openSnackBar(message: string, action: string) {
+        this.snackBar.open(message, action, {
+            duration: 3000,
+            panelClass: ['red-snackbar'],
+        });
+    }
+
+
+    /* creating errors */
+    getSelectedUserAnnotations(users) {
+        this.sources = [
+            {
+                src: this.asset.asset_object,
+                type: 'video/mp4'
+            }
+        ];
+        users.forEach(user => {
+            this.user.getPreStoredAnnotations(this.asset.asset_id, user).then((preannotationlist: any) => {
+                if (preannotationlist.success) {
+                    this.annotationdataSource = preannotationlist.data;
+                    if (preannotationlist.data.length > 0) {
+                        preannotationlist.data.forEach(eachObject => {
+                            const sampleObject = {
+                                startTime: eachObject.start_time,
+                                endTime: eachObject.end_time,
+                                jsonText: {
+                                    title: eachObject.title,
+                                    src: '',
+                                    href: '',
+                                    description: eachObject.description,
+                                    user_id: eachObject.user_id,
+                                    annotation_id: eachObject.annotation_id
+                                }
+                            };
+                            const cue = new VTTCue(sampleObject.startTime, sampleObject.endTime, JSON.stringify(sampleObject.jsonText));
+                            this.backupCue.push(cue);
+                            this.track.addCue(cue);
+                        });
+                    }
+                }
+            }, (error) => {
+                console.log('error :', error);
+            });
+            this.api.subscriptions.timeUpdate.subscribe(data => {
+                this.currentTime = this.api.currentTime;
+            });
+
+            this.api.subscriptions.canPlay.subscribe(data => {
+                if (this.track.cues.length < this.backupCue.length) {
+                    this.backupCue.forEach(cue => {
+                        this.track.addCue(cue);
+                    });
+                }
+            });
+        });
     }
 
 
