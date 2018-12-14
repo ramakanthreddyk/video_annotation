@@ -165,6 +165,7 @@ console.log(this.track, this.api);
                             }
                         };
                         const cue = new VTTCue(sampleObject.startTime, sampleObject.endTime, JSON.stringify(sampleObject.jsonText));
+                        console.log(cue);
                         this.backupCue.push(cue);
                         this.track.addCue(cue);
                     });
@@ -218,7 +219,22 @@ console.log(this.track, this.api);
     }
 
 
-
+removeAnnotation(cue: any) {
+    console.log(cue);
+    const cueObject = {
+        jsonText: {
+            title: cue.title,
+            src: '',
+            href: '',
+            description: cue.description,
+            user_id: cue.user_id,
+            annotation_id: cue.annotation_id
+        }
+    };
+    const removecue = new VTTCue(cue.start_time, cue.end_time, JSON.stringify(cueObject.jsonText));
+    console.log(removecue);
+        this.track.removeCue(removecue);
+    }
 
 
 
@@ -309,9 +325,7 @@ console.log(this.track, this.api);
 
 
 
-    // onClickRemove(cue: TextTrackCue) {
-    //     this.track.removeCue(cue);
-    // }
+    
 
 
 }
