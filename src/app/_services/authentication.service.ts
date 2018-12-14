@@ -15,10 +15,9 @@ export class AuthenticationService {
   constructor(public http: HttpClient) { }
 
   register(registerData) {
-    console.log(registerData);
     const appUrl = 'http://localhost:3000/api/register';
     return new Promise((resolve, reject) => {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4200' });
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
       this.http.post(appUrl, registerData, { headers: headers })
         .subscribe(res => {
           resolve(res);
@@ -32,7 +31,7 @@ export class AuthenticationService {
     console.log(loginData);
     const appUrl = 'http://localhost:3000/api/login';
     return new Promise((resolve, reject) => {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4200' });
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
       this.http.post(appUrl, loginData, { headers: headers })
         .subscribe(res => {
           resolve(res);
@@ -45,7 +44,7 @@ export class AuthenticationService {
   annotation_description() {
     const appUrl = 'http://localhost:3000/api/annotation_description';
     return new Promise((resolve, reject) => {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4200' });
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
       this.http.get(appUrl, { headers: headers })
         .subscribe(res => {
           resolve(res);
@@ -58,7 +57,7 @@ export class AuthenticationService {
   assets() {
     const appUrl = 'http://localhost:3000/api/assets';
     return new Promise((resolve, reject) => {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4200' });
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
       this.http.get(appUrl, { headers: headers })
         .subscribe(res => {
           resolve(res);
@@ -71,7 +70,7 @@ export class AuthenticationService {
   storeAnnotation(data) {
     const appUrl = 'http://localhost:3000/api/storeAnnotation';
     return new Promise((resolve, reject) => {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4200' });
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
       this.http.post(appUrl, JSON.stringify({ data: data }), { headers: headers })
         .subscribe(res => {
           resolve(res);
@@ -100,7 +99,7 @@ export class AuthenticationService {
   getPreAnnotations(data) {
     const appUrl = 'http://localhost:3000/api/getPreAnnotations';
     return new Promise((resolve, reject) => {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4200' });
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
       this.http.post(appUrl, JSON.stringify({ data: data }), { headers: headers })
         .subscribe(res => {
           resolve(res);

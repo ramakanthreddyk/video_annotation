@@ -115,6 +115,22 @@ router.get('/timeline', function(req, res) {
   });
 });
 
+
+router.post('/register', function(req, res) {
+  const data = req.body;
+  con.query('INSERT INTO  users (First_name,last_name,email,password) VALUES ("'+data.firstName+'","'+data.lastName+'","'+data.email+'","'+data.password+'")', function(err, data) {
+    if(err) {
+      console.log(err);
+      res.json({success: false, message: 'Server error', error: err});
+    } else {
+      if(data.length != 0) {
+        res.json({success: true, message: 'user registered In successfully', data: data});
+      } else {
+        res.json({success: false, message: 'data not found'});
+      }
+    }
+  });
+});
 router.post('/login', function(req, res) {
   const data = req.body;
   con.query('SELECT * FROM users where email = "'+data.email+'"  AND password ="'+data.password+'" ', function(err, data) {

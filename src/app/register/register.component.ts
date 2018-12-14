@@ -26,7 +26,6 @@ export class RegisterComponent implements OnInit {
       this.registerForm = this.formBuilder.group({
           firstName: ['', Validators.required],
           lastName: ['', Validators.required],
-          username: ['', Validators.required],
           email: ['', Validators.required],
           password: ['', [Validators.required, Validators.minLength(6)]]
       });
@@ -42,7 +41,7 @@ export class RegisterComponent implements OnInit {
       if (this.registerForm.invalid) {
         this.openSnackBar('please fill all details', '');
       } else {
-        this.auth.login(this.registerForm.value).then((res: any) => {
+        this.auth.register(this.registerForm.value).then((res: any) => {
           if (res.success === true) {
             this.openSnackBar(res.message, '');
             this.router.navigate(['login']);
