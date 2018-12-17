@@ -10,6 +10,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatCardModule} from '@angular/material/card';
+import { MinuteSecondsPipe } from '../_pipes/date.pipe';
 
 @NgModule({
     imports: [
@@ -24,7 +25,7 @@ import {MatCardModule} from '@angular/material/card';
         MatDialogModule,
         MatCardModule
     ],
-    declarations: [ AnnotationsPlayerComponent ],
+    declarations: [ AnnotationsPlayerComponent, MinuteSecondsPipe ],
     exports: [AnnotationsPlayerComponent]
 })
 export class AnnotationsPlayerModule {

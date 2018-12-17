@@ -116,7 +116,7 @@ export class AnnotationsPlayerComponent implements OnInit {
                         description: this.selectedAnnotation.key_description,
                         src: '',
                         href: '',
-                        user: this.selectedAnnotation.user_id,
+                        user_id: this.selectedAnnotation.user_id,
                         annotation_id: new Date().valueOf()
                     };
                     const jsonText = JSON.stringify(jsonData);
@@ -234,6 +234,7 @@ export class AnnotationsPlayerComponent implements OnInit {
     onEnterCuePoint(event) {
         const text = JSON.parse(event.text);
         this.cuePointData.push(text);
+        console.log(this.cuePointData);
     }
 
     onExitCuePoint(event) {
