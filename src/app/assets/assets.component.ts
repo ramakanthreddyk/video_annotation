@@ -1,3 +1,4 @@
+import { AssetList } from './../_models/assets.model';
 import { AuthenticationService } from './../_services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../_services';
@@ -15,7 +16,7 @@ import { Asset, Timeline} from './../_models';
 export class AssetsComponent implements OnInit {
 
   displayedColumns = ['asset_id', 'asset_name', 'asset_timestamp_from', 'asset_timestamp_to', 'icon'];
-  dataSource: Asset;
+  dataSource: AssetList;
   annotations;
   constructor(private auth: AuthenticationService,
     private users: UserService,
@@ -23,9 +24,9 @@ export class AssetsComponent implements OnInit {
    /* get all assets */
   ngOnInit() {
       this.users.selectedTimeline.subscribe((timeline: Timeline) => {
-        if(timeline) {
-          this.users.getAsset(timeline.timeline_id).then((asset: Asset) => {
-            console.log(asset);
+        if (timeline) {
+          this.users.getAsset(timeline.timeline_id).then((asset: AssetList) => {
+            this.dataSource = asset.filter((videoasset) => videoasset.asset_type_id === '1');
             this.dataSource = asset;
           });
         }

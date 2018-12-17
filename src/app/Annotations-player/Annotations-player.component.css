@@ -5,7 +5,11 @@
     overflow: auto;
     font-family: sans-serif;
     color: white;
+    background: black;
+    opacity: 0.3;
     margin: 20px;
+    padding: 10px;
+    z-index: 100;
 }
 
 

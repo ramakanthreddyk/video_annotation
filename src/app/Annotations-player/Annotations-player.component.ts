@@ -84,7 +84,6 @@ export class AnnotationsPlayerComponent implements OnInit {
         this.user.getAll().subscribe((allusers: any) => {
             this.users = allusers.data;
         });
-console.log(this.track, this.api);
     }
 
 
@@ -192,12 +191,23 @@ console.log(this.track, this.api);
 
     /* to edit the annotation */
     openDialog(element): void {
+        console.log(element);
         const dialogRef = this.dialog.open(EditAnnotationComponent, {
             width: '250px',
             data: element
         });
         dialogRef.afterClosed().subscribe(result => {
             this.annotationdataSource = result;
+            if (result) {
+                /* the loop breaks abruptly */
+                console.log(this.track.cues);
+                for ( let i = 1; i <= this.track.cues.length; i++) {
+                    console.log(this.track.cues.length);
+                    if (this.track.cues[i].startTime) {
+                        this.track.removeCue(this.track.cues[i]);
+                    }
+            }
+            }
         });
     }
 
@@ -215,29 +225,18 @@ console.log(this.track, this.api);
 
 
     voteUp() {
-        console.log('hello');
+        console.log('hello vote up');
     }
 
 
-removeAnnotation(cue: any) {
-    console.log(cue);
-    const cueObject = {
-        jsonText: {
-            title: cue.title,
-            src: '',
-            href: '',
-            description: cue.description,
-            user_id: cue.user_id,
-            annotation_id: cue.annotation_id
+    removeAnnotation(cue: any) {
+        for (let i = 0; i < this.track.cues.length; i++) {
+            console.log(this.track.cues[i]);
+            if (this.track.cues[i].startTime === Number(cue.start_time)) {
+                this.track.removeCue(this.track.cues[i]);
+            }
         }
-    };
-    const removecue = new VTTCue(cue.start_time, cue.end_time, JSON.stringify(cueObject.jsonText));
-    console.log(removecue);
-        this.track.removeCue(removecue);
     }
-
-
-
 
 
 
@@ -250,53 +249,53 @@ removeAnnotation(cue: any) {
 
 
     /* creating errors */
-    getSelectedUserAnnotations(users) {
-        this.sources = [
-            {
-                src: this.asset.asset_object,
-                type: 'video/mp4'
-            }
-        ];
-        users.forEach(user => {
-            this.user.getPreStoredAnnotations(this.asset.asset_id, user).then((preannotationlist: any) => {
-                if (preannotationlist.success) {
-                    this.annotationdataSource = preannotationlist.data;
-                    if (preannotationlist.data.length > 0) {
-                        preannotationlist.data.forEach(eachObject => {
-                            const sampleObject = {
-                                startTime: eachObject.start_time,
-                                endTime: eachObject.end_time,
-                                jsonText: {
-                                    title: eachObject.title,
-                                    src: '',
-                                    href: '',
-                                    description: eachObject.description,
-                                    user_id: eachObject.user_id,
-                                    annotation_id: eachObject.annotation_id
-                                }
-                            };
-                            const cue = new VTTCue(sampleObject.startTime, sampleObject.endTime, JSON.stringify(sampleObject.jsonText));
-                            this.backupCue.push(cue);
-                            this.track.addCue(cue);
-                        });
-                    }
-                }
-            }, (error) => {
-                console.log('error :', error);
-            });
-            this.api.subscriptions.timeUpdate.subscribe(data => {
-                this.currentTime = this.api.currentTime;
-            });
+    // getSelectedUserAnnotations(users) {
+    //     this.sources = [
+    //         {
+    //             src: this.asset.asset_object,
+    //             type: 'video/mp4'
+    //         }
+    //     ];
+    //     users.forEach(user => {
+    //         this.user.getPreStoredAnnotations(this.asset.asset_id, user).then((preannotationlist: any) => {
+    //             if (preannotationlist.success) {
+    //                 this.annotationdataSource = preannotationlist.data;
+    //                 if (preannotationlist.data.length > 0) {
+    //                     preannotationlist.data.forEach(eachObject => {
+    //                         const sampleObject = {
+    //                             startTime: eachObject.start_time,
+    //                             endTime: eachObject.end_time,
+    //                             jsonText: {
+    //                                 title: eachObject.title,
+    //                                 src: '',
+    //                                 href: '',
+    //                                 description: eachObject.description,
+    //                                 user_id: eachObject.user_id,
+    //                                 annotation_id: eachObject.annotation_id
+    //                             }
+    //                         };
+    //                         const cue = new VTTCue(sampleObject.startTime, sampleObject.endTime, JSON.stringify(sampleObject.jsonText));
+    //                         this.backupCue.push(cue);
+    //                         this.track.addCue(cue);
+    //                     });
+    //                 }
+    //             }
+    //         }, (error) => {
+    //             console.log('error :', error);
+    //         });
+    //         this.api.subscriptions.timeUpdate.subscribe(data => {
+    //             this.currentTime = this.api.currentTime;
+    //         });
 
-            this.api.subscriptions.canPlay.subscribe(data => {
-                if (this.track.cues.length < this.backupCue.length) {
-                    this.backupCue.forEach(cue => {
-                        this.track.addCue(cue);
-                    });
-                }
-            });
-        });
-    }
+    //         this.api.subscriptions.canPlay.subscribe(data => {
+    //             if (this.track.cues.length < this.backupCue.length) {
+    //                 this.backupCue.forEach(cue => {
+    //                     this.track.addCue(cue);
+    //                 });
+    //             }
+    //         });
+    //     });
+    // }
 
 
 
@@ -316,16 +315,6 @@ removeAnnotation(cue: any) {
     //         );
     //     }
     // }
-
-
-
-
-
-
-
-
-
-    
 
 
 }

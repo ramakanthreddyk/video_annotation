@@ -6,8 +6,7 @@
             <div class="nav-item" class="info-layer" *ngIf="annotation.user_id">
                 <h3> [User- {{annotation.user_id}}] {{annotation.title}}</h3>
                 <h4>{{annotation.description}}</h4>
-                <p> <mat-icon (click)= "voteUp()">thumb_up</mat-icon></p>
-              
+                <p> <mat-icon (click)= "voteUp()">thumb_up</mat-icon></p> 
             </div>
         </div>
         <!-- <div *ngFor="let annotation of cuePointData">
@@ -93,14 +92,14 @@
                 </div>
     </div>
 </div>
-<h4>Select Users</h4>
+<!-- <h4>Select Users</h4>
     <mat-form-field>
         <mat-select placeholder="users" multiple [(ngModel)] ="selectedUsers">
           <mat-option *ngFor="let user of users" [value]="user.user_id">{{user.first_name}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <button mat-raised-button (click) = "getSelectedUserAnnotations(selectedUsers)">Submit</button>
-<div class="timeline-container mat-elevation-z8" *ngIf="annotationdataSource; else noData">
+      <button mat-raised-button (click) = "getSelectedUserAnnotations(selectedUsers)">Submit</button> -->
+<div class="timeline-container mat-elevation-z8" *ngIf="annotationdataSource">
     <table mat-table [dataSource]="annotationdataSource">
     
         <!-- Timeline Column -->

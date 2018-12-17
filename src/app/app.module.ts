@@ -29,6 +29,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { UsersComponent } from './users/users.component';
 import { AssetsComponent } from './assets/assets.component';
 import { EditAnnotationComponent } from './edit-annotation/edit-annotation.component';
+// import { InfoOverlayComponent } from './info-overlay/info-overlay.component';
 
 @NgModule({
     declarations: [
@@ -39,7 +40,7 @@ import { EditAnnotationComponent } from './edit-annotation/edit-annotation.compo
         SidebarComponent,
         UsersComponent,
         AssetsComponent,
-        EditAnnotationComponent
+        EditAnnotationComponent,
     ],
     imports: [
         BrowserModule,
