@@ -48,6 +48,9 @@ export class AnnotationsPlayerComponent implements OnInit {
     annotationdataSource: AnnotationList;
     users;
     currentTime: any;
+
+    changed;
+    sampleObject;
     /* storedAnnotations;
     displayStoredAnnotations = [''] */
 
@@ -114,7 +117,8 @@ console.log(this.track, this.api);
                         description: this.selectedAnnotation.key_description,
                         src: '',
                         href: '',
-                        user: this.selectedAnnotation.user_id
+                        user: this.selectedAnnotation.user_id,
+                        annotation_id: new Date().valueOf()
                     };
                     const jsonText = JSON.stringify(jsonData);
                     const userid = localStorage.getItem('loggedUser');
@@ -197,8 +201,35 @@ console.log(this.track, this.api);
             data: element
         });
         dialogRef.afterClosed().subscribe(result => {
-            this.annotationdataSource = result;
+            if (result) {
+            this.annotationdataSource = result.result;
+            this.changed = result.changed;
+            this.sampleObject = {
+                startTime: Number(element.start_time),
+                endTime: Number(element.end_time),
+                jsonText: {
+                title: this.changed.title,
+                src: '',
+                href: '',
+                description: this.changed.description,
+                user_id: element.user_id,
+                annotation_id: element.annotation_id
+                }
+            };
+        for ( let i = 0; i < this.track.cues.length; i ++) {
+            if ( this.track.cues[i].endTime === Number(element.end_time) && this.track.cues[i].startTime === Number(element.start_time)) {
+                this.track.cues[i].text = JSON.stringify(this.sampleObject.jsonText);
+                
+                // this.track.removeCue(this.track.cues[i]);
+            }
+        }
+        // const data = JSON.stringify(this.sampleObject.jsonText);
+        // const cue = new VTTCue(this.sampleObject.startTime, this.sampleObject.endTime, data );
+        // this.track.addCue(cue);
+        console.log(this.track);
+    }
         });
+
     }
 
 

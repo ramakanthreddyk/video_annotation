@@ -30,7 +30,7 @@ export class EditAnnotationComponent {
   editAnnotation(annotationdata: EditAnnotation) {
     console.log(annotationdata);
     this.service.editAnnotationData(annotationdata).then((res: any) => {
-      this.dialogRef.close(res.data);
+      this.dialogRef.close({result: res.data, changed: annotationdata});
     }, error => {
       console.log(error);
     });
