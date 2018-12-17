@@ -165,7 +165,8 @@ console.log(this.track, this.api);
                                 href: '',
                                 description: eachObject.description,
                                 user_id: eachObject.user_id,
-                                annotation_id: eachObject.annotation_id
+                                annotation_id: eachObject.annotation_id,
+                                asset_id: eachObject.asset_id
                             }
                         };
                         const cue = new VTTCue(sampleObject.startTime, sampleObject.endTime, JSON.stringify(sampleObject.jsonText));
@@ -200,7 +201,7 @@ console.log(this.track, this.api);
             width: '250px',
             data: element
         });
-        dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe(result => { console.log( result );
             if (result) {
             this.annotationdataSource = result.result;
             this.changed = result.changed;
@@ -213,20 +214,17 @@ console.log(this.track, this.api);
                 href: '',
                 description: this.changed.description,
                 user_id: element.user_id,
-                annotation_id: element.annotation_id
+                annotation_id: element.annotation_id,
+                asset_id: element.asset_id
                 }
             };
-        for ( let i = 0; i < this.track.cues.length; i ++) {
+        for ( let i = 0; i < this.track.cues.length; i ++) { console.log(this.track.cues[i].endTime, element);
             if ( this.track.cues[i].endTime === Number(element.end_time) && this.track.cues[i].startTime === Number(element.start_time)) {
                 this.track.cues[i].text = JSON.stringify(this.sampleObject.jsonText);
-                
-                // this.track.removeCue(this.track.cues[i]);
+                const removeAnnotation = this.cuePointData.filter(annotation => annotation.annotation_id === element.annotation_id);
+                this.cuePointData.splice((this.cuePointData).indexOf(removeAnnotation, 1));
             }
-        }
-        // const data = JSON.stringify(this.sampleObject.jsonText);
-        // const cue = new VTTCue(this.sampleObject.startTime, this.sampleObject.endTime, data );
-        // this.track.addCue(cue);
-        console.log(this.track);
+        } console.log(this.track);
     }
         });
 
@@ -245,8 +243,8 @@ console.log(this.track, this.api);
     }
 
 
-    voteUp() {
-        console.log('hello');
+    voteUp(annotation) {
+        console.log(annotation);
     }
 
 
@@ -303,7 +301,8 @@ removeAnnotation(cue: any) {
                                     href: '',
                                     description: eachObject.description,
                                     user_id: eachObject.user_id,
-                                    annotation_id: eachObject.annotation_id
+                                    annotation_id: eachObject.annotation_id,
+                                    asset_id: eachObject.asset_id
                                 }
                             };
                             const cue = new VTTCue(sampleObject.startTime, sampleObject.endTime, JSON.stringify(sampleObject.jsonText));

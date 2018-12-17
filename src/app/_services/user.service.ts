@@ -103,6 +103,17 @@ export class UserService {
       }
 
 
+      // voteUp(annotation_to_store) {
+      //   return new Promise((resolve, reject) => {
+      //     const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
+      //     this.http.post(`${config.apiUrl}/storeAnnotation`, annotation_to_store, { headers: headers })
+      //       .subscribe(res => {
+      //         resolve(res);
+      //       }, (err) => {
+      //         reject(err);
+      //       });
+      //   });
+      // }
 
 
 
