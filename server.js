@@ -174,8 +174,7 @@ router.post('/storeAnnotation', function(req, res) {
               console.log(err);
               res.json({success: false, message: 'Server error', error: err});
             } else {
-              console.log("SELECT * FROM annotation WHERE asset_id="+data.asset_id+"");
-              con.query("SELECT * FROM annotation WHERE asset_id="+data.asset_id+"", function(err, data2) {
+                con.query("SELECT * FROM annotation WHERE asset_id="+data.asset_id+"", function(err, data2) {
                 res.json({success: true, message: 'Annotation saved successfully!!', data: data2});
               })
               
