@@ -102,6 +102,18 @@ export class UserService {
         });
       }
 
+      deleteAnnotation(annotation_id: string, asset_id: number, user_id: number) {
+        return new Promise((resolve, reject) => {
+          const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
+          this.http.post(`${config.apiUrl}/deleteAnnotation`,
+                  JSON.stringify({ annotation_id: annotation_id, asset_id: asset_id, user_id: user_id}), { headers: headers })
+            .subscribe(res => {
+              resolve(res);
+            }, (err) => {
+              reject(err);
+            });
+        });
+      }
 
       // voteUp(annotation_to_store) {
       //   return new Promise((resolve, reject) => {

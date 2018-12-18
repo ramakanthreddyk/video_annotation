@@ -174,7 +174,7 @@ router.post('/storeAnnotation', function(req, res) {
               console.log(err);
               res.json({success: false, message: 'Server error', error: err});
             } else {
-                con.query("SELECT * FROM annotation WHERE asset_id="+data.asset_id+"", function(err, data2) {
+                con.query("SELECT * FROM annotation WHERE asset_id="+data.asset_id+" AND user_id="+data.user_id+"", function(err, data2) {
                 res.json({success: true, message: 'Annotation saved successfully!!', data: data2});
               })
               
@@ -202,5 +202,22 @@ router.post('/getPreStoredAnnotations', function(req, res) {
           res.json({success: false, message: 'data not found'});
         }
       }
+    });
+});
+
+
+router.post('/deleteAnnotation', function(req, res) {
+  const annotation_id = req.body.annotation_id;
+  const asset_id = req.body.asset_id;
+  const user_id = req.body.user_id;
+    con.query('DELETE FROM annotation WHERE annotation_id  = "'+annotation_id+'" ', function(err, data) {
+      if(err) {
+        console.log(err);
+        res.json({success: false, message: 'Server error', error: err});
+      } else {
+          con.query("SELECT * FROM annotation WHERE asset_id="+asset_id+" AND user_id="+user_id+"", function(err, data2) {
+          res.json({success: true, message: 'Annotation deleted successfully!!', data: data2});
+        }
+          )};
     });
 });

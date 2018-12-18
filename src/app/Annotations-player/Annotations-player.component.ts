@@ -201,7 +201,7 @@ export class AnnotationsPlayerComponent implements OnInit {
             width: '250px',
             data: element
         });
-        dialogRef.afterClosed().subscribe(result => { console.log( result );
+        dialogRef.afterClosed().subscribe(result => {
             if (result) {
             this.annotationdataSource = result.result;
             this.changed = result.changed;
@@ -224,7 +224,7 @@ export class AnnotationsPlayerComponent implements OnInit {
                 const removeAnnotation = this.cuePointData.filter(annotation => annotation.annotation_id === element.annotation_id);
                 this.cuePointData.splice((this.cuePointData).indexOf(removeAnnotation, 1));
             }
-        } console.log(this.track);
+        }
     }
         });
 
@@ -254,8 +254,14 @@ export class AnnotationsPlayerComponent implements OnInit {
             console.log(this.track.cues[i]);
             if (this.track.cues[i].startTime === Number(cue.start_time)) {
                 this.track.removeCue(this.track.cues[i]);
+                const removeAnnotation = this.cuePointData.filter(annotation => annotation.annotation_id === cue.annotation_id);
+                this.cuePointData.splice((this.cuePointData).indexOf(removeAnnotation, 1));
             }
         }
+        this.user.deleteAnnotation(cue.annotation_id, cue.asset_id, cue.user_id).then( (response: any) => {
+            console.log(response.data, this.annotationdataSource);
+            this.annotationdataSource =  response.data;
+        });
     }
 
 
