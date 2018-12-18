@@ -10,23 +10,7 @@
               
             </div>
         </div>
-        <!-- <div *ngFor="let annotation of cuePointData">
-            <div class="nav-item" class="info-layer">
-                <h3> User {{annotation.user_id}} {{annotation.title}}</h3>
-                <h4>{{annotation.description}}</h4>
-                <p> <mat-icon (click)= "voteUp()">thumb_up</mat-icon></p>         
-            </div>
-        </div> -->
     </div>
-    <!-- <tr *ngFor="let cue of track?.cues" class="cue-row">
-        <td>{{ cue.startTime }} </td>
-        <td>{{ cue.endTime }} </td>
-        <td>{{ json.parse(cue.text).title }}</td>
-        <td class="actions">
-            <button type="button" (click)="onClickEdit(cue)">EditCue</button>
-            <button type="button" (click)="onClickRemove(cue)">Remove</button>
-        </td>
-    </tr> -->
     <vg-controls>
         <vg-play-pause></vg-play-pause>
         <vg-playback-button></vg-playback-button>
@@ -93,13 +77,6 @@
                 </div>
     </div>
 </div>
-<!-- <h4>Select Users</h4>
-    <mat-form-field>
-        <mat-select placeholder="users" multiple [(ngModel)] ="selectedUsers">
-          <mat-option *ngFor="let user of users" [value]="user.user_id">{{user.first_name}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <button mat-raised-button (click) = "getSelectedUserAnnotations(selectedUsers)">Submit</button> -->
 <div class="timeline-container mat-elevation-z8" *ngIf="annotationdataSource">
     <table mat-table [dataSource]="annotationdataSource">
     

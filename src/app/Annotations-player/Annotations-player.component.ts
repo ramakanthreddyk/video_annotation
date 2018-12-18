@@ -262,7 +262,6 @@ export class AnnotationsPlayerComponent implements OnInit {
             }
         }
         this.user.deleteAnnotation(cue.annotation_id, cue.asset_id, cue.user_id).then( (response: any) => {
-            console.log(response.data, this.annotationdataSource);
             this.annotationdataSource =  response.data;
         });
     }
