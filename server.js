@@ -221,3 +221,21 @@ router.post('/deleteAnnotation', function(req, res) {
           )};
     });
 });
+
+
+
+router.post('/voteUp', function(req, res) {
+  const annotation_id = req.body.annotation_id;
+  const asset_id = req.body.asset_id;
+  const user_id = req.body.user_id;
+    con.query('UPDATE annotation SET vote = vote + 1 WHERE annotation_id  = "'+annotation_id+'" ', function(err, data) {
+      if(err) {
+        console.log(err);
+        res.json({success: false, message: 'Server error', error: err});
+      } else {
+          con.query("SELECT * FROM annotation WHERE asset_id="+asset_id+" AND user_id="+user_id+"", function(err, data2) {
+          res.json({success: true, message: 'Voted successfully!!', data: data2});
+        }
+          )};
+    });
+});

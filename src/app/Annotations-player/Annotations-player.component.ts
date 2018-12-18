@@ -245,7 +245,10 @@ export class AnnotationsPlayerComponent implements OnInit {
 
 
     voteUp(annotation) {
-        console.log(annotation);
+        this.user.voteUp(annotation.annotation_id, annotation.asset_id, annotation.user_id).then( (response: any) => {
+            this.annotationdataSource =  response.data;
+
+        });
     }
 
 
