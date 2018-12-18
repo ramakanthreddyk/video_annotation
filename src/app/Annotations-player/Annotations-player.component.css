@@ -118,7 +118,6 @@
 
 
 .timeline-container {
-    min-height: 400px;
     overflow: auto;
   }
 table {
