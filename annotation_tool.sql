@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Dec 12, 2018 at 02:41 PM
--- Server version: 10.1.25-MariaDB
--- PHP Version: 7.1.7
+-- Host: 127.0.0.1
+-- Generation Time: Dec 23, 2018 at 01:23 PM
+-- Server version: 10.1.30-MariaDB
+-- PHP Version: 5.6.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -47,15 +47,14 @@ CREATE TABLE `annotation` (
 --
 
 INSERT INTO `annotation` (`asset_id`, `user_id`, `key_type_id`, `start_time`, `end_time`, `title`, `description`, `vote`, `asset_annotation_start_time`, `asset_annotation_end_time`, `annotation_id`) VALUES
-(1, 1, 0, '90.091138', '149.293886', 'Test12', 'run run run', 0, '2018-12-01 14:01:30', '2018-12-01 14:02:29', '1544376175514'),
-(1, 1, 0, '290.876182', '365.596669', 'Test', 'user is walking', 0, '2018-12-01 14:04:50', '2018-12-01 14:06:05', '1544376264525'),
-(1, 1, 0, '509.700466', '581.752364', 'Test', 'user is running', 0, '2018-12-01 14:08:29', '2018-12-01 14:09:41', '1544376269954'),
-(1, 1, 0, '106.743553', '210.818517', 'Test', 'user is walking', 0, '2018-12-01 14:01:46', '2018-12-01 14:03:30', '1544376301744'),
-(1, 1, 0, '525.894739', '528.3159', 'Test', 'user is walking', 0, '2018-12-01 14:08:45', '2018-12-01 14:08:48', '1544442638287'),
-(1, 1, 0, '93.062698', '97.045472', 'Test', 'user is walking', 0, '2018-12-01 14:01:33', '2018-12-01 14:01:37', '1544443520226'),
-(1, 1, 0, '301.307968', '307.475006', 'Test', 'user is walking', 0, '2018-12-01 14:05:01', '2018-12-01 14:05:07', '1544443789921'),
-(2, 1, 0, '90.822541', '112.343487', 'Test', 'user is walking', 0, '2018-12-01 14:01:30', '2018-12-01 14:01:52', '1544444095985'),
-(2, 1, 0, '104.172559', '106.548684', 'Test', 'user is running', 0, '2018-12-01 14:01:44', '2018-12-01 14:01:46', '1544444125208');
+(2, 1, 0, '50.095826', '83.476032', 'Test', 'user is walking', 1, '2018-12-01 14:00:50', '2018-12-01 14:01:23', '1545160930845'),
+(1, 1, 0, '105.566625', '134.506606', 'Test', 'user is walking', 0, '2018-12-01 14:01:45', '2018-12-01 14:02:14', '1545161082474'),
+(1, 1, 0, '301.298893', '346.049855', 'Test', 'user is walking', 0, '2018-12-01 14:05:01', '2018-12-01 14:05:46', '1545161242127'),
+(2, 4, 0, '25.463454', '75.344108', 'Test', 'user is walking', 1, '2018-12-01 14:00:25', '2018-12-01 14:01:15', '1545245616434'),
+(1, 4, 0, '106.673327', '158.289453', 'Test', 'user is walking', 0, '2018-12-01 14:01:46', '2018-12-01 14:02:38', '1545566890088'),
+(1, 4, 0, '316.593685', '351.229268', 'Test', 'user is walking', 0, '2018-12-01 14:05:16', '2018-12-01 14:05:51', '1545566896173'),
+(1, 4, 0, '206.543709', '239.317032', 'Test', 'user is walking', 0, '2018-12-01 14:03:26', '2018-12-01 14:03:59', '1545567085546'),
+(1, 4, 0, '271.390448', '409.552859', 'Test', 'user is walking', 0, '2018-12-01 14:04:31', '2018-12-01 14:06:49', '1545567091417');
 
 -- --------------------------------------------------------
 
@@ -117,8 +116,8 @@ CREATE TABLE `asset` (
 --
 
 INSERT INTO `asset` (`asset_name`, `asset_id`, `asset_type_id`, `asset_object`, `asset_from`, `asset_to`) VALUES
-('January', 1, '1', 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', '2018-12-01 14:00:00', '2018-12-01 14:29:00'),
-('January', 2, '1', 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', '2018-12-01 14:00:00', '2018-12-01 14:09:56');
+('asset01', 1, '1', 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', '2018-12-01 14:00:00', '2018-12-01 14:29:00'),
+('asset02', 2, '1', 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', '2018-12-01 14:00:00', '2018-12-01 14:09:56');
 
 -- --------------------------------------------------------
 
@@ -168,7 +167,9 @@ CREATE TABLE `timeline` (
 --
 
 INSERT INTO `timeline` (`timeline_id`, `timeline_name`, `timeline_from`, `timeline_to`) VALUES
-(1, 'Year_2018', '2018-12-01 14:00:00', '2018-12-01 15:00:00');
+(1, 'timeline01', '2018-12-01 14:00:00', '2018-12-01 15:00:00'),
+(2, 'timeline02', '2018-11-01 08:00:00', '2018-11-01 15:00:00'),
+(3, 'timeline03', '2017-10-01 08:00:00', '2018-10-01 10:00:00');
 
 -- --------------------------------------------------------
 
@@ -189,7 +190,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email`, `password`) VALUES
-(1, 'Ramakanth', 'Reddy', 'ram@gmail.com', 'rk12345');
+(1, 'Ramakanth', 'Reddy', 'ram@gmail.com', 'rk12345'),
+(2, 'SAI', 'BHARGAVI', 'Beesu@gmail.com', '123456'),
+(4, 'SAI', 'BHARGAVI', 'bee@gmail.com', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjEyMzQ1NiI.K5cHe9i9zgVvF56PzM15Yq9h7i9pR-hxYm58VCgmdtE');
 
 --
 -- Indexes for dumped tables
@@ -235,26 +238,31 @@ ALTER TABLE `users`
 --
 ALTER TABLE `annotation_key_table`
   MODIFY `key_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `asset`
 --
 ALTER TABLE `asset`
   MODIFY `asset_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `asset_type`
 --
 ALTER TABLE `asset_type`
   MODIFY `asset_type_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `timeline`
 --
 ALTER TABLE `timeline`
-  MODIFY `timeline_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `timeline_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
