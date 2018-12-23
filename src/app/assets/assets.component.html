@@ -13,14 +13,14 @@
       <td mat-cell *matCellDef="let element"> {{element.asset_name}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="asset_timestamp_from">
+    <ng-container matColumnDef="asset_from">
       <th mat-header-cell *matHeaderCellDef> From </th>
-      <td mat-cell *matCellDef="let element"> {{element.asset_timestamp_from}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.asset_from | date:'medium'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="asset_timestamp_to">
+    <ng-container matColumnDef="asset_to">
       <th mat-header-cell *matHeaderCellDef> To </th>
-      <td mat-cell *matCellDef="let element"> {{element.asset_timestamp_to}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.asset_to | date:'medium'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="icon">

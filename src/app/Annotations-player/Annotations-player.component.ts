@@ -110,17 +110,18 @@ export class AnnotationsPlayerComponent implements OnInit {
                     }
                 } else {
                     this.endTime = this.api.currentTime;
+                    const userid = localStorage.getItem('loggedUser');
                     this.openSnackBar('Ended annotation' + ` ${this.selectedAnnotation.key_description}`, '');
                     const jsonData = {
                         title: 'Test',
                         description: this.selectedAnnotation.key_description,
                         src: '',
                         href: '',
-                        user_id: this.selectedAnnotation.user_id,
+                        asset_id: this.asset.asset_id,
+                        user_id: userid,
                         annotation_id: new Date().valueOf()
                     };
                     const jsonText = JSON.stringify(jsonData);
-                    const userid = localStorage.getItem('loggedUser');
                     const annotation_to_store = {
                         start_time: this.startTime,
                         end_time: this.endTime,
@@ -234,7 +235,6 @@ export class AnnotationsPlayerComponent implements OnInit {
     onEnterCuePoint(event) {
         const text = JSON.parse(event.text);
         this.cuePointData.push(text);
-        console.log(this.cuePointData);
     }
 
     onExitCuePoint(event) {
@@ -247,6 +247,7 @@ export class AnnotationsPlayerComponent implements OnInit {
     voteUp(annotation) {
         this.user.voteUp(annotation.annotation_id, annotation.asset_id, annotation.user_id).then( (response: any) => {
             this.annotationdataSource =  response.data;
+            console.log(annotation);
 
         });
     }
@@ -325,25 +326,4 @@ export class AnnotationsPlayerComponent implements OnInit {
             });
         });
     }
-
-
-
-
-    // onSubmit(form: NgForm, event: Event) {
-    //     event.preventDefault();
-    //     if (form.valid) {
-    //         const jsonData = {
-    //             title: form.value.title,
-    //             description: form.value.description,
-    //             src: form.value.src,
-    //             href: form.value.href
-    //         };
-    //         const jsonText = JSON.stringify(jsonData);
-    //         this.track.addCue(
-    //             new VTTCue(form.value.startTime, form.value.endTime, jsonText)
-    //         );
-    //     }
-    // }
-
-
 }

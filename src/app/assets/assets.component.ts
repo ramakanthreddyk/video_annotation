@@ -15,7 +15,7 @@ import { Asset, Timeline} from './../_models';
 })
 export class AssetsComponent implements OnInit {
 
-  displayedColumns = ['asset_id', 'asset_name', 'asset_timestamp_from', 'asset_timestamp_to', 'icon'];
+  displayedColumns = ['asset_id', 'asset_name', 'asset_from', 'asset_to', 'icon'];
   dataSource: AssetList;
   annotations;
   constructor(private auth: AuthenticationService,
@@ -36,7 +36,7 @@ export class AssetsComponent implements OnInit {
   /* goto playercomponent by taking the selected video along  */
   gotoVideo(data: Asset) {
     this.auth.selectedVideoActive(data);
-    this.router.navigate(['Player']);
+    this.router.navigate(['Annotation']);
 /*     this.auth.annotation_description().then((res: any) => {
       if (res.success === true) {
         this.annotations = res.data.filter((value: any) => {

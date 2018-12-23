@@ -12,7 +12,7 @@ import { from } from 'rxjs';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  displayedColumns = ['timeline_id', 'timeline_name', 'timeline_timestamp_from', 'timeline_timestamp_to', 'icon'];
+  displayedColumns = ['timeline_id', 'timeline_name', 'timeline_from', 'timeline_to', 'icon'];
   dataSource: TimelineList;
   constructor(private auth: AuthenticationService,
               private users: UserService,

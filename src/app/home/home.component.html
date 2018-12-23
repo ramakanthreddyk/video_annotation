@@ -13,14 +13,14 @@
       <td mat-cell *matCellDef="let element"> {{element.timeline_name}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="timeline_timestamp_from">
+    <ng-container matColumnDef="timeline_from">
       <th mat-header-cell *matHeaderCellDef> From </th>
-      <td mat-cell *matCellDef="let element"> {{element.timeline_timestamp_from}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.timeline_from | date:'medium'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="timeline_timestamp_to">
+    <ng-container matColumnDef="timeline_to">
       <th mat-header-cell *matHeaderCellDef> To </th>
-      <td mat-cell *matCellDef="let element"> {{element.timeline_timestamp_to}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.timeline_to | date:'medium'}} </td>
     </ng-container>
     <ng-container matColumnDef="icon">
       <th mat-header-cell *matHeaderCellDef>Open</th>

@@ -14,7 +14,7 @@ export const ROUTES: Routes = [
         component: HomeComponent, canActivate: [AuthGuard]
     },
     {
-        path: 'Player',
+        path: 'Annotation',
         component: AnnotationsPlayerComponent, canActivate: [AuthGuard]
     },
     {

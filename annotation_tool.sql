@@ -108,15 +108,15 @@ CREATE TABLE `asset` (
   `asset_id` int(11) NOT NULL,
   `asset_type_id` varchar(255) NOT NULL,
   `asset_object` varchar(255) NOT NULL,
-  `asset_timestamp_from` datetime DEFAULT NULL,
-  `asset_timestamp_to` datetime DEFAULT NULL
+  `asset_from` datetime DEFAULT NULL,
+  `asset_to` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `asset`
 --
 
-INSERT INTO `asset` (`asset_name`, `asset_id`, `asset_type_id`, `asset_object`, `asset_timestamp_from`, `asset_timestamp_to`) VALUES
+INSERT INTO `asset` (`asset_name`, `asset_id`, `asset_type_id`, `asset_object`, `asset_from`, `asset_to`) VALUES
 ('January', 1, '1', 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', '2018-12-01 14:00:00', '2018-12-01 14:29:00'),
 ('January', 2, '1', 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', '2018-12-01 14:00:00', '2018-12-01 14:09:56');
 
@@ -159,15 +159,15 @@ CREATE TABLE `asset_type` (
 CREATE TABLE `timeline` (
   `timeline_id` int(11) NOT NULL,
   `timeline_name` varchar(255) NOT NULL,
-  `timeline_timestamp_from` datetime DEFAULT NULL,
-  `timeline_timestamp_to` datetime DEFAULT NULL
+  `timeline_from` datetime DEFAULT NULL,
+  `timeline_to` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `timeline`
 --
 
-INSERT INTO `timeline` (`timeline_id`, `timeline_name`, `timeline_timestamp_from`, `timeline_timestamp_to`) VALUES
+INSERT INTO `timeline` (`timeline_id`, `timeline_name`, `timeline_from`, `timeline_to`) VALUES
 (1, 'Year_2018', '2018-12-01 14:00:00', '2018-12-01 15:00:00');
 
 -- --------------------------------------------------------

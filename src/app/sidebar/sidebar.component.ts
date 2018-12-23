@@ -9,10 +9,10 @@ import { Sidemenu } from '../_models';
 export class SidebarComponent implements OnInit {
     @Output() selected_Sidemenu = new EventEmitter<number>();
     sidemenu = [
-    new Sidemenu('Home', 1),
-    new Sidemenu('Assets', 2),
-    new Sidemenu('Player', 3),
-    new Sidemenu('Users', 4)];
+    new Sidemenu('Home', 1, 'home'),
+    new Sidemenu('Assets', 2, 'web_asset'),
+    new Sidemenu('Annotation', 3, 'video_library'),
+    new Sidemenu('Users', 4, 'people')];
     active;
   constructor() {
   }
