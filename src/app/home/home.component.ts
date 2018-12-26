@@ -14,18 +14,14 @@ import { from } from 'rxjs';
 export class HomeComponent implements OnInit {
   displayedColumns = ['timeline_id', 'timeline_name', 'timeline_from', 'timeline_to', 'icon'];
   dataSource: TimelineList;
-  constructor(private auth: AuthenticationService,
-              private users: UserService,
+  constructor(private users: UserService,
               private router: Router) { }
 
   ngOnInit() {
-
-    this.users.getTimeline().subscribe((timeline) => {
-      this.dataSource = timeline['data'];
-      console.log(this.dataSource);
+    this.users.getTimeline().subscribe((timeline: any) => {
+      this.dataSource = timeline.data;
     });
   }
-
 
   gotoAssets(data: Timeline) {
     this.users.selectedTimelineActive(data);

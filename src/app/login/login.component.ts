@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       this.openSnackBar('Please fill all details', '');
     } else {
-      this.user.login(this.loginForm.value).subscribe((res: any) => {
+      this.auth.login(this.loginForm.value).subscribe((res: any) => {
         if (res.success === true) {
           this.openSnackBar(res.message, '');
           localStorage.setItem('loggedUser', res.data[0].user_id);

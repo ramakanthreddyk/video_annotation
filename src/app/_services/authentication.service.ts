@@ -1,7 +1,10 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { Observable } from 'rxjs/observable';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { User, Timeline } from '../_models';
 
 @Injectable({
   providedIn: 'root'
@@ -12,73 +15,10 @@ export class AuthenticationService {
   selectedAnnotation: BehaviorSubject<Array<Object>> = new BehaviorSubject([]);
   getUserVideoId: BehaviorSubject<Object> = new BehaviorSubject({});
   getLoggedInfo: BehaviorSubject<Boolean> = new BehaviorSubject(false);
-  constructor(public http: HttpClient) { }
 
-  register(registerData) {
-    const appUrl = 'http://localhost:3000/api/register';
-    return new Promise((resolve, reject) => {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
-      this.http.post(appUrl, registerData, { headers: headers })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          reject(err);
-        });
-    });
-  }
+  headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
+  constructor(private http: HttpClient) { }
 
-  login(loginData) {
-    console.log(loginData);
-    const appUrl = 'http://localhost:3000/api/login';
-    return new Promise((resolve, reject) => {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
-      this.http.post(appUrl, loginData, { headers: headers })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          reject(err);
-        });
-    });
-  }
-
-  annotation_description() {
-    const appUrl = 'http://localhost:3000/api/annotation_description';
-    return new Promise((resolve, reject) => {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
-      this.http.get(appUrl, { headers: headers })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          reject(err);
-        });
-    });
-  }
-
-  assets() {
-    const appUrl = 'http://localhost:3000/api/assets';
-    return new Promise((resolve, reject) => {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
-      this.http.get(appUrl, { headers: headers })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          reject(err);
-        });
-    });
-  }
-
-  storeAnnotation(data) {
-    const appUrl = 'http://localhost:3000/api/storeAnnotation';
-    return new Promise((resolve, reject) => {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
-      this.http.post(appUrl, JSON.stringify({ data: data }), { headers: headers })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          reject(err);
-        });
-    });
-  }
 
   selectedVideoActive(value) {
     this.selectedVideo.next(value);
@@ -96,17 +36,12 @@ export class AuthenticationService {
     this.getLoggedInfo.next(val);
   }
 
-  getPreAnnotations(data) {
-    const appUrl = 'http://localhost:3000/api/getPreAnnotations';
-    return new Promise((resolve, reject) => {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
-      this.http.post(appUrl, JSON.stringify({ data: data }), { headers: headers })
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          reject(err);
-        });
-    });
+  login(loginData: any): Observable<any> {
+    return this.http.post(`${environment.backendUrl}/login`, loginData, { headers: this.headers });
+  }
+
+  register(user: User) {
+    return this.http.post(`${environment.backendUrl}/register`, user);
   }
 
   logout() {

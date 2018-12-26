@@ -41,7 +41,7 @@ export class RegisterComponent implements OnInit {
       if (this.registerForm.invalid) {
         this.openSnackBar('please fill all details', '');
       } else {
-        this.auth.register(this.registerForm.value).then((res: any) => {
+        this.auth.register(this.registerForm.value).subscribe((res: any) => {
           if (res.success === true) {
             this.openSnackBar(res.message, '');
             this.router.navigate(['login']);

@@ -24,7 +24,7 @@ import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 // used to create fake backend
 import { AuthGuard } from './_guards';
-import { AuthenticationService, UserService } from './_services';
+import { AuthenticationService, UserService, AnnotationService } from './_services';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { UsersComponent } from './users/users.component';
 import { AssetsComponent } from './assets/assets.component';
@@ -63,7 +63,8 @@ import { EditAnnotationComponent } from './edit-annotation/edit-annotation.compo
     providers: [
         AuthGuard,
         AuthenticationService,
-        UserService
+        UserService,
+        AnnotationService
     ],
     entryComponents: [EditAnnotationComponent],
     bootstrap: [ AppComponent ]

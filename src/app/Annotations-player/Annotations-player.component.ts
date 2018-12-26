@@ -3,7 +3,7 @@ import { User, Annotation, AnnotationList } from './../_models';
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { VgAPI } from 'videogular2/core';
 import { MatSnackBar } from '@angular/material';
-import { AuthenticationService, UserService } from '../_services';
+import { AuthenticationService, UserService, AnnotationService } from '../_services';
 import { MatDialog } from '@angular/material';
 
 declare var VTTCue;
@@ -59,6 +59,7 @@ export class AnnotationsPlayerComponent implements OnInit {
     constructor(private snackBar: MatSnackBar,
         private user: UserService,
         private auth: AuthenticationService,
+        private annotationservice: AnnotationService,
         private dialog: MatDialog) {
     }
 
@@ -76,7 +77,7 @@ export class AnnotationsPlayerComponent implements OnInit {
                 ];
 
                 /* get annotations to corresponding timeline with help of assset */
-                this.user.getPossibleAnnotations(asset.asset_id).subscribe((annotationlist: any) => {
+                this.annotationservice.getPossibleAnnotations(asset.asset_id).subscribe((annotationlist: any) => {
                     this.dataSource = annotationlist.data;
                 });
             } else {
@@ -131,7 +132,7 @@ export class AnnotationsPlayerComponent implements OnInit {
                         user_id: userid,
                         annotation_id: new Date().valueOf()
                     };
-                    this.user.storeAnnotation(annotation_to_store).then((res: any) => {
+                    this.annotationservice.storeAnnotation(annotation_to_store).subscribe((res: any) => {
                         this.annotationdataSource = res.data;
                     });
                     this.track.addCue(
@@ -150,7 +151,7 @@ export class AnnotationsPlayerComponent implements OnInit {
         this.api = api;
         this.track = this.api.textTracks[0];
         const userid = localStorage.getItem('loggedUser');
-        this.user.getPreStoredAnnotations(this.asset.asset_id, userid).then((preannotationlist: any) => {
+        this.annotationservice.getPreStoredAnnotations(this.asset.asset_id, userid).subscribe((preannotationlist: any) => {
             if (preannotationlist.success) {
                 this.annotationdataSource = preannotationlist.data;
                 if (preannotationlist.data.length > 0) {
@@ -244,7 +245,7 @@ export class AnnotationsPlayerComponent implements OnInit {
 
 
     voteUp(annotation) {
-        this.user.voteUp(annotation.annotation_id, annotation.asset_id, annotation.user_id).then( (response: any) => {
+        this.annotationservice.voteUp(annotation.annotation_id, annotation.asset_id, annotation.user_id).subscribe( (response: any) => {
             this.annotationdataSource =  response.data;
             console.log(annotation);
 
@@ -261,7 +262,7 @@ export class AnnotationsPlayerComponent implements OnInit {
                 this.cuePointData.splice((this.cuePointData).indexOf(removeAnnotation, 1));
             }
         }
-        this.user.deleteAnnotation(cue.annotation_id, cue.asset_id, cue.user_id).then( (response: any) => {
+        this.annotationservice.deleteAnnotation(cue.annotation_id, cue.asset_id, cue.user_id).subscribe( (response: any) => {
             this.annotationdataSource =  response.data;
         });
     }
@@ -285,7 +286,7 @@ export class AnnotationsPlayerComponent implements OnInit {
             }
         ];
         users.forEach(user => {
-            this.user.getPreStoredAnnotations(this.asset.asset_id, user).then((preannotationlist: any) => {
+            this.annotationservice.getPreStoredAnnotations(this.asset.asset_id, user).subscribe((preannotationlist: any) => {
                 if (preannotationlist.success) {
                     this.annotationdataSource = preannotationlist.data;
                     if (preannotationlist.data.length > 0) {
