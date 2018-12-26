@@ -9,13 +9,6 @@
                 <p> <mat-icon (click)= "voteUp(annotation)">thumb_up</mat-icon></p>  
             </div>
         </div>
-        <div *ngFor="let annotation of cuePointData">
-          <div class="nav-item" class="info-layer" *ngIf="annotation.title">
-              <h3>{{annotation.title}}</h3>
-              <h4>{{annotation.description}}</h4>
-              <p> <mat-icon (click)= "voteUp(annotation)">thumb_up</mat-icon></p>  
-          </div>
-      </div>
     </div>
     <vg-controls>
         <vg-play-pause></vg-play-pause>

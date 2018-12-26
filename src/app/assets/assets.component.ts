@@ -1,8 +1,9 @@
 import { AssetList } from './../_models/assets.model';
 import { AuthenticationService } from './../_services/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../_services';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { Asset, Timeline} from './../_models';
 
@@ -13,11 +14,12 @@ import { Asset, Timeline} from './../_models';
   templateUrl: './assets.component.html',
   styleUrls: ['./assets.component.css']
 })
-export class AssetsComponent implements OnInit {
+export class AssetsComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['asset_id', 'asset_name', 'asset_from', 'asset_to', 'icon'];
   dataSource: AssetList;
-  annotations;
+  private _assetsubscription = Subscription.EMPTY;
+
   constructor(private auth: AuthenticationService,
     private users: UserService,
     private router: Router) { }
@@ -25,9 +27,10 @@ export class AssetsComponent implements OnInit {
   ngOnInit() {
       this.users.selectedTimeline.subscribe((timeline: Timeline) => {
         if (timeline) {
-          this.users.getAsset(timeline.timeline_id).then((asset: AssetList) => {
-            this.dataSource = asset.filter((videoasset) => videoasset.asset_type_id === '1');
-            this.dataSource = asset;
+          this._assetsubscription = this.users.getAsset(timeline.timeline_id).subscribe((asset: any) => {
+            const data: AssetList = asset.data;
+            this.dataSource = data.filter((videoasset) => videoasset.asset_type_id === '1');
+            this.dataSource = data;
           });
         }
       });
@@ -37,20 +40,9 @@ export class AssetsComponent implements OnInit {
   gotoVideo(data: Asset) {
     this.auth.selectedVideoActive(data);
     this.router.navigate(['Annotation']);
-/*     this.auth.annotation_description().then((res: any) => {
-      if (res.success === true) {
-        this.annotations = res.data.filter((value: any) => {
-          return value.Video_Id === data.Video_Id;
-        });
-        this.auth.getSelectedAnnotation(this.annotations);
-        const username = localStorage.getItem('token');
-        const videodata = {videoId: this.annotations[0].Video_Id, username: username};
-        this.auth.getUserVideoIdmethod( videodata );
-        this.router.navigate(['Player']);
-      } else {
-      }
-    }, (err) => {
-      console.log(err);
-    }); */
+  }
+
+  ngOnDestroy() {
+    this._assetsubscription.unsubscribe();
   }
 }

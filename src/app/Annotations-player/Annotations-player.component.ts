@@ -1,8 +1,7 @@
 import { EditAnnotationComponent } from './../edit-annotation/edit-annotation.component';
 import { User, Annotation, AnnotationList } from './../_models';
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
-import { VgAPI, VgStates } from 'videogular2/core';
-import { NgForm } from '@angular/forms';
+import { VgAPI } from 'videogular2/core';
 import { MatSnackBar } from '@angular/material';
 import { AuthenticationService, UserService } from '../_services';
 import { MatDialog } from '@angular/material';
@@ -77,7 +76,7 @@ export class AnnotationsPlayerComponent implements OnInit {
                 ];
 
                 /* get annotations to corresponding timeline with help of assset */
-                this.user.getPossibleAnnotations(asset.asset_id).then((annotationlist: any) => {
+                this.user.getPossibleAnnotations(asset.asset_id).subscribe((annotationlist: any) => {
                     this.dataSource = annotationlist.data;
                 });
             } else {

@@ -60,7 +60,7 @@ router.get('/assets', function(req, res) {
       res.json({success: false, message: 'Server error', error: err});
     } else {
       if(data.length != 0) {
-        res.json({data: data});
+        res.json({data});
       } else {
         res.json({success: false, message: 'data not found'});
       }
