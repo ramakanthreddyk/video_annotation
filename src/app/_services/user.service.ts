@@ -3,13 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/observable';
 
-import { User, Timeline } from '../_models';
+import { Timeline } from '../_models';
 import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UserService {
   selectedTimeline: BehaviorSubject<Timeline> = new BehaviorSubject<Timeline>(null);
-  headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
+  headers = new HttpHeaders({ 'Content-Type': 'application/json'});
   constructor(private http: HttpClient) { }
 
   selectedTimelineActive(value: Timeline) {

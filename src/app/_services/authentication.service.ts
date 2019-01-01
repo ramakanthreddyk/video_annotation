@@ -16,7 +16,7 @@ export class AuthenticationService {
   getUserVideoId: BehaviorSubject<Object> = new BehaviorSubject({});
   getLoggedInfo: BehaviorSubject<Boolean> = new BehaviorSubject(false);
 
-  headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
+  headers = new HttpHeaders({ 'Content-Type': 'application/json'});
   constructor(private http: HttpClient) { }
 
 

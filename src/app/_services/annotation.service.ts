@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AnnotationService {
-  headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:4300' });
+  headers = new HttpHeaders({ 'Content-Type': 'application/json'});
   constructor(private http: HttpClient) { }
 
   getPossibleAnnotations(asset: string) {
