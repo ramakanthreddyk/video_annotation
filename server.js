@@ -27,7 +27,7 @@ con.connect(function(err) {
 });
 
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+  res.send('Hello you are connected to the server!');
 });
 
 app.listen(3000, function () {

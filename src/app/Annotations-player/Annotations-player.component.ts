@@ -127,7 +127,7 @@ export class AnnotationsPlayerComponent implements OnInit {
                         end_time: this.endTime,
                         title: jsonData['title'],
                         description: jsonData['description'],
-                        type_id: this.selectedAnnotation.key_type_id,
+                        key_type_id: this.selectedAnnotation.key_type_id,
                         asset_id: this.asset.asset_id,
                         user_id: userid,
                         annotation_id: new Date().valueOf()
