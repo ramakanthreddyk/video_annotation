@@ -6,8 +6,8 @@
             <div class="nav-item" class="info-layer" *ngIf="annotation.title">
                 <h3>{{annotation.title}}</h3>
                 <h4>{{annotation.description}}</h4>
-                <p> <mat-icon (click)= "voteUp(annotation)" style="padding-right: 70px">thumb_up</mat-icon>
-                <mat-icon (click)= "voteDown(annotation)">thumb_down</mat-icon></p>    
+                <p> <mat-icon (click)= "voteUp(annotation)" style="padding-right: 70px; color: green">thumb_up</mat-icon>
+                <mat-icon (click)= "voteDown(annotation)" style="color: red">thumb_down</mat-icon></p>    
             </div>
         </div>
     </div>
