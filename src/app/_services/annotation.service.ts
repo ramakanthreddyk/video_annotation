@@ -34,4 +34,9 @@ export class AnnotationService {
     return this.http.post(`${environment.backendUrl}/voteUp`,
       JSON.stringify({ annotation_id: annotation_id, asset_id: asset_id, user_id: user_id }), { headers: this.headers });
   }
+
+  voteDown(annotation_id: number, asset_id: number, user_id: number) {
+    return this.http.post(`${environment.backendUrl}/voteDown`,
+      JSON.stringify({ annotation_id: annotation_id, asset_id: asset_id, user_id: user_id }), { headers: this.headers });
+  }
 }

@@ -169,17 +169,16 @@ router.post('/editAnnotationData', function(req, res) {
 
 router.post('/storeAnnotation', function(req, res) {
   const data = req.body;
- con.query('SELECT SEC_TO_TIME('+data.start_time+') as annotation_start_time'   , function(err,start) {
-  con.query('SELECT SEC_TO_TIME('+data.end_time+') as annotation_end_time', function(err,end) {
-    con.query("SELECT DISTINCT DATE_FORMAT(asset_from, '%Y-%m-%d %H:%i:%s') as datefrom  FROM asset WHERE asset_id="+data.asset_id+"", function(error, datefrom) {
-      con.query('SELECT ADDTIME("'+datefrom[0].datefrom+'", "'+start[0].annotation_start_time+'") as assetfrom', function(err, assetfrom) {
-        con.query('SELECT ADDTIME("'+datefrom[0].datefrom+'", "'+end[0].annotation_end_time+'") as assetto', function(err, assetto) {
-          con.query('INSERT INTO annotation (user_id, asset_id, start_time, end_time, title, description, key_type_id, vote, asset_annotation_start_time, asset_annotation_end_time, annotation_id) VALUES ("'+data.user_id+'", "'+data.asset_id+'", "'+data.start_time+'", "'+data.end_time+'", "'+data.title+'", "'+data.description+'", "'+data.key_type_id+'" , "'+data.vote+'", "'+assetfrom[0].assetfrom+'", "'+assetto[0].assetto+'", "'+data.annotation_id+'" )', function(err, data3) {
-            if(err) {
-              console.log(err);
-              res.json({success: false, message: 'Server error', error: err});
+ con.query('SELECT SEC_TO_TIME('+data.start_time+') as annotation_start_time'   , function(error1,start) {
+  con.query('SELECT SEC_TO_TIME('+data.end_time+') as annotation_end_time', function(error2,end) {
+    con.query("SELECT DISTINCT DATE_FORMAT(asset_from, '%Y-%m-%d %H:%i:%s') as datefrom  FROM asset WHERE asset_id="+data.asset_id+"", function(error3, datefrom) {
+      con.query('SELECT ADDTIME("'+datefrom[0].datefrom+'", "'+start[0].annotation_start_time+'") as assetfrom', function(error4, assetfrom) {
+        con.query('SELECT ADDTIME("'+datefrom[0].datefrom+'", "'+end[0].annotation_end_time+'") as assetto', function(error5, assetto) {
+          con.query('INSERT INTO annotation (user_id, asset_id, start_time, end_time, title, description, key_type_id, vote_up, vote_down, asset_annotation_start_time, asset_annotation_end_time, annotation_id) VALUES ("'+data.user_id+'", "'+data.asset_id+'", "'+data.start_time+'", "'+data.end_time+'", "'+data.title+'", "'+data.description+'", "'+data.key_type_id+'" , "'+data.vote_up+'", "'+data.vote_down+'", "'+assetfrom[0].assetfrom+'", "'+assetto[0].assetto+'", "'+data.annotation_id+'" )', function(error6, data3) {
+            if(error1 || error2 ||  error3 ||  error4 ||  error5 || error6 ) {
+              res.json({success: false, message: 'Server error', error: error1});
             } else {
-                con.query("SELECT * FROM annotation WHERE asset_id="+data.asset_id+" AND user_id="+data.user_id+"", function(err, data2) {
+                con.query("SELECT * FROM annotation WHERE asset_id="+data.asset_id+" AND user_id="+data.user_id+"", function(error, data2) {
                 res.json({success: true, message: 'Annotation saved successfully!!', data: data2});
               })
               
@@ -233,7 +232,23 @@ router.post('/voteUp', function(req, res) {
   const annotation_id = req.body.annotation_id;
   const asset_id = req.body.asset_id;
   const user_id = req.body.user_id;
-    con.query('UPDATE annotation SET vote = vote + 1 WHERE annotation_id  = "'+annotation_id+'" ', function(err, data) {
+    con.query('UPDATE annotation SET vote_up = vote_up + 1 WHERE annotation_id  = "'+annotation_id+'" ', function(err, data) {
+      if(err) {
+        console.log(err);
+        res.json({success: false, message: 'Server error', error: err});
+      } else {
+          con.query("SELECT * FROM annotation WHERE asset_id="+asset_id+" AND user_id="+user_id+"", function(err, data2) {
+          res.json({success: true, message: 'Voted successfully!!', data: data2});
+        }
+          )};
+    });
+});
+
+router.post('/voteDown', function(req, res) {
+  const annotation_id = req.body.annotation_id;
+  const asset_id = req.body.asset_id;
+  const user_id = req.body.user_id;
+    con.query('UPDATE annotation SET vote_down = vote_down + 1 WHERE annotation_id  = "'+annotation_id+'" ', function(err, data) {
       if(err) {
         console.log(err);
         res.json({success: false, message: 'Server error', error: err});

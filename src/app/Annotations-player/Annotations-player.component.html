@@ -6,7 +6,8 @@
             <div class="nav-item" class="info-layer" *ngIf="annotation.title">
                 <h3>{{annotation.title}}</h3>
                 <h4>{{annotation.description}}</h4>
-                <p> <mat-icon (click)= "voteUp(annotation)">thumb_up</mat-icon></p>  
+                <p> <mat-icon (click)= "voteUp(annotation)" style="padding-right: 70px">thumb_up</mat-icon>
+                <mat-icon (click)= "voteDown(annotation)">thumb_down</mat-icon></p>    
             </div>
         </div>
     </div>
@@ -96,10 +97,14 @@
             <td mat-cell *matCellDef="let element"> {{element.description}} </td>
           </ng-container>
     
-          <ng-container matColumnDef="vote">
-            <th mat-header-cell *matHeaderCellDef> Votes </th>
-            <td mat-cell *matCellDef="let element"> {{element.vote}} </td>
+          <ng-container matColumnDef="vote_up">
+            <th mat-header-cell *matHeaderCellDef> likes </th>
+            <td mat-cell *matCellDef="let element"> {{element.vote_up}} </td>
           </ng-container>
+          <ng-container matColumnDef="vote_down">
+              <th mat-header-cell *matHeaderCellDef> dislikes </th>
+              <td mat-cell *matCellDef="let element"> {{element.vote_down}} </td>
+            </ng-container>
 
           <ng-container matColumnDef="annotation_from">
             <th mat-header-cell *matHeaderCellDef> Annotation From </th>
