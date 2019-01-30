@@ -1,0 +1,33 @@
+.data {
+    font-size: 15px;
+        font-weight: 150;
+}
+
+.unit {
+    font-size: 10px;
+    font-weight: 300;
+    color: #707070;
+    opacity: 0.42;
+    margin-left: -0.2em;
+}
+
+.number_boxes {
+    padding-right: 0.5em;
+}
+
+.description {
+    color: #707070;
+    text-align: center;
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+.line {
+    border-right: 1px solid rgba(112, 112, 112, 0.2);
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

@@ -28,6 +28,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { UsersComponent } from './users/users.component';
 import { AssetsComponent } from './assets/assets.component';
 import { EditAnnotationComponent } from './edit-annotation/edit-annotation.component';
+import { SpectrumMetaOverlayComponent, SpectrumMetaOverlayDirective } from './spectrum-meta-overlay';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,8 @@ import { EditAnnotationComponent } from './edit-annotation/edit-annotation.compo
         UsersComponent,
         AssetsComponent,
         EditAnnotationComponent,
+        SpectrumMetaOverlayComponent,
+        SpectrumMetaOverlayDirective,
     ],
     imports: [
         BrowserModule,
@@ -64,7 +67,7 @@ import { EditAnnotationComponent } from './edit-annotation/edit-annotation.compo
         UserService,
         AnnotationService
     ],
-    entryComponents: [EditAnnotationComponent],
+    entryComponents: [EditAnnotationComponent, SpectrumMetaOverlayComponent],
     bootstrap: [ AppComponent ]
 })
 export class AppModule {
