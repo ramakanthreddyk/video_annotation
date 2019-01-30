@@ -11,7 +11,7 @@ import { SPECTRUM_META_OVERLAY_DATA } from './tokens';
 export class SpectrumMetaOverlayDirective {
     private _overlayRef: OverlayRef;
 
-    /* @Input('appSpectrumOverlay') meta: Observable<any>; */
+    @Input('appSpectrumOverlay') meta: Observable<any>;
 
     @HostListener('mouseenter')
     mouseenter() {
