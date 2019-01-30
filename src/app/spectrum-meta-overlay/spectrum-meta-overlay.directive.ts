@@ -11,7 +11,7 @@ import { SPECTRUM_META_OVERLAY_DATA } from './tokens';
 export class SpectrumMetaOverlayDirective {
     private _overlayRef: OverlayRef;
 
-    @Input('appSpectrumOverlay') meta: Observable<any>;
+    @Input('appSpectrumOverlay') appSpectrumOverlay: Observable<any>;
 
     @HostListener('mouseenter')
     mouseenter() {
@@ -32,7 +32,7 @@ export class SpectrumMetaOverlayDirective {
     private _overlayConfig(): OverlayConfig {
         const positionStrategy = this.overlay.position().connectedTo(
             this.el,
-            { originX: 'end', originY: 'bottom' },
+            { originX: 'center', originY: 'bottom' },
             { overlayX: 'start', overlayY: 'center' }
         );
 
