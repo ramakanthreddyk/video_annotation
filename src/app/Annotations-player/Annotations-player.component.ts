@@ -7,21 +7,6 @@ import { AuthenticationService, UserService, AnnotationService } from '../_servi
 import { MatDialog } from '@angular/material';
 
 declare var VTTCue;
-export interface ICuePoint {
-    title: string;
-    description: string;
-    src: string;
-    href: string;
-}
-
-export interface IWikiCue {
-    startTime: number;
-    endTime: number;
-    title: string;
-    description: string;
-    src: string;
-    href: string;
-}
 
 @Component({
     selector: 'app-annotations-player',
@@ -51,10 +36,6 @@ export class AnnotationsPlayerComponent implements OnInit {
 
     changed;
     sampleObject;
-    /* storedAnnotations;
-    displayStoredAnnotations = [''] */
-
-    // json: JSON = JSON;
     @ViewChild('media') myVideo: any;
 
     constructor(private snackBar: MatSnackBar,
