@@ -46,7 +46,7 @@
 
 <div class="col-md-4">
         <h4>Possible Annotations</h4>
-        <div class="timeline-container mat-elevation-z0" *ngIf="dataSource">
+        <div class="timeline-container mat-elevation-z1" *ngIf="dataSource">
                 <table mat-table [dataSource]="dataSource">
                 
                     <!-- Timeline Column -->
@@ -77,7 +77,7 @@
                 </div>
     </div>
 </div>
-<div class="timeline-container mat-elevation-z0" *ngIf="annotationdataSource">
+<div class="timeline-container mat-elevation-z1" *ngIf="annotationdataSource">
     <table mat-table [dataSource]="annotationdataSource">
     
         <!-- Timeline Column -->
@@ -129,9 +129,6 @@
         <tr mat-row *matRowDef="let row; columns: annotationdisplayColumns;"></tr>
       </table>
     </div>
-
-
-
     <ng-template #noData>
       <mat-card  class="mat-typography mat-elevation-z0" fxLayout="column" fxLayoutAlign="center center"
       fxLayoutGap="16px" fxFlex>

@@ -1,4 +1,4 @@
-<div class="timeline-container mat-elevation-z0">
+<div class="timeline-container mat-elevation-z1">
   <table mat-table [dataSource]="dataSource">
 
     <!-- Timeline Column -->
@@ -30,8 +30,3 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </div>
-
-<div [appSpectrumOverlay]="[1,1,1]">
-  <mat-icon class="info-icon">info</mat-icon>
-</div>
-
