@@ -37,7 +37,7 @@ export class SpectrumMetaOverlayDirective {
         );
 
         const overlayConfig = new OverlayConfig({
-            scrollStrategy: this.overlay.scrollStrategies.block(),
+           /*  scrollStrategy: this.overlay.scrollStrategies.block(), */
             positionStrategy
         });
 
