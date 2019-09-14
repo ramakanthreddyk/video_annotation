@@ -28,6 +28,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { UsersComponent } from './users/users.component';
 import { AssetsComponent } from './assets/assets.component';
 import { EditAnnotationComponent } from './edit-annotation/edit-annotation.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
     declarations: [
@@ -56,7 +57,8 @@ import { EditAnnotationComponent } from './edit-annotation/edit-annotation.compo
         MatTableModule,
         MatDialogModule,
         FormsModule,
-        FlexLayoutModule
+        FlexLayoutModule,
+        MatSelectModule
     ],
     providers: [
         AuthGuard,

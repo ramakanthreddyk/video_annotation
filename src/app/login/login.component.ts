@@ -33,8 +33,6 @@ export class LoginComponent implements OnInit {
       this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  // convenience getter for easy access to form fields
-  // get f() { return this.loginForm.controls; }
 
   onSubmit() {
     if (this.loginForm.invalid) {
@@ -45,6 +43,7 @@ export class LoginComponent implements OnInit {
           this.openSnackBar(res.message, '');
           localStorage.setItem('loggedUser', res.data[0].user_id);
           localStorage.setItem('loggedUser_name', res.data[0].first_name);
+          localStorage.setItem('loggedUser_type', res.data[0].user_type);
           this.auth.getLoggedInfomethod(true);
           this.router.navigate(['home']);
         } else {

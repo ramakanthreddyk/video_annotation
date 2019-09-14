@@ -3,4 +3,5 @@
     password: string;
     firstName: string;
     lastName: string;
+    usertype: string;
 }

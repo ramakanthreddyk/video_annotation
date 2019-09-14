@@ -8,25 +8,36 @@ import { AuthenticationService } from './_services';
     styleUrls: [ './app.component.css' ]
 })
 export class AppComponent implements OnInit, OnDestroy {
-    private logged: Boolean;
+    logged: Boolean;
+    user: string;
+    userType: string;
 
     constructor(private router: Router, private auth: AuthenticationService) {}
     ngOnInit() {
         this.auth.getLoggedInfo.subscribe((val) => {
             this.logged = val;
+            if(this.logged) {
+                this.user = localStorage.getItem('loggedUser_name');
+            }
         });
-        if (localStorage.getItem('loggedUser')) {
+        
+        if (localStorage.getItem('loggedUser_name')) {
             // logged in so return true
             this.auth.getLoggedInfomethod(true);
+            this.auth.getUserType(localStorage.getItem('loggedUser_type'))
         }
+
+        this.auth.userType.subscribe((type) => {
+            this.userType = type;
+        });
     }
-    private logout() {
+    logout() {
       // clear localstorage
         localStorage.clear();
         this.auth.getLoggedInfomethod(false);
         this.router.navigate(['login']);
     }
-    private login() {
+    login() {
         this.router.navigate(['login']);
     }
 

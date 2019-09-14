@@ -1,10 +1,9 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { Observable } from 'rxjs/observable';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { User, Timeline } from '../_models';
+import { User } from '../_models';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +14,7 @@ export class AuthenticationService {
   selectedAnnotation: BehaviorSubject<Array<Object>> = new BehaviorSubject([]);
   getUserVideoId: BehaviorSubject<Object> = new BehaviorSubject({});
   getLoggedInfo: BehaviorSubject<Boolean> = new BehaviorSubject(false);
+  userType: BehaviorSubject<string> = new BehaviorSubject('');
 
   headers = new HttpHeaders({ 'Content-Type': 'application/json'});
   constructor(private http: HttpClient) { }
@@ -36,8 +36,12 @@ export class AuthenticationService {
     this.getLoggedInfo.next(val);
   }
 
+  getUserType(val) {
+    this.userType.next(val);
+  }
+
   login(loginData: any): Observable<any> {
-    return this.http.post(`${environment.backendUrl}/login`, loginData, { headers: this.headers });
+    return this.http.post<any>(`${environment.backendUrl}/login`, loginData, { headers: this.headers });
   }
 
   register(user: User) {

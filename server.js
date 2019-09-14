@@ -122,7 +122,7 @@ router.get('/timeline', function(req, res) {
 router.post('/register', function(req, res) {
   const data = req.body;
   const encoded_password = jwt.encode(data.password, secret);
-  con.query('INSERT INTO  users (First_name,last_name,email,password) VALUES ("'+data.firstName+'","'+data.lastName+'","'+data.email+'","'+encoded_password+'")', function(err, data) {
+  con.query('INSERT INTO  users (First_name,last_name,email,password,user_type) VALUES ("'+data.firstName+'","'+data.lastName+'","'+data.email+'","'+encoded_password+'","'+data.usertype+'")', function(err, data) {
     if(err) {
       console.log(err);
       res.json({success: false, message: 'Server error', error: err});
