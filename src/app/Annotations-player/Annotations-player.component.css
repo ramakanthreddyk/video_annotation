@@ -44,6 +44,7 @@
 
 .timeline-container {
     overflow: auto;
+    padding-bottom: 20px;
   }
 
 table {

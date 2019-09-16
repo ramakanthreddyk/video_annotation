@@ -13,9 +13,9 @@ router.use(cors());
 
 const secret = '@nnotation@';
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
+  host: "videoannotation.csgu2ca8zuyp.us-east-2.rds.amazonaws.com",
+  user: "admin",
+  password: "Bittu!9870",
   database: 'annotation_tool'
 });
 

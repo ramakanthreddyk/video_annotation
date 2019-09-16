@@ -45,7 +45,7 @@
 </div>
 
 <div class="col-md-4">
-        <h4>Possible Annotations</h4>
+        <h4 *ngIf="dataSource">Possible Annotations</h4>
         <div class="timeline-container mat-elevation-z1" *ngIf="dataSource">
                 <table mat-table [dataSource]="dataSource">
                 
@@ -77,6 +77,8 @@
                 </div>
     </div>
 </div>
+
+<h4 *ngIf="annotationdataSource">Annotations</h4>
 <div class="timeline-container mat-elevation-z1" *ngIf="annotationdataSource">
     <table mat-table [dataSource]="annotationdataSource">
     
