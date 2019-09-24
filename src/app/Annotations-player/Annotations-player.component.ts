@@ -73,7 +73,8 @@ export class AnnotationsPlayerComponent implements OnInit {
 
 
     @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
-        if (this.api.state === 'playing' && event.shiftKey) {
+        console.log(this.api);
+        if (this.api && this.api.state === 'playing' && event.shiftKey) {
             const key = event.key.toLowerCase();
             if (event.key !== 'Shift') {
                 if (this.action !== key) {
@@ -179,7 +180,6 @@ export class AnnotationsPlayerComponent implements OnInit {
 
     /* to edit the annotation */
     openDialog(element): void {
-        console.log(element);
         const dialogRef = this.dialog.open(EditAnnotationComponent, {
             width: '250px',
             data: element
@@ -241,7 +241,6 @@ export class AnnotationsPlayerComponent implements OnInit {
 
     removeAnnotation(cue: any) {
         for (let i = 0; i < this.track.cues.length; i++) {
-            console.log(this.track.cues[i]);
             if (this.track.cues[i].startTime === Number(cue.start_time)) {
                 this.track.removeCue(this.track.cues[i]);
                 const removeAnnotation = this.cuePointData.filter(annotation => annotation.annotation_id === cue.annotation_id);

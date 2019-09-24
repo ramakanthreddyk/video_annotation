@@ -17,18 +17,19 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material';
+import { MatInputModule, MatTabsModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { AuthGuard } from './_guards';
+import { AuthGuard, SuperAuthGuard } from './_guards';
 import { AuthenticationService, UserService, AnnotationService } from './_services';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { UsersComponent } from './users/users.component';
 import { AssetsComponent } from './assets/assets.component';
 import { EditAnnotationComponent } from './edit-annotation/edit-annotation.component';
 import { MatSelectModule } from '@angular/material/select';
+import { ConfigurationComponent } from './configuration/configuration.component';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { MatSelectModule } from '@angular/material/select';
         UsersComponent,
         AssetsComponent,
         EditAnnotationComponent,
+        ConfigurationComponent,
     ],
     imports: [
         BrowserModule,
@@ -58,10 +60,12 @@ import { MatSelectModule } from '@angular/material/select';
         MatDialogModule,
         FormsModule,
         FlexLayoutModule,
-        MatSelectModule
+        MatSelectModule,
+        MatTabsModule
     ],
     providers: [
         AuthGuard,
+        SuperAuthGuard,
         AuthenticationService,
         UserService,
         AnnotationService

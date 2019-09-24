@@ -8,7 +8,7 @@ import { User } from '../_models';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  displayedColumns = ['user_id', 'first_name', 'last_name', 'email'];
+  displayedColumns = ['user_id', 'first_name', 'last_name', 'email','user_type' ];
   dataSource: User[];
   constructor(private users: UserService) { }
 

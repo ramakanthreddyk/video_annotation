@@ -4,7 +4,7 @@
   </div>
   <div *ngIf="logged" fxLayout="row-reverse"  fxFlex="20" fxLayoutGap="30px" fxLayoutAlign="start space-between">
     <a (click)="logout()"> <mat-icon>input</mat-icon> <div>Logout</div></a>
-    <span>({{ userType }})</span>
+    <span>({{userType | async}})</span>
     <span> Welcome {{ user.toUpperCase()  }}</span>
   </div>
   <div *ngIf="!logged"  fxLayout="row-reverse"  fxFlex="20" fxLayoutGap="20px" fxLayoutAlign="start space-between">
@@ -14,8 +14,8 @@
 
 
 <div class="wrapper" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start stretch" fxLayoutGap="35px">
-  <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="30px" fxFlex="10">
-    <app-sidebar></app-sidebar>
+  <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="30px" fxFlex="10" *ngIf="logged">
+    <app-sidebar (selected_Sidemenu)="selectedMenu($event)"></app-sidebar>
   </div>
   <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="16px" fxFlex="80">
     <router-outlet></router-outlet>

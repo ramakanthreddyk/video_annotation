@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../_services';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialogRef } from '@angular/material';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -17,7 +17,8 @@ export class RegisterComponent implements OnInit {
       private formBuilder: FormBuilder,
       private router: Router,
       private auth: AuthenticationService,
-      private snackBar: MatSnackBar) { }
+      private snackBar: MatSnackBar,
+      public dialogRef: MatDialogRef<RegisterComponent>) { }
 
   ngOnInit() {
       this.registerForm = this.formBuilder.group({
@@ -25,7 +26,7 @@ export class RegisterComponent implements OnInit {
           lastName: ['', Validators.required],
           email: ['', Validators.required],
           password: ['', [Validators.required, Validators.minLength(6)]],
-          usertype:['',Validators.required]
+          usertype: ['', Validators.required]
       });
   }
 
@@ -39,6 +40,7 @@ export class RegisterComponent implements OnInit {
         this.auth.register(this.registerForm.value).subscribe((res: any) => {
           if (res.success === true) {
             this.openSnackBar(res.message, '');
+            this.closeDialog();
             this.router.navigate(['login']);
           } else {
             this.openSnackBar(res.message, '');
@@ -54,5 +56,10 @@ export class RegisterComponent implements OnInit {
     duration: 3000,
     panelClass: ['red-snackbar'],
     });
-    }
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
 }

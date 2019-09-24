@@ -6,8 +6,8 @@ import { RegisterComponent } from '../register/register.component';
 import { AnnotationsPlayerComponent } from '../Annotations-player/Annotations-player.component';
 import { UsersComponent } from '../users/users.component';
 import { AssetsComponent } from '../assets/assets.component';
-import { AuthGuard } from '../_guards';
-
+import { AuthGuard, SuperAuthGuard } from '../_guards';
+import { ConfigurationComponent } from '../configuration/configuration.component';
 export const ROUTES: Routes = [
     {
         path: 'Home',
@@ -32,6 +32,10 @@ export const ROUTES: Routes = [
     {
         path: 'register',
         component: RegisterComponent
+    },
+    {
+        path: 'Configuration',
+        component: ConfigurationComponent, canActivate : [SuperAuthGuard]
     },
     {
         path: '',

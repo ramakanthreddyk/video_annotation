@@ -1,5 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Sidemenu } from '../_models';
+import { AuthenticationService } from '../_services';
+import { BehaviorSubject } from 'rxjs';
+
+export enum Admins {
+  SuperAdmin,
+  Evaluator,
+  Annotator
+}
 
 @Component({
   selector: 'app-sidebar',
@@ -8,13 +16,19 @@ import { Sidemenu } from '../_models';
 })
 export class SidebarComponent implements OnInit {
     @Output() selected_Sidemenu = new EventEmitter<number>();
+    userType: BehaviorSubject<string>;
+
     sidemenu = [
     new Sidemenu('Home', 1, 'home'),
     new Sidemenu('Assets', 2, 'web_asset'),
     new Sidemenu('Annotation', 3, 'video_library'),
-    new Sidemenu('Users', 4, 'people')];
+    new Sidemenu('Configuration', 4, 'settings')
+  ];
     active;
-  constructor() {
+    admins = Admins;
+  constructor(private auth: AuthenticationService) {
+
+    this.userType = this.auth.userType;
   }
 
   ngOnInit() {
@@ -22,5 +36,6 @@ export class SidebarComponent implements OnInit {
 
   eventforsidemenu(page) {
     this.active = page.id;
+    this.selected_Sidemenu.emit(page);
   }
 }

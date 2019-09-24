@@ -1,8 +1,20 @@
 <div class="side-tab-menu">
-  <div class="list-group" *ngFor="let item of sidemenu" (click)="eventforsidemenu(item);">
-    <a class="list-group-item  text-center" [ngClass]="{active: item.id==active}"  
-    [routerLink]="[item.name]"  routerLinkActive="active">
-      <h4><mat-icon>{{item.icon}}</mat-icon></h4><b>{{item.name}}</b>
+  <div class="list-group" *ngFor="let item of sidemenu; let i = index" (click)="eventforsidemenu(item)">
+    <a class="list-group-item  text-center" 
+    [ngClass]="{active: item.id==active}"  
+    [routerLink]="[item.name]"  
+    routerLinkActive="active"
+    *ngIf="i !== 3">
+    <h4><mat-icon>{{item.icon}}</mat-icon></h4><b>{{item.name}}</b>
     </a>
   </div>
+<div *ngIf="(userType | async) === admins[0]" class="list-group" (click)="eventforsidemenu(sidemenu[3])">
+    <a class="list-group-item  text-center" 
+    [ngClass]="{active: sidemenu[3].id==active}"  
+    [routerLink]="[sidemenu[3].name]"  
+    routerLinkActive="active">
+    <h4><mat-icon>{{ sidemenu[3].icon}}</mat-icon></h4><b>{{ sidemenu[3].name}}</b>
+    </a>
+</div>
+
 </div>

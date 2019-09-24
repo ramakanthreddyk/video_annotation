@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('loggedUser_name', res.data[0].first_name);
           localStorage.setItem('loggedUser_type', res.data[0].user_type);
           this.auth.getLoggedInfomethod(true);
+          this.auth.getUserType(res.data[0].user_type);
           this.router.navigate(['home']);
         } else {
           this.openSnackBar(res.message, '');
@@ -57,8 +58,8 @@ export class LoginComponent implements OnInit {
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
-    duration: 3000,
-    panelClass: ['red-snackbar'],
+      duration: 3000,
+      panelClass: ['red-snackbar'],
     });
-    }
+  }
 }
