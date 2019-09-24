@@ -1,10 +1,11 @@
 import { EditAnnotationComponent } from './../edit-annotation/edit-annotation.component';
-import { User, Annotation, AnnotationList } from './../_models';
+import { User, Annotation, AnnotationList, Admins } from './../_models';
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { VgAPI } from 'videogular2/core';
 import { MatSnackBar } from '@angular/material';
 import { AuthenticationService, UserService, AnnotationService } from '../_services';
 import { MatDialog } from '@angular/material';
+import { BehaviorSubject } from 'rxjs';
 
 declare var VTTCue;
 
@@ -15,6 +16,7 @@ declare var VTTCue;
 })
 export class AnnotationsPlayerComponent implements OnInit {
     sources: Array<Object>;
+    admins = Admins;
     action;
     startTime;
     endTime;
@@ -30,6 +32,7 @@ export class AnnotationsPlayerComponent implements OnInit {
     annotationdisplayColumns =
                 ['user', 'title', 'description', 'vote_up', 'vote_down', 'annotation_from', 'annotation_to', 'edit_icon', 'delete_icon'];
     dataSource;
+    userType: BehaviorSubject<string>;
     annotationdataSource: AnnotationList;
     users;
     currentTime: any;
@@ -37,12 +40,19 @@ export class AnnotationsPlayerComponent implements OnInit {
     changed;
     sampleObject;
     @ViewChild('media') myVideo: any;
-
+    
     constructor(private snackBar: MatSnackBar,
         private user: UserService,
         private auth: AuthenticationService,
         private annotationservice: AnnotationService,
-        private dialog: MatDialog) {
+        private dialog: MatDialog
+        ) {
+            this.userType = this.auth.userType;
+            this.auth.userType.subscribe((val) => {
+                if(val === this.admins[1]) {
+                    this.annotationdisplayColumns.splice(7, 2);
+                }
+            })
     }
 
 

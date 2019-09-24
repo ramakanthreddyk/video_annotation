@@ -5,3 +5,9 @@
     lastName: string;
     usertype: string;
 }
+
+export enum Admins {
+    SuperAdmin,
+    Evaluator,
+    Annotator
+  }

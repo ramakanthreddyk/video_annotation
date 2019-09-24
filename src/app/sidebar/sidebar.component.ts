@@ -1,13 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Sidemenu } from '../_models';
+import { Sidemenu, Admins } from '../_models';
 import { AuthenticationService } from '../_services';
 import { BehaviorSubject } from 'rxjs';
 
-export enum Admins {
-  SuperAdmin,
-  Evaluator,
-  Annotator
-}
+
 
 @Component({
   selector: 'app-sidebar',
@@ -24,8 +20,9 @@ export class SidebarComponent implements OnInit {
     new Sidemenu('Annotation', 3, 'video_library'),
     new Sidemenu('Configuration', 4, 'settings')
   ];
-    active;
+    active: number;
     admins = Admins;
+    
   constructor(private auth: AuthenticationService) {
 
     this.userType = this.auth.userType;

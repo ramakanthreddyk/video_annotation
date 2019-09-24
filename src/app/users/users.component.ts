@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../_services';
+import { UserService, AuthenticationService } from '../_services';
 import { User } from '../_models';
 
 @Component({
@@ -8,9 +8,9 @@ import { User } from '../_models';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  displayedColumns = ['user_id', 'first_name', 'last_name', 'email','user_type' ];
+  displayedColumns = ['user_id', 'first_name', 'last_name', 'email','user_type', 'delete_icon' ];
   dataSource: User[];
-  constructor(private users: UserService) { }
+  constructor(private users: UserService, private auth: AuthenticationService) { }
 
   ngOnInit() {
     this.users.getAll().subscribe((allusers) => {
@@ -19,4 +19,9 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  deleteUser(user: any) {
+    this.auth.deleteUser(user.user_id).subscribe((res: any) => {
+      console.log(user);
+  });
+  }
 }

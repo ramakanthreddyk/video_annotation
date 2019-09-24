@@ -48,6 +48,10 @@ export class AuthenticationService {
     return this.http.post(`${environment.backendUrl}/register`, user);
   }
 
+  deleteUser(user_id: number) {
+    return this.http.post(`${environment.backendUrl}/deleteUser`, user_id);
+  }
+
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('token');

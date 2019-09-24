@@ -8,6 +8,11 @@ var jwt = require('jwt-simple');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/api', router);
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use(cors());
 router.use(cors());
 
@@ -59,6 +64,23 @@ router.get('/assets', function(req, res) {
       console.log(err);
       res.json({success: false, message: 'Server error', error: err});
     } else {
+      if(data.length != 0) {
+        res.json({data});
+      } else {
+        res.json({success: false, message: 'data not found'});
+      }
+    }
+  });
+});
+
+router.post('/deleteUser', function(req, res) {
+  const user_id = req.body.user_id;
+  con.query('DELETE * FROM users WHERE user_id ="'+user_id+'"', function(err, data) {
+    if(err) {
+      console.log(err);
+      res.json({success: false, message: 'Server error', error: err});
+    } else {
+      console.log(data);
       if(data.length != 0) {
         res.json({data});
       } else {

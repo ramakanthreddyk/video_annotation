@@ -100,22 +100,22 @@
           </ng-container>
     
           <ng-container matColumnDef="vote_up">
-            <th mat-header-cell *matHeaderCellDef> likes </th>
+            <th mat-header-cell *matHeaderCellDef> Likes </th>
             <td mat-cell *matCellDef="let element"> {{element.vote_up}} </td>
           </ng-container>
           <ng-container matColumnDef="vote_down">
-              <th mat-header-cell *matHeaderCellDef> dislikes </th>
+              <th mat-header-cell *matHeaderCellDef> Dislikes </th>
               <td mat-cell *matCellDef="let element"> {{element.vote_down}} </td>
             </ng-container>
 
           <ng-container matColumnDef="annotation_from">
             <th mat-header-cell *matHeaderCellDef> Annotation From </th>
-            <td mat-cell *matCellDef="let element"> {{element.start_time | minuteSeconds }} </td>
+            <td mat-cell *matCellDef="let element"> {{element.asset_annotation_start_time |  date:'medium' }} </td>
           </ng-container>
 
           <ng-container matColumnDef="annotation_to">
             <th mat-header-cell *matHeaderCellDef> Annotation To </th>
-            <td mat-cell *matCellDef="let element"> {{element.end_time | minuteSeconds }} </td>
+            <td mat-cell *matCellDef="let element"> {{element.asset_annotation_end_time |  date:'medium' }} </td>
           </ng-container>
 
           <ng-container matColumnDef="edit_icon">
@@ -123,9 +123,9 @@
                 <td mat-cell *matCellDef="let element">  <mat-icon (click)="openDialog(element)">edit</mat-icon> </td>
               </ng-container>
               <ng-container matColumnDef="delete_icon">
-                    <th mat-header-cell *matHeaderCellDef>delete</th>
+                    <th mat-header-cell *matHeaderCellDef>Delete</th>
                     <td mat-cell *matCellDef="let element">  <mat-icon (click)="removeAnnotation(element)">delete</mat-icon> </td>
-                  </ng-container>
+              </ng-container>
     
         <tr mat-header-row *matHeaderRowDef="annotationdisplayColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: annotationdisplayColumns;"></tr>
