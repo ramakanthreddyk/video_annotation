@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { AssetList, Asset } from './../_models/assets.model';
+import { User, IUser } from './../_models/user';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { RegisterComponent } from '../register/register.component';
+import { UserService } from '../_services';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-configuration',
@@ -8,10 +12,28 @@ import { RegisterComponent } from '../register/register.component';
   styleUrls: ['./configuration.component.css']
 })
 export class ConfigurationComponent implements OnInit {
+  userList: User[];
+  assetList: AssetList;
 
-  constructor(public dialog: MatDialog) {}
+  userSelected: number;
+  selectedAssets = new FormControl();
+
+  constructor(
+    public dialog: MatDialog, 
+    public userService: UserService
+  ) {}
 
   ngOnInit() {
+
+    this.userService.getAll().subscribe((users: IUser) => {
+      console.log(users.data);
+      this.userList = users.data;
+    })
+    this.userService.getAssets().subscribe((assets: any) => {
+      console.log(assets);
+      this.assetList = assets.data;
+    })
+
   }
   openDialog(): void {
     const dialogRef = this.dialog.open(RegisterComponent, {
@@ -22,4 +44,11 @@ export class ConfigurationComponent implements OnInit {
       console.log('The dialog was closed');
      });
   }
+
+  openAssetDialog(): void {
+    const assetDialogRef = this.dialog.open(RegisterComponent, {
+      width: '800px',
+     });
+    }
+    
 }

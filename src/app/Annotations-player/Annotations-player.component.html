@@ -35,7 +35,7 @@
     <video #media [vgMedia]="media" id="singleVideo" preload="auto">
         <source *ngFor="let video of sources" [src]="video.src" [type]="video.type">
 
-        <track src="src\app\Annotations-player\cue-points.vtt " kind="metadata" label="Cue Points" default
+        <track src="assets/data/cue-points.vtt" kind="metadata" label="Cue Points" default
                #metadataTrack
                vgCuePoints
                (onEnterCuePoint)="onEnterCuePoint($event)"

@@ -3,6 +3,30 @@
     <app-users></app-users>
     <button class="btn btn-success"(click)="openDialog()">Create new User</button>
   </mat-tab>
-  <mat-tab label="Assign Assets"> Content 2 </mat-tab>
+
+  <mat-tab label="Assets">
+   <div fxLayout="column" fxLayoutGap="32px" fxLayoutAlign="center stretch" fxFlex="50%">
+    <mat-form-field>
+        <mat-label>Select User :</mat-label>
+      <mat-select [(value)]="userSelected">
+          <mat-option *ngFor="let user of userList" value="user.user_id" >{{user.user_id}} {{user.first_name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Select Asset :</mat-label>
+        <mat-select [formControl]="selectedAssets" multiple>
+          <mat-option *ngFor="let asset of assetList" [value]="asset.asset_name">{{asset.asset_name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutGap="32px" fxLayoutAlign="end end">
+        <button class="btn btn-success"(click)="openAssetDialog()">Assign assets</button>
+        <button class="btn btn-success"(click)="openAssetDialog()">Create assets</button>
+    </div>
+
+  </div>
+
+  </mat-tab>
+
   <mat-tab label="Create Annotations"> Content 3 </mat-tab>
 </mat-tab-group>

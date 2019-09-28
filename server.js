@@ -35,11 +35,9 @@ app.get('/', function (req, res) {
   res.send('Hello you are connected to the server!');
 });
 
-app.listen(3000, function () {
-  console.log('app listening on port 3000!');
+app.listen(3200, function () {
+  console.log('app listening on port 3200!');
 });
-
-
 
 
 router.get('/users', function(req, res) {
@@ -75,14 +73,24 @@ router.get('/assets', function(req, res) {
 
 router.post('/deleteUser', function(req, res) {
   const user_id = req.body.user_id;
-  con.query('DELETE * FROM users WHERE user_id ="'+user_id+'"', function(err, data) {
+  con.query('DELETE FROM users WHERE user_id = "'+user_id+'"', function(err, delete_data) {
     if(err) {
       console.log(err);
       res.json({success: false, message: 'Server error', error: err});
     } else {
-      console.log(data);
-      if(data.length != 0) {
-        res.json({data});
+      if(delete_data.length != 0) {
+        con.query('SELECT * FROM users', function(err, data) {
+          if(err) {
+            console.log(err);
+            res.json({success: false, message: 'Server error', error: err});
+          } else {
+            if(data.length != 0) {
+              res.json({data: data});
+            } else {
+              res.json({success: false, message: 'data not found'});
+            }
+          }
+        });
       } else {
         res.json({success: false, message: 'data not found'});
       }
@@ -105,9 +113,6 @@ router.post('/getAsset', function(req, res) {
       }
     });
 });
-
-
-
 
 router.post('/possible_annotations', function(req, res) {
   const asset_id = req.body.data;

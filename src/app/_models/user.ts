@@ -6,6 +6,10 @@
     usertype: string;
 }
 
+export interface IUser {
+    data: User[];
+}
+
 export enum Admins {
     SuperAdmin,
     Evaluator,

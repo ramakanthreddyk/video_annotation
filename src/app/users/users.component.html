@@ -33,7 +33,7 @@
 
         <ng-container matColumnDef="delete_icon">
           <th mat-header-cell *matHeaderCellDef>Delete</th>
-          <td mat-cell *matCellDef="let element">  <mat-icon (click)="deleteUser(element)">delete</mat-icon> </td>
+          <td mat-cell *matCellDef="let element">  <mat-icon *ngIf="element.user_type !==admins[0]"(click)="deleteUser(element)">delete</mat-icon> </td>
     </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

@@ -45,11 +45,11 @@ export class AuthenticationService {
   }
 
   register(user: User) {
-    return this.http.post(`${environment.backendUrl}/register`, user);
+    return this.http.post(`${environment.backendUrl}/register`, user, { headers: this.headers });
   }
 
   deleteUser(user_id: number) {
-    return this.http.post(`${environment.backendUrl}/deleteUser`, user_id);
+    return this.http.post(`${environment.backendUrl}/deleteUser`, JSON.stringify({ user_id }), { headers: this.headers });
   }
 
   logout() {
