@@ -3,57 +3,72 @@ import { Observable } from 'rxjs/observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { User } from '../_models';
+import { User, Admins } from '../_models';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthenticationService {
 
-  selectedVideo: BehaviorSubject<Object> = new BehaviorSubject({});
-  selectedAnnotation: BehaviorSubject<Array<Object>> = new BehaviorSubject([]);
-  getUserVideoId: BehaviorSubject<Object> = new BehaviorSubject({});
-  getLoggedInfo: BehaviorSubject<Boolean> = new BehaviorSubject(false);
-  userType: BehaviorSubject<string> = new BehaviorSubject('');
+    selectedVideo: BehaviorSubject<Object> = new BehaviorSubject({});
+    selectedAnnotation: BehaviorSubject<Array<Object>> = new BehaviorSubject([]);
+    getUserVideoId: BehaviorSubject<Object> = new BehaviorSubject({});
+    getLoggedInfo: BehaviorSubject<Boolean> = new BehaviorSubject(false);
+    userType: BehaviorSubject<Admins> = new BehaviorSubject(null);
+    userId: BehaviorSubject<string> = new BehaviorSubject(null);
+    annotatot_Id: BehaviorSubject<string> = new BehaviorSubject(null);
+    userName: BehaviorSubject<string> = new BehaviorSubject('');
 
-  headers = new HttpHeaders({ 'Content-Type': 'application/json'});
-  constructor(private http: HttpClient) { }
+    headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    constructor(private http: HttpClient) { }
 
 
-  selectedVideoActive(value) {
-    this.selectedVideo.next(value);
-  }
+    selectedVideoActive(value) {
+        this.selectedVideo.next(value);
+    }
 
-  getSelectedAnnotation(val) {
-    this.selectedAnnotation.next(val);
-  }
+    getSelectedAnnotation(val) {
+        this.selectedAnnotation.next(val);
+    }
 
-  getUserVideoIdmethod(val) {
-    this.getUserVideoId.next(val);
-  }
+    getUserVideoIdmethod(val) {
+        this.getUserVideoId.next(val);
+    }
 
-  getLoggedInfomethod(val) {
-    this.getLoggedInfo.next(val);
-  }
+    setLoggedInfo(val) {
+        this.getLoggedInfo.next(val);
+    }
 
-  getUserType(val) {
-    this.userType.next(val);
-  }
+    setUserType(val) {
+        this.userType.next(val);
+    }
 
-  login(loginData: any): Observable<any> {
-    return this.http.post<any>(`${environment.backendUrl}/login`, loginData, { headers: this.headers });
-  }
+    setUserId(id: string) {
+        this.userId.next(id);
+    }
 
-  register(user: User) {
-    return this.http.post(`${environment.backendUrl}/register`, user, { headers: this.headers });
-  }
+    setUserName(name: string) {
+        this.userName.next(name);
+    }
 
-  deleteUser(user_id: number) {
-    return this.http.post(`${environment.backendUrl}/deleteUser`, JSON.stringify({ user_id }), { headers: this.headers });
-  }
+    setAnnotatorId(id: any) {
+        this.annotatot_Id.next(id);
+    }
 
-  logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem('token');
-  }
+    login(loginData: any): Observable<any> {
+        return this.http.post<any>(`${environment.backendUrl}/login`, loginData, { headers: this.headers });
+    }
+
+    register(user: User) {
+        return this.http.post(`${environment.backendUrl}/register`, user, { headers: this.headers });
+    }
+
+    deleteUser(user_id: number) {
+        return this.http.post(`${environment.backendUrl}/deleteUser`, JSON.stringify({ user_id }), { headers: this.headers });
+    }
+
+    logout() {
+        // remove user from local storage to log user out
+        localStorage.removeItem('token');
+    }
 }

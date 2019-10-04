@@ -4,28 +4,32 @@ import { User, Admins } from '../_models';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  displayedColumns = ['user_id', 'first_name', 'last_name', 'email','user_type', 'delete_icon' ];
-  dataSource: User[];
-  userType: BehaviorSubject<string>;
-  admins = Admins;
-  constructor(private users: UserService, private auth: AuthenticationService) {
-    this.userType = this.auth.userType;
-   }
+    displayedColumns = ['user_id', 'first_name', 'last_name', 'email', 'user_type', 'delete_icon'];
+    dataSource: User[];
+    userType: BehaviorSubject<Admins>;
+    admins = Admins;
 
-  ngOnInit() {
-    this.users.getAll().subscribe((allusers) => {
-      this.dataSource = allusers['data'];
-    });
-  }
+    constructor(
+        private users: UserService, 
+        private auth: AuthenticationService
+    ) {
+        this.userType = this.auth.userType;
+    }
 
-  deleteUser(user: any) {
-    this.auth.deleteUser(user.user_id).subscribe((newUsers) => {
-      this.dataSource = newUsers['data']
-  });
-  }
+    ngOnInit() {
+        this.users.getAll().subscribe((allusers) => {
+            this.dataSource = allusers['data'];
+        });
+    }
+
+    deleteUser(user: any) {
+        this.auth.deleteUser(user.user_id).subscribe((newUsers) => {
+            this.dataSource = newUsers['data']
+        });
+    }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { AssignAsset, EvaluatorJob } from '../_models';
 
 @Injectable()
 export class AnnotationService {
@@ -39,4 +40,14 @@ export class AnnotationService {
     return this.http.post(`${environment.backendUrl}/voteDown`,
       JSON.stringify({ annotation_id: annotation_id, asset_id: asset_id, user_id: user_id }), { headers: this.headers });
   }
+
+  assignAssetsToAnnotator(assignAsset: AssignAsset) {
+    return this.http.post(`${environment.backendUrl}/assignAssetsToAnnotator`, assignAsset, { headers: this.headers });
+  }
+
+  assignEvaluatorJobs(assignEvaluatorJob: EvaluatorJob) {
+    console.log(assignEvaluatorJob);
+    return this.http.post(`${environment.backendUrl}/assignEvaluatorJobs`, assignEvaluatorJob, { headers: this.headers });
+  }
+
 }

@@ -1,11 +1,10 @@
 import { EditAnnotationComponent } from './../edit-annotation/edit-annotation.component';
-import { User, Annotation, AnnotationList, Admins } from './../_models';
+import { AnnotationList, Admins } from './../_models';
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { VgAPI } from 'videogular2/core';
 import { MatSnackBar } from '@angular/material';
 import { AuthenticationService, UserService, AnnotationService } from '../_services';
 import { MatDialog } from '@angular/material';
-import { BehaviorSubject } from 'rxjs';
 
 declare var VTTCue;
 
@@ -17,6 +16,8 @@ declare var VTTCue;
 export class AnnotationsPlayerComponent implements OnInit {
     sources: Array<Object>;
     admins = Admins;
+    userId: string;
+    annotatorId: any;
     action;
     startTime;
     endTime;
@@ -32,7 +33,7 @@ export class AnnotationsPlayerComponent implements OnInit {
     annotationdisplayColumns =
                 ['user', 'title', 'description', 'vote_up', 'vote_down', 'annotation_from', 'annotation_to', 'edit_icon', 'delete_icon'];
     dataSource;
-    userType: BehaviorSubject<string>;
+    userType: Admins;
     annotationdataSource: AnnotationList;
     users;
     currentTime: any;
@@ -47,12 +48,14 @@ export class AnnotationsPlayerComponent implements OnInit {
         private annotationservice: AnnotationService,
         private dialog: MatDialog
         ) {
-            this.userType = this.auth.userType;
             this.auth.userType.subscribe((val) => {
-                if(val === this.admins[1]) {
+                this.userType = val;
+                if(val === this.admins.Evaluator) {
                     this.annotationdisplayColumns.splice(7, 2);
                 }
             })
+            this.auth.userId.subscribe((val) => this.userId = val);
+            this.auth.annotatot_Id.subscribe((val) => this.annotatorId = val);
     }
 
 
@@ -83,68 +86,69 @@ export class AnnotationsPlayerComponent implements OnInit {
 
 
     @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
-        console.log(this.api);
-        if (this.api && this.api.state === 'playing' && event.shiftKey) {
-            const key = event.key.toLowerCase();
-            if (event.key !== 'Shift') {
-                if (this.action !== key) {
-                    this.tempAnnotation = this.dataSource.filter(eachAnnotation => {
-                        return key === eachAnnotation.key_shortcut;
-                    });
-                    if (this.tempAnnotation.length !== 0) {
-                        if (key === this.tempAnnotation[0].key_shortcut) {
-                            this.selectedAnnotation = this.tempAnnotation[0];
-                            this.action = key;
-                            this.startTime = this.api.currentTime;
-                            this.openSnackBar('started annotation' + ` ${this.tempAnnotation[0].key_description}`, '');
+        // console.log('this.api', this.userType );
+        if (this.userType === this.admins.Annotator) {
+            // console.log(this.api, this.userType );
+            if (this.api && this.api.state === 'playing' && event.shiftKey) {
+                const key = event.key.toLowerCase();
+                if (event.key !== 'Shift') {
+                    if (this.action !== key) {
+                        this.tempAnnotation = this.dataSource.filter(eachAnnotation => {
+                            return key === eachAnnotation.key_shortcut;
+                        });
+                        if (this.tempAnnotation.length !== 0) {
+                            if (key === this.tempAnnotation[0].key_shortcut) {
+                                this.selectedAnnotation = this.tempAnnotation[0];
+                                this.action = key;
+                                this.startTime = this.api.currentTime;
+                                this.openSnackBar('started annotation' + ` ${this.tempAnnotation[0].key_description}`, '');
+                            }
+                        } else {
+                            console.log('unknown');
                         }
                     } else {
-                        console.log('unknown');
+                        this.endTime = this.api.currentTime;
+                        this.openSnackBar('Ended annotation' + ` ${this.selectedAnnotation.key_description}`, '');
+                        const jsonData = {
+                            title: 'Test',
+                            description: this.selectedAnnotation.key_description,
+                            src: '',
+                            href: '',
+                            asset_id: this.asset.asset_id,
+                            user_id: this.userId,
+                            annotation_id: new Date().valueOf()
+                        };
+                        const jsonText = JSON.stringify(jsonData);
+                        const annotation_to_store = {
+                            start_time: this.startTime,
+                            end_time: this.endTime,
+                            title: jsonData['title'],
+                            description: jsonData['description'],
+                            key_type_id: this.selectedAnnotation.key_type_id,
+                            asset_id: this.asset.asset_id,
+                            user_id: this.userId,
+                            annotation_id: new Date().valueOf()
+                        };
+                        this.annotationservice.storeAnnotation(annotation_to_store).subscribe((res: any) => {
+                            console.log(res);
+                            this.annotationdataSource = res.data;
+                        });
+                        this.track.addCue(
+                            new VTTCue(this.startTime, this.endTime, jsonText)
+                        );
+                        this.action = '';
                     }
-                } else {
-                    this.endTime = this.api.currentTime;
-                    const userid = localStorage.getItem('loggedUser');
-                    this.openSnackBar('Ended annotation' + ` ${this.selectedAnnotation.key_description}`, '');
-                    const jsonData = {
-                        title: 'Test',
-                        description: this.selectedAnnotation.key_description,
-                        src: '',
-                        href: '',
-                        asset_id: this.asset.asset_id,
-                        user_id: userid,
-                        annotation_id: new Date().valueOf()
-                    };
-                    const jsonText = JSON.stringify(jsonData);
-                    const annotation_to_store = {
-                        start_time: this.startTime,
-                        end_time: this.endTime,
-                        title: jsonData['title'],
-                        description: jsonData['description'],
-                        key_type_id: this.selectedAnnotation.key_type_id,
-                        asset_id: this.asset.asset_id,
-                        user_id: userid,
-                        annotation_id: new Date().valueOf()
-                    };
-                    this.annotationservice.storeAnnotation(annotation_to_store).subscribe((res: any) => {
-                        this.annotationdataSource = res.data;
-                    });
-                    this.track.addCue(
-                        new VTTCue(this.startTime, this.endTime, jsonText)
-                    );
-                    this.action = '';
                 }
             }
         }
     }
 
 
-
-
     onPlayerReady(api: VgAPI) {
         this.api = api;
         this.track = this.api.textTracks[0];
-        const userid = localStorage.getItem('loggedUser');
-        this.annotationservice.getPreStoredAnnotations(this.asset.asset_id, userid).subscribe((preannotationlist: any) => {
+ 
+        this.annotationservice.getPreStoredAnnotations(this.asset.asset_id, this.annotatorId).subscribe((preannotationlist: any) => {
             if (preannotationlist.success) {
                 this.annotationdataSource = preannotationlist.data;
                 if (preannotationlist.data.length > 0) {
@@ -172,11 +176,11 @@ export class AnnotationsPlayerComponent implements OnInit {
         }, (error) => {
             console.log('error :', error);
         });
-        this.api.subscriptions.timeUpdate.subscribe(data => {
+        this.api.subscriptions.timeUpdate.subscribe(() => {
             this.currentTime = this.api.currentTime;
         });
 
-        this.api.subscriptions.canPlay.subscribe(data => {
+        this.api.subscriptions.canPlay.subscribe(() => {
             if (this.track.cues.length < this.backupCue.length) {
                 this.backupCue.forEach(cue => {
                     this.track.addCue(cue);
@@ -184,8 +188,6 @@ export class AnnotationsPlayerComponent implements OnInit {
             }
         });
     }
-
-
 
 
     /* to edit the annotation */
@@ -211,7 +213,8 @@ export class AnnotationsPlayerComponent implements OnInit {
                 asset_id: element.asset_id
                 }
             };
-        for ( let i = 0; i < this.track.cues.length; i ++) { console.log(this.track.cues[i].endTime, element);
+        for ( let i = 0; i < this.track.cues.length; i ++) { 
+            // console.log(this.track.cues[i].endTime, element);
             if ( this.track.cues[i].endTime === Number(element.end_time) && this.track.cues[i].startTime === Number(element.start_time)) {
                 this.track.cues[i].text = JSON.stringify(this.sampleObject.jsonText);
                 const removeAnnotation = this.cuePointData.filter(annotation => annotation.annotation_id === element.annotation_id);

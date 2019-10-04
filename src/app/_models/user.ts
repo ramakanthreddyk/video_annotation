@@ -5,13 +5,21 @@
     lastName: string;
     usertype: string;
 }
+export interface BackendUser {
+    email: string;
+    first_name: string;
+    last_name: string;
+    password: string;
+    user_id: string;
+    user_type: Admins;
+}
 
 export interface IUser {
-    data: User[];
+    data: BackendUser[];
 }
 
 export enum Admins {
-    SuperAdmin,
-    Evaluator,
-    Annotator
+    SuperAdmin = 'SuperAdmin',
+    Evaluator= 'Evaluator',
+    Annotator= 'Annotator'
   }

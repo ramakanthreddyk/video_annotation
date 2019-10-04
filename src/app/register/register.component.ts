@@ -41,7 +41,6 @@ export class RegisterComponent implements OnInit {
           if (res.success === true) {
             this.openSnackBar(res.message, '');
             this.closeDialog();
-            this.router.navigate(['login']);
           } else {
             this.openSnackBar(res.message, '');
           }

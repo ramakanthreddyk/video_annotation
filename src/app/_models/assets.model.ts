@@ -7,3 +7,20 @@ export interface Asset {
    asset_type_id: string;
 }
 export type AssetList = Asset[];
+
+export interface AssignAsset {
+   annotator_id: number;
+   asset_idList: number[];
+}
+
+export interface EvaluatorJob {
+    evaluator_id: number;
+    annotator_idList: number [];
+}
+
+export interface IEval {
+   annotator_id: number;
+   asset_id:number;
+   evaluator_id: number;
+   timeline_id: string;
+}

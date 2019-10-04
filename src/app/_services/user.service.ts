@@ -8,30 +8,37 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UserService {
-  selectedTimeline: BehaviorSubject<Timeline> = new BehaviorSubject<Timeline>(null);
-  headers = new HttpHeaders({ 'Content-Type': 'application/json'});
-  constructor(private http: HttpClient) { }
+    selectedTimeline: BehaviorSubject<Timeline> = new BehaviorSubject<Timeline>(null);
+    headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    constructor(private http: HttpClient) { }
 
-  selectedTimelineActive(value: Timeline) {
-    this.selectedTimeline.next(value);
-  }
+    selectedTimelineActive(value: Timeline) {
+        this.selectedTimeline.next(value);
+    }
 
-  getAsset(timelineId: number): Observable<any> {
-    return this.http
-      .post(`${environment.backendUrl}/getAsset`, JSON.stringify({ timelineId }), { headers: this.headers });
-  }
+    getAsset(timelineId: any, userId: any): Observable<any> {
+        const params = { timelineId: timelineId, userId: userId }
+        return this.http.post(`${environment.backendUrl}/getAsset`, params);
+    }
 
-  getAll() {
-    return this.http.get(`${environment.backendUrl}/users`);
-  }
+    getAll() {
+        return this.http.get(`${environment.backendUrl}/users`);
+    }
 
-  getAssets() {
-    return this.http.get(`${environment.backendUrl}/assets`);
-  }
+    getAssets() {
+        return this.http.get(`${environment.backendUrl}/assets`);
+    }
 
-  getTimeline() {
-    return this.http.get(`${environment.backendUrl}/timeline`);
-  }
+    getTimeline() {
+        return this.http.get(`${environment.backendUrl}/timeline`);
+    }
 
+    getJobs(id: string) {
+        const params = {
+            evalId: id,
+            ...this.headers
+        }
+        return this.http.post(`${environment.backendUrl}/getJobs`, params);
+    }
 
 }

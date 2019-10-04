@@ -4,29 +4,51 @@
     <button class="btn btn-success"(click)="openDialog()">Create new User</button>
   </mat-tab>
 
-  <mat-tab label="Assets">
-   <div fxLayout="column" fxLayoutGap="32px" fxLayoutAlign="center stretch" fxFlex="50%">
+  <mat-tab label="Annotator Jobs">
+   <div fxLayout="column" fxLayoutGap="32px" fxLayoutAlign="center stretch" fxFlex="50%" class="assign">
+     Assign Assets to Annotators
     <mat-form-field>
-        <mat-label>Select User :</mat-label>
-      <mat-select [(value)]="userSelected">
-          <mat-option *ngFor="let user of userList" value="user.user_id" >{{user.user_id}} {{user.first_name}}</mat-option>
+        <mat-label>Select Annotator :</mat-label>
+      <mat-select [(value)]="annotatorSelected">
+          <mat-option *ngFor="let user of annotatorList" value="{{user.user_id}}" >{{user.user_id}} {{user.first_name}}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field>
         <mat-label>Select Asset :</mat-label>
         <mat-select [formControl]="selectedAssets" multiple>
-          <mat-option *ngFor="let asset of assetList" [value]="asset.asset_name">{{asset.asset_name}}</mat-option>
+          <mat-option *ngFor="let asset of assetList" [value]="asset.asset_id">{{asset.asset_name}}</mat-option>
         </mat-select>
     </mat-form-field>
     <div fxLayout="row" fxLayoutGap="32px" fxLayoutAlign="end end">
-        <button class="btn btn-success"(click)="openAssetDialog()">Assign assets</button>
-        <button class="btn btn-success"(click)="openAssetDialog()">Create assets</button>
+        <button class="btn btn-success"(click)="assignAssetsToAnnotator()">Assign assets</button>
+        <!-- <button class="btn btn-success"(click)="openAssetDialog()">Create assets</button> -->
     </div>
-
   </div>
 
   </mat-tab>
 
-  <mat-tab label="Create Annotations"> Content 3 </mat-tab>
+  <mat-tab label="Evaluator Jobs"> 
+      <div fxLayout="column" fxLayoutGap="32px" fxLayoutAlign="center stretch" fxFlex="50%" class="assign">
+          Assign Assets to Evaluators
+         <mat-form-field>
+             <mat-label>Select Evaluator :</mat-label>
+           <mat-select [(value)]="evaluatorSelected">
+               <mat-option *ngFor="let user of evaluatorList" value="{{user.user_id}}" >{{user.user_id}} {{user.first_name}}</mat-option>
+           </mat-select>
+         </mat-form-field>
+     
+         <mat-form-field>
+            <mat-label>Select Annotators :</mat-label>
+            <mat-select [formControl]="selectedAnnotators" multiple>
+              <mat-option *ngFor="let user of annotatorList" [value]="user.user_id">{{user.user_id}} {{user.first_name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+         <div fxLayout="row" fxLayoutGap="32px" fxLayoutAlign="end end">
+             <button class="btn btn-success"(click)="assignEvaluatorJobs()">Assign assets</button>
+             <!-- <button class="btn btn-success"(click)="openAssetDialog()">Create assets</button> -->
+         </div>
+       </div>
+  </mat-tab>
 </mat-tab-group>
