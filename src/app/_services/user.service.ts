@@ -1,8 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
-import { Observable } from 'rxjs/observable';
-
+import { Observable } from 'rxjs';
 import { Timeline } from '../_models';
 import { environment } from '../../environments/environment';
 
@@ -17,7 +16,7 @@ export class UserService {
     }
 
     getAsset(timelineId: any, userId: any): Observable<any> {
-        const params = { timelineId: timelineId, userId: userId }
+        const params = { timelineId: timelineId, userId: userId };
         return this.http.post(`${environment.backendUrl}/getAsset`, params);
     }
 
@@ -37,7 +36,7 @@ export class UserService {
         const params = {
             evalId: id,
             ...this.headers
-        }
+        };
         return this.http.post(`${environment.backendUrl}/getJobs`, params);
     }
 

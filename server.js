@@ -5,6 +5,11 @@ var router = express.Router();
 var cors = require('cors');
 var bodyParser = require('body-parser');
 var jwt = require('jwt-simple');
+
+const aws = require('aws-sdk');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+
 app.use(bodyParser.urlencoded({
     extended: false
 }));
@@ -17,10 +22,10 @@ app.use(function (req, res, next) {
 });
 app.use(cors());
 router.use(cors());
-
+const hostName = "videoannotation.csgu2ca8zuyp.us-east-2.rds.amazonaws.com";
 const secret = '@nnotation@';
 var con = mysql.createConnection({
-    host: "videoannotation.csgu2ca8zuyp.us-east-2.rds.amazonaws.com",
+    host: hostName,
     user: "admin",
     password: "Bittu!9870",
     database: 'annotation_tool'
@@ -449,10 +454,10 @@ router.post('/assignEvaluatorJobs', function (req, res) {
     data.annotator_idList.forEach((annotator_id) => {
         con.query('SELECT * FROM annotator_jobs WHERE annotator_id =' + annotator_id, function (err, annotatordata) {
             annotatordata.forEach((annotat) => {
-                 con.query('SELECT timeline_id FROM asset_timeline_cross_table WHERE asset_id ='+ annotat.asset_id , function (error1, time) {
-                    con.query('INSERT INTO `evaluator_jobs` ( `evaluator_id`, `annotator_id` , `asset_id`, `timeline_id` ) SELECT * FROM (SELECT "'+data.evaluator_id+'","'+annotat.annotator_id+'","' + annotat.asset_id + '", "'+time[0].timeline_id+'") AS t1 WHERE NOT EXISTS (SELECT evaluator_id,annotator_id FROM evaluator_jobs AS t2 WHERE t2.evaluator_id ="'+data.evaluator_id+'" AND t2.annotator_id = "'+annotat.annotator_id+'" AND t2.asset_id = "'+annotat.asset_id+'") LIMIT 1', 
+                con.query('SELECT timeline_id FROM asset_timeline_cross_table WHERE asset_id =' + annotat.asset_id, function (error1, time) {
+                    con.query('INSERT INTO `evaluator_jobs` ( `evaluator_id`, `annotator_id` , `asset_id`, `timeline_id` ) SELECT * FROM (SELECT "' + data.evaluator_id + '","' + annotat.annotator_id + '","' + annotat.asset_id + '", "' + time[0].timeline_id + '") AS t1 WHERE NOT EXISTS (SELECT evaluator_id,annotator_id FROM evaluator_jobs AS t2 WHERE t2.evaluator_id ="' + data.evaluator_id + '" AND t2.annotator_id = "' + annotat.annotator_id + '" AND t2.asset_id = "' + annotat.asset_id + '") LIMIT 1',
                         function (err, evaluatorJobs) { });
-                });         
+                });
             });
         });
     });
@@ -461,7 +466,6 @@ router.post('/assignEvaluatorJobs', function (req, res) {
         message: 'Assigned Evaluator Jobs successfully!!'
     });
 });
-
 
 router.post('/getJobs', function (req, res) {
     const evalId = req.body.evalId;
@@ -488,3 +492,52 @@ router.post('/getJobs', function (req, res) {
     });
 });
 
+// aws upload videos
+const hostEndPoint = new aws.Endpoint(hostName);
+const fileUploadBucket = 'https://useruploadvideos.s3.eu-central-1.amazonaws.com';
+
+const s3Config = new aws.S3({
+    accessKeyId: 'AKIAI2X6A7CP3M3ZBH6A',
+    secretAccessKey: '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',
+    Bucket: hostEndPoint
+});
+
+
+const upload = multer({
+    storage: multerS3({
+        s3: s3Config,
+        bucket: 'useruploadvideos',
+        acl: 'public-read',
+        key: (request, file, cb) => {
+            console.log(file);
+            cb(null, file.originalname);
+        },
+    })
+}).single('upload', 1);
+
+router.post('/uploadAssets', (request, response, next) => {
+    upload(request, response, (error) => {
+        if (error) {
+            console.log(error);
+        }
+        const filePath = `${fileUploadBucket}/${request.file.originalname}`;
+        con.query(`INSERT INTO userUploadAssets (filePath) VALUES ('${filePath}')`, (err, data) => {
+            if (!err) {
+                console.log('File uploaded successfully.');
+                response.status(200).json({ success: true, message: 'File uploaded successfully.' });
+            } else {
+                console.log(err);
+            }
+        });
+    });
+});
+
+router.get('/getUserUploadAssets', (req, res) => {
+    con.query('SELECT * FROM userUploadAssets', (err, data) => {
+        if (!err) {
+            res.status(200).send({success: true, data: data});
+        } else {
+            console.log(err);
+        }
+    })
+})

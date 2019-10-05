@@ -19,7 +19,8 @@ export class SidebarComponent implements OnInit {
     ];
     admin_SideMenu = [
         new Sidemenu('Home', 1, 'home'),
-        new Sidemenu('Configuration', 4, 'settings')
+        new Sidemenu('Configuration', 4, 'settings'),
+        new Sidemenu('uploadAsset', 5, 'cloud_upload'),
     ];
     active: number;
     admins = Admins;
@@ -31,7 +32,7 @@ export class SidebarComponent implements OnInit {
     ngOnInit() {
         this.auth.userType.subscribe(
             (user) => {
-                switch(user) {
+                switch (user) {
                     case this.admins.Annotator:
                         this.sidemenu = this.annotator_sideMenu;
                         break;
@@ -43,7 +44,7 @@ export class SidebarComponent implements OnInit {
                         break;
                 }
             }
-        )
+        );
     }
 
     eventforsidemenu(page) {

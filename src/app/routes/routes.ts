@@ -8,6 +8,7 @@ import { UsersComponent } from '../users/users.component';
 import { AssetsComponent } from '../assets/assets.component';
 import { AuthGuard, SuperAuthGuard } from '../_guards';
 import { ConfigurationComponent } from '../configuration/configuration.component';
+import { UploadAssetsComponent } from '../upload-assets/upload-assets.component';
 export const ROUTES: Routes = [
     {
         path: 'Home',
@@ -36,6 +37,10 @@ export const ROUTES: Routes = [
     {
         path: 'Configuration',
         component: ConfigurationComponent, canActivate : [SuperAuthGuard]
+    },
+    {
+        path: 'uploadAsset',
+        component: UploadAssetsComponent,
     },
     {
         path: '',
