@@ -1,0 +1,29 @@
+<div class="container">
+  <form id="fileUploadForm">
+    <fieldset>
+      <div class="form-horizontal">
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-10">
+              <div class="input-group">
+                <input type="hidden" id="filename" name="filename" value="" (click)="fileInput.click()">
+                <input type="file" accept="video/*" id="uploadedFile" name="uploadedFile" class="form-control form-control-sm"
+                  (change)="oncategoryFileChanged($event)" #fileInput>
+                <div class="input-group-btn">
+                  <input type="submit" value="Upload" class="rounded-0 btn btn-primary" (click)="submitCategoryData()">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<br><br>
+
+<div *ngIf="fileStatus">
+  <p>Please wait.....</p>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>

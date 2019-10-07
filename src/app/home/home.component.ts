@@ -29,16 +29,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     ) {
           this.auth.userId.subscribe((val) => {
             this.userId = val;
-        })
+        });
 
         this.auth.userType
             .pipe(
                 takeUntil(this.ngDestroyed$),
                 switchMap((user: Admins) => this.getevalId(user))
             ).subscribe((annotators) => {
-                this.annotatorList =  annotators.data;
-                console.log(annotators, this.userType);
-            })
+                if (annotators) {
+                    this.annotatorList =  annotators.data;
+                    console.log(annotators, this.userType);
+                }
+            });
     }
 
     ngOnInit() {
@@ -55,18 +57,17 @@ export class HomeComponent implements OnInit, OnDestroy {
             .pipe(
                 takeUntil(this.ngDestroyed$),
                 switchMap((userId: string) => this.users.getJobs(userId))
-            )
-        } else if(userType === this.admins.Annotator) {
+            );
+        } else if (userType === this.admins.Annotator) {
                 this.auth.setAnnotatorId(this.userId);
-        }
-        else {
-            return of(null)
+        } else {
+            return of(null);
         }
     }
     getJobs(evalId: string) {
       this.users.getJobs(evalId).subscribe((annotators) => {
         console.log(annotators, this.userType);
-      })
+      });
     }
     gotoAssets(data: Timeline) {
         this.users.selectedTimelineActive(data);
@@ -75,8 +76,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     gotoVideo(data: IEval) {
         this.auth.setAnnotatorId(data.annotator_id);
-        this.users.getAsset(data.timeline_id, data.annotator_id).subscribe((data) => { 
-            this.gotoVideos(data.data[0]);
+        this.users.getAsset(data.timeline_id, data.annotator_id).subscribe((subData: any) => {
+            this.gotoVideos(subData.data[0]);
         });
       }
 
