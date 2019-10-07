@@ -18,6 +18,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule, MatTabsModule } from '@angular/material';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
@@ -30,6 +31,7 @@ import { AssetsComponent } from './assets/assets.component';
 import { EditAnnotationComponent } from './edit-annotation/edit-annotation.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ConfigurationComponent } from './configuration/configuration.component';
+import { UploadAssetsComponent } from './upload-assets/upload-assets.component';
 
 @NgModule({
     declarations: [
@@ -42,6 +44,7 @@ import { ConfigurationComponent } from './configuration/configuration.component'
         AssetsComponent,
         EditAnnotationComponent,
         ConfigurationComponent,
+        UploadAssetsComponent,
     ],
     imports: [
         BrowserModule,
@@ -57,6 +60,7 @@ import { ConfigurationComponent } from './configuration/configuration.component'
         MatFormFieldModule,
         MatInputModule,
         MatTableModule,
+        MatProgressBarModule,
         MatDialogModule,
         FormsModule,
         FlexLayoutModule,
