@@ -40,10 +40,6 @@ con.connect(function (err) {
     }
 });
 
-app.get('/', function (req, res) {
-    res.send('Hello you are connected to the server!');
-});
-
 // Start the app by listening on the default Heroku port
 app.listen(process.env.PORT || port, function() {
     console.log(`listening on port ${port}`)
