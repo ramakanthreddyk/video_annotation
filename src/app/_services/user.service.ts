@@ -17,19 +17,19 @@ export class UserService {
 
     getAsset(timelineId: any, userId: any): Observable<any> {
         const params = { timelineId: timelineId, userId: userId };
-        return this.http.post(`${environment.backendUrl}/getAsset`, params);
+        return this.http.post(`/getAsset`, params);
     }
 
     getAll() {
-        return this.http.get(`${environment.backendUrl}/users`);
+        return this.http.get(`/users`);
     }
 
     getAssets() {
-        return this.http.get(`${environment.backendUrl}/assets`);
+        return this.http.get(`/assets`);
     }
 
     getTimeline() {
-        return this.http.get(`${environment.backendUrl}/timeline`);
+        return this.http.get(`/timeline`);
     }
 
     getJobs(id: string) {
@@ -37,7 +37,7 @@ export class UserService {
             evalId: id,
             ...this.headers
         };
-        return this.http.post(`${environment.backendUrl}/getJobs`, params);
+        return this.http.post(`/getJobs`, params);
     }
 
 }
