@@ -49,7 +49,7 @@ export class UploadAssetsComponent implements OnInit {
   }
 
   getUserUploadAssets() {
-    this.http.get(`/getUserUploadAssets`).subscribe(data => {
+    this.http.get(`${environment.backendUrl}/getUserUploadAssets`).subscribe(data => {
       console.log(data);
     });
   }

@@ -7,9 +7,9 @@ var bodyParser = require('body-parser');
 var jwt = require('jwt-simple');
 var path = require('path');
 
-const aws = require('aws-sdk');
 const multer = require('multer');
-const multerS3 = require('multer-s3');
+var cloudinary = require('cloudinary');
+var datauri = require('datauri');
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -23,15 +23,20 @@ app.use(function (req, res, next) {
 });
 app.use(cors());
 router.use(cors());
-const hostName = "videoannotation.csgu2ca8zuyp.us-east-2.rds.amazonaws.com";
 const secret = '@nnotation@';
 const port = 3000;
 var con = mysql.createConnection({
-    host: hostName,
-    user: "admin",
-    password: "Bittu!9870",
+    host: 'eu-cdbr-west-02.cleardb.net',
+    user: "b0eef414082562",
+    password: "02d1e279",
     database: 'annotation_tool'
 });
+
+cloudinary.config({ 
+    cloud_name: 'ddeeadq8k', 
+    api_key: '273491799846754', 
+    api_secret: 'npUVMQp0TDjiOMtvZYfPx8feZ7I' 
+  });
 
 con.connect(function (err) {
     if (err) throw err;
@@ -499,44 +504,30 @@ router.post('/getJobs', function (req, res) {
     });
 });
 
-// aws upload videos
-const hostEndPoint = new aws.Endpoint(hostName);
-const fileUploadBucket = 'https://useruploadvideos.s3.eu-central-1.amazonaws.com';
 
-const s3Config = new aws.S3({
-    accessKeyId: 'AKIAI2X6A7CP3M3ZBH6A',
-    secretAccessKey: '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',
-    Bucket: hostEndPoint
-});
+const storage = multer.memoryStorage();
+const multerUploads = multer({ storage }).single('upload');
 
+const dUri = new datauri();
+const dataUri = req => dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer);
 
-const upload = multer({
-    storage: multerS3({
-        s3: s3Config,
-        bucket: 'useruploadvideos',
-        acl: 'public-read',
-        key: (request, file, cb) => {
-            console.log(file);
-            cb(null, file.originalname);
-        },
-    })
-}).single('upload', 1);
-
-router.post('/uploadAssets', (request, response, next) => {
-    upload(request, response, (error) => {
+router.post('/uploadAssets', multerUploads, (req, res, next) => {
+    const file = dataUri(req).content;
+    cloudinary.v2.uploader.upload(file, {resource_type: "video"}, (error, result) => {
         if (error) {
-            console.log(error);
+            console.info(error);
+        } else {
+            const filePath = result.url;
+            con.query(`INSERT INTO userUploadAssets (filePath) VALUES ('${filePath}')`, (err, data) => {
+                if (!err) {
+                    console.log('File uploaded successfully.');
+                    response.status(200).json({ success: true, message: 'File uploaded successfully.' });
+                } else {
+                    console.log(err);
+                }
+            });
         }
-        const filePath = `${fileUploadBucket}/${request.file.originalname}`;
-        con.query(`INSERT INTO userUploadAssets (filePath) VALUES ('${filePath}')`, (err, data) => {
-            if (!err) {
-                console.log('File uploaded successfully.');
-                response.status(200).json({ success: true, message: 'File uploaded successfully.' });
-            } else {
-                console.log(err);
-            }
-        });
-    });
+    })
 });
 
 router.get('/getUserUploadAssets', (req, res) => {
