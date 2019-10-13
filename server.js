@@ -5,6 +5,7 @@ var router = express.Router();
 var cors = require('cors');
 var bodyParser = require('body-parser');
 var jwt = require('jwt-simple');
+var path = require('path');
 
 const aws = require('aws-sdk');
 const multer = require('multer');
@@ -24,6 +25,7 @@ app.use(cors());
 router.use(cors());
 const hostName = "videoannotation.csgu2ca8zuyp.us-east-2.rds.amazonaws.com";
 const secret = '@nnotation@';
+const port = 3000;
 var con = mysql.createConnection({
     host: hostName,
     user: "admin",
@@ -38,12 +40,17 @@ con.connect(function (err) {
     }
 });
 
-app.get('/', function (req, res) {
-    res.send('Hello you are connected to the server!');
-});
+// Start the app by listening on the default Heroku port
+app.listen(process.env.PORT || port, function() {
+    console.log(`listening on port ${port}`)
+  });
 
-app.listen(3200, function () {
-    console.log('app listening on port 3200!');
+// Serve only the static files form the dist directory
+app.use(express.static('./dist/videogular'));
+
+app.get('/*', function(req,res) {
+
+res.sendFile(path.join(__dirname,'/dist/videogular/index.html'));
 });
 
 
