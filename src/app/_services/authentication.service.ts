@@ -56,15 +56,15 @@ export class AuthenticationService {
     }
 
     login(loginData: any): Observable<any> {
-        return this.http.post<any>(`${environment.backendUrl}/login`, loginData, { headers: this.headers });
+        return this.http.post<any>(`/login`, loginData, { headers: this.headers });
     }
 
     register(user: User) {
-        return this.http.post(`${environment.backendUrl}/register`, user, { headers: this.headers });
+        return this.http.post(`/register`, user, { headers: this.headers });
     }
 
     deleteUser(user_id: number) {
-        return this.http.post(`${environment.backendUrl}/deleteUser`, JSON.stringify({ user_id }), { headers: this.headers });
+        return this.http.post(`/deleteUser`, JSON.stringify({ user_id }), { headers: this.headers });
     }
 
     logout() {
