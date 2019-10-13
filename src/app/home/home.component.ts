@@ -59,15 +59,16 @@ export class HomeComponent implements OnInit, OnDestroy {
                 switchMap((userId: string) => this.users.getJobs(userId))
             );
         } else if (userType === this.admins.Annotator) {
-                this.auth.setAnnotatorId(this.userId);
+            this.auth.setAnnotatorId(this.userId);
+            return of(null);
         } else {
             return of(null);
         }
     }
     getJobs(evalId: string) {
-      this.users.getJobs(evalId).subscribe((annotators) => {
-        console.log(annotators, this.userType);
-      });
+        this.users.getJobs(evalId).subscribe((annotators) => {
+            console.log(annotators, this.userType);
+        });
     }
     gotoAssets(data: Timeline) {
         this.users.selectedTimelineActive(data);
@@ -81,10 +82,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
       }
 
-      gotoVideos(data: Asset) {
+    gotoVideos(data: Asset) {
         this.auth.selectedVideoActive(data);
         this.router.navigate(['Annotation']);
-      }
+    }
 
     ngOnDestroy() {
         this.ngDestroyed$.next();

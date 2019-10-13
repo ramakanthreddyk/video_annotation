@@ -17,8 +17,11 @@ export class SidebarComponent implements OnInit {
         new Sidemenu('Assets', 2, 'web_asset'),
         new Sidemenu('Annotation', 3, 'video_library'),
     ];
-    admin_SideMenu = [
+    evaluator_SideMenu = [
         new Sidemenu('Home', 1, 'home'),
+        new Sidemenu('Evaluation', 3, 'video_library'),
+    ];
+    admin_SideMenu = [
         new Sidemenu('Configuration', 4, 'settings'),
         new Sidemenu('uploadAsset', 5, 'cloud_upload'),
     ];
@@ -40,7 +43,7 @@ export class SidebarComponent implements OnInit {
                         this.sidemenu = this.admin_SideMenu;
                         break;
                     case this.admins.Evaluator:
-                        this.sidemenu = this.annotator_sideMenu;
+                        this.sidemenu = this.evaluator_SideMenu;
                         break;
                 }
             }

@@ -42,8 +42,8 @@ app.get('/', function (req, res) {
     res.send('Hello you are connected to the server!');
 });
 
-app.listen(3000, function () {
-    console.log('app listening on port 3000!');
+app.listen(3200, function () {
+    console.log('app listening on port 3200!');
 });
 
 
