@@ -23,12 +23,23 @@ app.use(function (req, res, next) {
 });
 app.use(cors());
 router.use(cors());
+// const secret = '@nnotation@';
+// const port = 3000;
+// var con = mysql.createConnection({
+//     host: 'eu-cdbr-west-02.cleardb.net',
+//     user: "b0eef414082562",
+//     password: "02d1e279",
+//     database: 'annotation_tool'
+// });
+
+
+const hostName = "videoannotation.csgu2ca8zuyp.us-east-2.rds.amazonaws.com";
 const secret = '@nnotation@';
 const port = 3000;
 var con = mysql.createConnection({
-    host: 'eu-cdbr-west-02.cleardb.net',
-    user: "b0eef414082562",
-    password: "02d1e279",
+    host: hostName,
+    user: "admin",
+    password: "Bittu!9870",
     database: 'annotation_tool'
 });
 
