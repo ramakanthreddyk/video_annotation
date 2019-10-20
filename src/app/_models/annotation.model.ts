@@ -6,7 +6,8 @@ export interface Annotation {
     end_time: string;
     title: string;
     description: string;
-    vote: number;
+    vote_up: number;
+    vote_down: number;
     asset_annotation_start_time: string;
     asset_annotation_end_time: string;
     annotation_id: string;

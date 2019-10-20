@@ -1,13 +1,11 @@
 <div class="timeline-container mat-elevation-z1" *ngIf="userType === admins.Annotator">
   <table mat-table [dataSource]="dataSource">
 
-    <!-- Timeline Column -->
     <ng-container matColumnDef="timeline_id">
       <th mat-header-cell *matHeaderCellDef > Timeline Id</th>
       <td mat-cell *matCellDef="let element"> {{element.timeline_id}} </td>
     </ng-container>
 
-    <!-- Timeline Column -->
     <ng-container matColumnDef="timeline_name">
       <th mat-header-cell *matHeaderCellDef> Timeline </th>
       <td mat-cell *matCellDef="let element"> {{element.timeline_name}} </td>
@@ -28,6 +26,7 @@
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
   </table>
 </div>
 
@@ -58,3 +57,47 @@
       <tr mat-row *matRowDef="let row; columns: evalColumns;"></tr>
     </table>
  </div>
+
+
+
+ <div class="timeline-container mat-elevation-z1" *ngIf="userType === admins.SuperAdmin">
+  <table mat-table [dataSource]="annotationsList">
+    <ng-container matColumnDef="user_id">
+      <th mat-header-cell *matHeaderCellDef > User Id</th>
+      <td mat-cell *matCellDef="let element"> {{element.user_id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="asset_id">
+      <th mat-header-cell *matHeaderCellDef> Asset Id </th>
+      <td mat-cell *matCellDef="let element"> {{element.asset_id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="asset_annotation_start_time">
+      <th mat-header-cell *matHeaderCellDef> Annotation start time</th>
+      <td mat-cell *matCellDef="let element"> {{element.asset_annotation_start_time | date:'medium'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="asset_annotation_end_time">
+      <th mat-header-cell *matHeaderCellDef> Annotation end time</th>
+      <td mat-cell *matCellDef="let element"> {{element.asset_annotation_end_time | date:'medium'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="vote_up">
+      <th mat-header-cell *matHeaderCellDef> Likes </th>
+      <td mat-cell *matCellDef="let element"> {{element.vote_up }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="vote_down">
+      <th mat-header-cell *matHeaderCellDef> Dislikes </th>
+      <td mat-cell *matCellDef="let element"> {{ element.vote_down }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="AnnotationListCol; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: AnnotationListCol;"></tr>
+  </table>
+</div>

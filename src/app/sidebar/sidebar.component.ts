@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit {
         new Sidemenu('Evaluation', 3, 'video_library'),
     ];
     admin_SideMenu = [
+        new Sidemenu('Home', 1, 'home'),
         new Sidemenu('Configuration', 4, 'settings'),
         new Sidemenu('uploadAsset', 5, 'cloud_upload'),
     ];

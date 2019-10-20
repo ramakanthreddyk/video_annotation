@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { AssignAsset, EvaluatorJob, IAnnotationModel, AssignShortcut } from '../_models';
+import { AssignAsset, EvaluatorJob, IAnnotationModel, AssignShortcut, Annotation } from '../_models';
 
 @Injectable()
 export class AnnotationService {
@@ -58,4 +58,8 @@ export class AnnotationService {
   assignShortcuts( assignShortcut : AssignShortcut): any {
   return this.http.post(`${environment.backendUrl}/assignShortcuts`, assignShortcut, { headers: this.headers });
   }
+
+  getAnnotationList() {
+    return this.http.get(`${environment.backendUrl}/getAnnotationList`);
+}
 }

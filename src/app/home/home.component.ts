@@ -1,8 +1,9 @@
+import { AnnotationList } from './../_models/annotation.model';
 import { BackendUser } from './../_models/user';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService, UserService } from '../_services';
-import { Timeline, TimelineList, Admins, Asset, IEval } from '../_models';
+import { AuthenticationService, UserService, AnnotationService } from '../_services';
+import { Timeline, TimelineList, Admins, Asset, IEval, Annotation } from '../_models';
 import { Subject, of, Observable } from 'rxjs';
 import { takeUntil, switchMap } from 'rxjs/operators';
 
@@ -14,18 +15,21 @@ import { takeUntil, switchMap } from 'rxjs/operators';
 export class HomeComponent implements OnInit, OnDestroy {
     displayedColumns = ['timeline_id', 'timeline_name', 'timeline_from', 'timeline_to', 'icon'];
     evalColumns = ['evaluator_id', 'annotator_id', 'asset_id', 'icon'];
+    AnnotationListCol = ['user_id', 'asset_id','asset_annotation_start_time',
+                        'asset_annotation_end_time', 'description', 'vote_up', 'vote_down'];
     dataSource: TimelineList;
+    annotatorList: BackendUser[] = [];
+    annotationsList: AnnotationList = [];
     private readonly ngDestroyed$ = new Subject();
     admins = Admins;
     userType: Admins;
     userId: string;
     annotatorSelected: string;
-    // allotedAnnotatorList: BackendUser[];
-    annotatorList: BackendUser[] = [];
     constructor(
         private users: UserService,
         private router: Router,
-        private auth: AuthenticationService
+        private auth: AuthenticationService,
+        private annoService: AnnotationService
     ) {
           this.auth.userId.subscribe((val) => {
             this.userId = val;
@@ -38,7 +42,6 @@ export class HomeComponent implements OnInit, OnDestroy {
             ).subscribe((annotators) => {
                 if (annotators) {
                     this.annotatorList =  annotators.data;
-                    console.log(annotators, this.userType);
                 }
             });
     }
@@ -47,6 +50,11 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.users.getTimeline().subscribe((timeline: any) => {
             this.dataSource = timeline.data;
         });
+
+        this.annoService.getAnnotationList().subscribe((list: any) => {
+            this.annotationsList = list.data;
+            console.log(this.annotationsList);
+        })
 
     }
 
@@ -65,11 +73,13 @@ export class HomeComponent implements OnInit, OnDestroy {
             return of(null);
         }
     }
+
+
     getJobs(evalId: string) {
         this.users.getJobs(evalId).subscribe((annotators) => {
-            console.log(annotators, this.userType);
         });
     }
+
     gotoAssets(data: Timeline) {
         this.users.selectedTimelineActive(data);
         this.router.navigate(['Assets']);
@@ -80,7 +90,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.users.getAsset(data.timeline_id, data.annotator_id).subscribe((subData: any) => {
             this.gotoVideos(subData.data[0]);
         });
-      }
+    }
 
     gotoVideos(data: Asset) {
         this.auth.selectedVideoActive(data);
