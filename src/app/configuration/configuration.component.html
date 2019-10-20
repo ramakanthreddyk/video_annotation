@@ -47,8 +47,67 @@
 
          <div fxLayout="row" fxLayoutGap="32px" fxLayoutAlign="end end">
              <button class="btn btn-success"(click)="assignEvaluatorJobs()">Assign assets</button>
-             <!-- <button class="btn btn-success"(click)="openAssetDialog()">Create assets</button> -->
          </div>
        </div>
   </mat-tab>
+
+
+
+  <mat-tab label="Create new shortcuts">
+    <div fxLayout="row">
+    <form 
+        [formGroup]="shortCutForm" 
+        class= "card" 
+        fxLayout="column" fxLayoutGap="32px" 
+        fxLayoutAlign="center stretch" fxFlex="50%" >
+        create new shortcuts
+      <div class="form-group" fxLayout="column">
+          <label for="key_description">Key Description :</label>
+          <input type="text" formControlName="key_description" class="form-control"/>
+      </div>
+      <div class="form-group" fxLayout="column">
+        <label for="key_name">Key name :</label>
+        <input type="text" formControlName="key_name" class="form-control" />
+    </div>
+      <div class="form-group" fxLayout="column">
+          <label for="key_shortcut">Key shortcut :</label>
+          <input type="text" formControlName="key_shortcut" class="form-control" />
+      </div>
+      <div class="form-group" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+          <button class="btn btn-primary" (click)="onCreateShortut()" [disabled]="!shortCutForm.valid">Save</button>
+      </div>
+  </form>
+
+
+  <div fxLayout="column" 
+    fxLayoutGap="32px" 
+    fxLayoutAlign="center stretch" 
+    fxFlex="50%" 
+    class="assign">
+      Assign shorcut key to Timelines
+     <mat-form-field>
+         <mat-label>Select Timeline :</mat-label>
+       <mat-select [(value)]="timeLineSelected">
+           <mat-option
+            *ngFor="let timeline of timelineList" 
+            value="{{timeline.timeline_id}}">
+            {{timeline.timeline_name}}
+          </mat-option>
+       </mat-select>
+     </mat-form-field>
+     <mat-form-field>
+        <mat-label>Select shorcut keys :</mat-label>
+        <mat-select [formControl]="selectedShorcuts" multiple>
+          <mat-option *ngFor="let s of shortcutList" [value]="s.key_type_id">{{s.key_type_id}} {{s.key_name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+     <div fxLayout="row" fxLayoutGap="32px" fxLayoutAlign="end end">
+         <button class="btn btn-success"(click)="assignShortcuts()">Assign shorcut keys</button>
+     </div>
+   </div>
+         
+  </div>
+</mat-tab>
+
 </mat-tab-group>

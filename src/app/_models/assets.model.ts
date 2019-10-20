@@ -13,6 +13,11 @@ export interface AssignAsset {
    asset_idList: number[];
 }
 
+export interface AssignShortcut {
+   timeline_id: number;
+   shorcut_idList: number[];
+}
+
 export interface EvaluatorJob {
     evaluator_id: number;
     annotator_idList: number [];

@@ -40,4 +40,7 @@ export class UserService {
         return this.http.post(`${environment.backendUrl}/getJobs`, params);
     }
 
+    getShortCuts() {
+        return this.http.get(`${environment.backendUrl}/getShortcuts`);
+    }
 }

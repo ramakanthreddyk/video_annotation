@@ -20,3 +20,10 @@ export interface Annotation {
     asset_id:  number;
     user_id:  number;
  }
+
+ export interface IAnnotationModel {
+    key_type_id: number;
+    key_description: string;
+    key_name: string;
+    key_shortcut: string;
+ }
