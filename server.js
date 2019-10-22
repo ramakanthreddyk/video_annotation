@@ -140,7 +140,6 @@ router.post('/deleteUser', function (req, res) {
 });
 
 router.post('/getAsset', function (req, res) {
-    console.log(req.body);
     const timeline_id = req.body.timelineId;
     const user_id = req.body.userId;
     con.query('SELECT * FROM asset WHERE asset.asset_id in (SELECT asset_timeline_cross_table.asset_id from asset_timeline_cross_table INNER JOIN annotator_jobs ON asset_timeline_cross_table.asset_id = annotator_jobs.asset_id WHERE asset_timeline_cross_table.timeline_id = "' + timeline_id + '" and annotator_jobs.annotator_id="' + user_id + '")', function (err, data) {
@@ -168,7 +167,8 @@ router.post('/getAsset', function (req, res) {
 
 router.post('/possible_annotations', function (req, res) {
     const asset_id = req.body.data;
-    con.query('SELECT * FROM annotation_key_table WHERE key_type_id in (SELECT key_type_id from annotation_key_map WHERE timeline_id in(SELECT timeline_id from asset_timeline_cross_table WHERE asset_id = "' + asset_id + '"))', function (err, data) {
+    con.query('SELECT * FROM annotation_key_table WHERE key_type_id in (SELECT key_type_id from annotation_key_map WHERE timeline_id in(SELECT timeline_id from asset_timeline_cross_table WHERE asset_id = "' 
+        + asset_id + '"))', function (err, data) {
         if (err) {
             console.log(err);
             res.json({
@@ -243,6 +243,7 @@ router.post('/register', function (req, res) {
         }
     });
 });
+
 router.post('/login', function (req, res) {
     const data = req.body;
     const encoded_password = jwt.encode(data.password, secret);
@@ -300,7 +301,9 @@ router.post('/storeAnnotation', function (req, res) {
             con.query("SELECT DISTINCT DATE_FORMAT(asset_from, '%Y-%m-%d %H:%i:%s') as datefrom  FROM asset WHERE asset_id=" + data.asset_id + "", function (error3, datefrom) {
                 con.query('SELECT ADDTIME("' + datefrom[0].datefrom + '", "' + start[0].annotation_start_time + '") as assetfrom', function (error4, assetfrom) {
                     con.query('SELECT ADDTIME("' + datefrom[0].datefrom + '", "' + end[0].annotation_end_time + '") as assetto', function (error5, assetto) {
-                        con.query('INSERT INTO annotation (user_id, asset_id, start_time, end_time, title, description, key_type_id, vote_up, vote_down, asset_annotation_start_time, asset_annotation_end_time, annotation_id) VALUES ("' + data.user_id + '", "' + data.asset_id + '", "' + data.start_time + '", "' + data.end_time + '", "' + data.title + '", "' + data.description + '", "' + data.key_type_id + '" , "' + data.vote_up + '", "' + data.vote_down + '", "' + assetfrom[0].assetfrom + '", "' + assetto[0].assetto + '", "' + data.annotation_id + '" )', function (error6, data3) {
+                        con.query('INSERT INTO annotation (user_id, asset_id, start_time, end_time, title, description, key_type_id, vote_up, vote_down, asset_annotation_start_time, asset_annotation_end_time, annotation_id) VALUES ("' 
+                            + data.user_id + '", "' + data.asset_id + '", "' + data.start_time + '", "' + data.end_time + '", "' + data.title + '", "' + data.description + '", "' + data.key_type_id + '" , "' + data.vote_up + '", "' 
+                            + data.vote_down + '", "' + assetfrom[0].assetfrom + '", "' + assetto[0].assetto + '", "' + data.annotation_id + '" )', function (error6, data3) {
                             if (error1 || error2 || error3 || error4 || error5 || error6) {
                                 res.json({
                                     success: false,
@@ -431,7 +434,9 @@ router.post('/voteDown', function (req, res) {
 router.post('/assignAssetsToAnnotator', function (req, res) {
     const data = req.body;
     data.asset_idList.forEach((id) => {
-        con.query('INSERT INTO `annotator_jobs` ( `annotator_id` , `asset_id` ) SELECT * FROM (SELECT "' + data.annotator_id + '","' + id + '") AS tmp WHERE NOT EXISTS (SELECT `annotator_id` FROM `annotator_jobs` WHERE `annotator_id` = "' + data.annotator_id + '" AND `asset_id` = "' + id + '") LIMIT 1', function (err, data) {
+        con.query('INSERT INTO `annotator_jobs` ( `annotator_id` , `asset_id` ) SELECT * FROM (SELECT "' 
+        + data.annotator_id + '","' + id + '") AS tmp WHERE NOT EXISTS (SELECT `annotator_id` FROM `annotator_jobs` WHERE `annotator_id` = "'
+         + data.annotator_id + '" AND `asset_id` = "' + id + '") LIMIT 1', function (err, data) {
             if (err) {
                 console.log(err);
                 res.json({
@@ -455,7 +460,9 @@ router.post('/assignEvaluatorJobs', function (req, res) {
         con.query('SELECT * FROM annotator_jobs WHERE annotator_id =' + annotator_id, function (err, annotatordata) {
             annotatordata.forEach((annotat) => {
                 con.query('SELECT timeline_id FROM asset_timeline_cross_table WHERE asset_id =' + annotat.asset_id, function (error1, time) {
-                    con.query('INSERT INTO `evaluator_jobs` ( `evaluator_id`, `annotator_id` , `asset_id`, `timeline_id` ) SELECT * FROM (SELECT "' + data.evaluator_id + '","' + annotat.annotator_id + '","' + annotat.asset_id + '", "' + time[0].timeline_id + '") AS t1 WHERE NOT EXISTS (SELECT evaluator_id,annotator_id FROM evaluator_jobs AS t2 WHERE t2.evaluator_id ="' + data.evaluator_id + '" AND t2.annotator_id = "' + annotat.annotator_id + '" AND t2.asset_id = "' + annotat.asset_id + '") LIMIT 1',
+                    con.query('INSERT INTO `evaluator_jobs` ( `evaluator_id`, `annotator_id` , `asset_id`, `timeline_id` ) SELECT * FROM (SELECT "' 
+                        + data.evaluator_id + '","' + annotat.annotator_id + '","' + annotat.asset_id + '", "' + time[0].timeline_id + '") AS t1 WHERE NOT EXISTS (SELECT evaluator_id,annotator_id FROM evaluator_jobs AS t2 WHERE t2.evaluator_id ="'
+                         + data.evaluator_id + '" AND t2.annotator_id = "' + annotat.annotator_id + '" AND t2.asset_id = "' + annotat.asset_id + '") LIMIT 1',
                         function (err, evaluatorJobs) { });
                 });
             });
@@ -497,8 +504,8 @@ const hostEndPoint = new aws.Endpoint(hostName);
 const fileUploadBucket = 'https://useruploadvideos.s3.eu-central-1.amazonaws.com';
 
 const s3Config = new aws.S3({
-    accessKeyId: 'AKIAI2X6A7CP3M3ZBH6A',
-    secretAccessKey: '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',
+    accessKeyId: 'xxxxx',
+    secretAccessKey: 'xxxxxx',
     Bucket: hostEndPoint
 });
 
@@ -509,7 +516,6 @@ const upload = multer({
         bucket: 'useruploadvideos',
         acl: 'public-read',
         key: (request, file, cb) => {
-            console.log(file);
             cb(null, file.originalname);
         },
     })
@@ -541,3 +547,109 @@ router.get('/getUserUploadAssets', (req, res) => {
         }
     })
 })
+
+router.post('/createShortcuts', function (req, res) {
+    const data = req.body;
+    con.query('INSERT INTO  annotation_key_table (key_name,key_description,key_shortcut) VALUES ("' + data.key_name + '","' + data.key_description + '","' + data.key_shortcut + '")', function (err, sData) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                message: 'Server error',
+                error: err
+            });
+        } else {
+            if (sData.length != 0) {
+                res.json({
+                    success: true,
+                    message: 'shortcut saved successfully',
+                    data: sData
+                });
+            } else {
+                res.json({
+                    success: false,
+                    message: 'data not found'
+                });
+            }
+        }
+    });
+});
+
+
+
+router.get('/getShortcuts', function (req, res) {
+    con.query('SELECT * FROM annotation_key_table', function (err, data) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                message: 'Server error',
+                error: err
+            });
+        } else {
+            if (data.length != 0) {
+                res.json({
+                    data: data
+                });
+            } else {
+                res.json({
+                    success: false,
+                    message: 'data not found'
+                });
+            }
+        }
+    });
+});
+
+
+
+
+
+
+router.post('/assignShortcuts', function (req, res) {
+    const data = req.body;
+    data.shorcut_idList.forEach((id) => {
+        con.query('INSERT INTO `annotation_key_map` ( `key_type_id` , `timeline_id` ) SELECT "'
+        + id + '","' + data.timeline_id + '" WHERE NOT EXISTS (SELECT * FROM `annotation_key_map` WHERE `key_type_id` = "'
+         + id + '" AND `timeline_id` = "' + data.timeline_id + '")', function (err, data01) {  if (err) {
+                console.log(err);
+                res.json({
+                    success: false,
+                    message: 'Server error',
+                    error: err
+                });
+            }
+        });
+    });
+    res.json({
+        success: true,
+        message: 'Asset assigned successfully!!'
+    });
+});
+
+
+
+
+router.get('/getAnnotationList', function (req, res) {
+    con.query('SELECT * FROM annotation', function (err, data) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                message: 'Server error',
+                error: err
+            });
+        } else {
+            if (data.length != 0) {
+                res.json({
+                    data: data
+                });
+            } else {
+                res.json({
+                    success: false,
+                    message: 'data not found'
+                });
+            }
+        }
+    });
+});
