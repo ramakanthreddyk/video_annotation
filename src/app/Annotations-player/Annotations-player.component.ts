@@ -30,8 +30,8 @@ export class AnnotationsPlayerComponent implements OnInit {
     tempAnnotation: any;
     asset: any;
     displayedColumns = ['key_type_id', 'key_name', 'key_description', 'key_shortcut'];
-    annotationdisplayColumns =
-                ['user', 'title', 'description', 'vote_up', 'vote_down', 'annotation_from', 'annotation_to', 'edit_icon', 'delete_icon'];
+    annotationdisplayColumns =['user', 'title', 'description', 'vote_up', 'vote_down', 
+                        'annotation_from', 'annotation_to', 'edit_icon', 'delete_icon'];
     dataSource;
     userType: Admins;
     annotationdataSource: AnnotationList;
@@ -52,6 +52,10 @@ export class AnnotationsPlayerComponent implements OnInit {
                 this.userType = val;
                 if(val === this.admins.Evaluator) {
                     this.annotationdisplayColumns.splice(7, 2);
+                }
+
+                if(val === this.admins.Annotator) {
+                    this.annotationdisplayColumns.splice(3, 2);
                 }
             })
             this.auth.userId.subscribe((val) => this.userId = val);
