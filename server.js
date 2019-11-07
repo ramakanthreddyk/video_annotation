@@ -22,6 +22,8 @@ app.use(function (req, res, next) {
 });
 app.use(cors());
 router.use(cors());
+
+/* comment this remote sql connection part to connect to a local database */
 const hostName = "videoannotation.csgu2ca8zuyp.us-east-2.rds.amazonaws.com";
 const secret = '@nnotation@';
 var con = mysql.createConnection({
@@ -30,6 +32,15 @@ var con = mysql.createConnection({
     password: "Bittu!9870",
     database: 'annotation_tool'
 });
+
+/* uncomment the code below to connect to local databse after creating  a databse with provided sql file and 
+        starting a local mysql server  */
+// var con = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "",
+//     database: 'annotation_tool'
+//   });
 
 con.connect(function (err) {
     if (err) throw err;

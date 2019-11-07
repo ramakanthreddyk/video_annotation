@@ -2,10 +2,14 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+/* if you run a local node server you can use the commented part */
 export const environment = {
   production: false,
-  backendUrl: 'http://localhost:3200/api',
+  // backendUrl: 'http://localhost:3200/api',
+  backendUrl: 'http://ec2-18-220-152-162.us-east-2.compute.amazonaws.com:3200/api',
 };
+
+
 
 /*
  * For easier debugging in development mode, you can import the following file
