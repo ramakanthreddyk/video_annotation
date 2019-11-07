@@ -1,3 +1,18 @@
+<h1> available video paths</h1>
+<div class="mat-elevation-z1">
+  <table mat-table [dataSource]="fileList">
+
+    <ng-container matColumnDef="filePath">
+      <th mat-header-cell *matHeaderCellDef > File Path</th>
+      <td mat-cell *matCellDef="let element"> {{element.filePath}} </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+</div>
+<br><br><br><br>
+<h1> upload videos here</h1>
 <div class="container">
   <form id="fileUploadForm">
     <fieldset>

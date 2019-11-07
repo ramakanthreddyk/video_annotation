@@ -8,15 +8,17 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./upload-assets.component.css']
 })
 export class UploadAssetsComponent implements OnInit {
-
+  displayedColumns = ['filePath'];
   selectedCategoryFile: File;
   fileStatus = false;
+  fileList = [];
 
   @ViewChild('fileInput') fileInput: ElementRef;
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    this.getUserUploadAssets();
   }
 
   oncategoryFileChanged(event: any) {
@@ -49,8 +51,9 @@ export class UploadAssetsComponent implements OnInit {
   }
 
   getUserUploadAssets() {
-    this.http.get(`${environment.backendUrl}/getUserUploadAssets`).subscribe(data => {
-      console.log(data);
+    this.http.get(`${environment.backendUrl}/getUserUploadAssets`).subscribe((data: any) => {
+      this.fileList = data.data;
+      console.log(this.fileList);
     });
   }
 
