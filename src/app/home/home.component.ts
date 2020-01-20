@@ -6,6 +6,7 @@ import { AuthenticationService, UserService, AnnotationService } from '../_servi
 import { Timeline, TimelineList, Admins, Asset, IEval, Annotation } from '../_models';
 import { Subject, of, Observable } from 'rxjs';
 import { takeUntil, switchMap } from 'rxjs/operators';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-home',
@@ -25,11 +26,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     userType: Admins;
     userId: string;
     annotatorSelected: string;
+    downloadJsonHref: any;
     constructor(
         private users: UserService,
         private router: Router,
         private auth: AuthenticationService,
-        private annoService: AnnotationService
+        private annoService: AnnotationService,
+        private sanitizer: DomSanitizer
     ) {
           this.auth.userId.subscribe((val) => {
             this.userId = val;
@@ -53,7 +56,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
         this.annoService.getAnnotationList().subscribe((list: any) => {
             this.annotationsList = list.data;
-            console.log(this.annotationsList);
+            this.generateDownloadJsonUri();
         })
 
     }
@@ -95,6 +98,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     gotoVideos(data: Asset) {
         this.auth.selectedVideoActive(data);
         this.router.navigate(['Annotation']);
+    }
+
+    generateDownloadJsonUri() {
+        var theJSON = JSON.stringify(this.annotationsList);
+        var uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
+        this.downloadJsonHref = uri;
     }
 
     ngOnDestroy() {

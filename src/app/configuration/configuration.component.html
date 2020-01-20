@@ -1,12 +1,12 @@
 <mat-tab-group>
   <mat-tab label="Users">
     <app-users></app-users>
-    <button class="btn btn-success"(click)="openDialog()">Create new User</button>
+    <button class="btn btn-success"(click)="openDialog()" style="margin-top: 20px; margin-bottom: 20px;">Create new User</button>
   </mat-tab>
 
   <mat-tab label="Annotator Jobs">
    <div fxLayout="column" fxLayoutGap="32px" fxLayoutAlign="center stretch" fxFlex="50%" class="assign">
-     Assign Assets to Annotators
+    <span class="shortcuts">Assign Assets to Annotators</span>
     <mat-form-field>
         <mat-label>Select Annotator :</mat-label>
       <mat-select [(value)]="annotatorSelected">
@@ -30,7 +30,7 @@
 
   <mat-tab label="Evaluator Jobs"> 
       <div fxLayout="column" fxLayoutGap="32px" fxLayoutAlign="center stretch" fxFlex="50%" class="assign">
-          Assign Assets to Evaluators
+        <span class="shortcuts">Assign Assets to Evaluators</span>
          <mat-form-field>
              <mat-label>Select Evaluator :</mat-label>
            <mat-select [(value)]="evaluatorSelected">
@@ -54,13 +54,14 @@
 
 
   <mat-tab label="Create new shortcuts">
+   
     <div fxLayout="row">
     <form 
         [formGroup]="shortCutForm" 
         class= "card" 
         fxLayout="column" fxLayoutGap="32px" 
         fxLayoutAlign="center stretch" fxFlex="50%" >
-        <h1>create new shortcuts</h1>
+         <span class="shortcuts">Create new shortcuts</span>
       <div class="form-group" fxLayout="column">
           <label for="key_description">Key Description :</label>
           <input type="text" formControlName="key_description" class="form-control"/>
@@ -84,7 +85,7 @@
     fxLayoutAlign="center stretch" 
     fxFlex="50%" 
     class="assign">
-      Assign shorcut key to Timelines
+    <span class="shortcuts">Assign shorcut key to Timelines</span> 
      <mat-form-field>
          <mat-label>Select Timeline :</mat-label>
        <mat-select [(value)]="timeLineSelected">

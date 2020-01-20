@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEventType, HttpResponse, HttpRequest } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-upload-assets',
@@ -15,7 +16,7 @@ export class UploadAssetsComponent implements OnInit {
 
   @ViewChild('fileInput') fileInput: ElementRef;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.getUserUploadAssets();
@@ -37,11 +38,14 @@ export class UploadAssetsComponent implements OnInit {
         reportProgress: true
       });
 
-      this.http.request(req).subscribe(event => {
+      this.http.request(req).subscribe((event: HttpResponse<any>) => {
         if (event instanceof HttpResponse) {
           this.fileStatus = false;
           this.fileInput.nativeElement.value = '';
           this.getUserUploadAssets();
+          if(event.body) {
+            this.openSnackBar(event.body.message, '');
+          }
         }
       }, error => {
         this.fileStatus = false;
@@ -53,8 +57,15 @@ export class UploadAssetsComponent implements OnInit {
   getUserUploadAssets() {
     this.http.get(`${environment.backendUrl}/getUserUploadAssets`).subscribe((data: any) => {
       this.fileList = data.data;
-      console.log(this.fileList);
+      console.log(this.fileList, );
     });
   }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+        duration: 3000,
+        panelClass: ['red-snackbar'],
+    });
+}
 
 }
